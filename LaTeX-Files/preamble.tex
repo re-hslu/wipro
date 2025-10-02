@@ -1,0 +1,122 @@
+% ==============================================================================
+% Autor Vorlage:    Amir Suter
+% Datum:            20.09.2024
+% 
+% Hochschule Luzern T&A
+%
+% ==============================================================================
+
+\usepackage{scrhack}                                % Hinzufügen, um bestimmte Warnungen zu vermeiden
+\usepackage{scrlayer-scrpage}                       % Für Kopf- und Fusszeilen bei Verwendung von KOMA-Script
+\usepackage[utf8]{inputenc}                         % Verwendung von UTF-8 Codierung
+\usepackage[T1]{fontenc}                            % Für korrekte Silbentrennung und Schriftzeichen
+\usepackage[ngerman]{babel}                         % Korrekte Formatierung und Übersetzungen für Deutsch               
+\usepackage{graphicx, float}                        % Paket zum Einfügen und Anpassen von Grafiken
+\usepackage{amsmath, amssymb, amsthm}               % Mathematische Umgebungen und Symbole
+\usepackage[a4paper, top=2.5cm, bottom=2.5cm, 
+            left=1.5cm, right=1.5cm]{geometry}      % Seitenränder für A4-Papier einstellen
+\usepackage{setspace}                               % Paket zur Anpassung des Zeilenabstands
+\usepackage{url}                                    % Für die Darstellung von URLs
+\usepackage[hidelinks]{hyperref}                    % Hyperlinks im Dokument, ohne farbige Rahmen
+\usepackage{tcolorbox}                              % Für farbige Boxen zur besseren Darstellung von Inhalten
+\usepackage{tikz}                                   % Für das Erstellen von Grafiken
+\usepackage{pgfplots}                               % Für das Erstellen von Plots und Diagrammen
+\usepackage{listings}                               % Für die Darstellung von Quellcode
+\usepackage{xcolor}                                 % Für die Definition eigener Farben
+\usepackage{soul}                                   % Für Textmarkierung
+\usepackage[backend=biber, style=numeric]{biblatex}  % für Zitate und Literaturverzeichnis      citestyle=apa, bibstyle=apa
+\usepackage{csquotes}                               % Für korrekte Zitate in verschiedenen Sprachen
+\usepackage{acronym}                                % Für Abkürzungsverzeichnis und -definitionen
+\usepackage{array}                                  % Für erweiterte Tabellenformatierung
+\usepackage{csvsimple}
+\usepackage{multicol}                               % Für mehrspaltige Texte oder Auflistungen
+\usepackage{hyperref}                               % Für Hyperlinks
+\usepackage{pdfpages}                               % PDFs in den Anhang (oder auch sonst wo)
+\usepackage{enumitem}                               % Erforderlich für erweiterte Listen, z.B. alphabetisch
+\usepackage{pdflscape}                              % Für Querformat
+\usepackage{graphicx}                               % Für Grafiken und Bilder
+\usepackage{enumitem}                               % Für erweiterte Listen 
+
+
+
+\addbibresource{referenzen.bib}                     % Einbindung der Bibliografie-Ressource
+
+\usetikzlibrary{trees, mindmap}                     % TikZ-Bibliotheken für Baumstrukturen und Mindmaps
+
+\graphicspath{{Fotos/}}                             % Pfad für das Laden von Grafiken festlegen
+
+\pgfplotsset{compat=1.18}                           % Verwendung der neuesten Version von PGFPlots
+
+
+% ------------ Kopf-und Fusszeile -----------------------------------------------
+
+\pagestyle{scrheadings}
+
+\ihead{Dokumentation PREN1}
+\chead{}
+\ohead{Gruppe 21}
+
+\ifoot{HSLU Technik und Architektur, HSLU Informatik}
+\cfoot{}
+\ofoot{\thepage}
+
+\KOMAoptions{
+    headsepline = 0.4pt:\textwidth,  % Linie unter der Kopfzeile (Dicke 0.4pt, Länge 90% der Seitenbreite)
+    footsepline = 0.4pt:\textwidth   % Linie über der Fusszeile (Dicke 0.4pt, Länge 90% der Seitenbreite)
+}
+
+\renewcommand*{\chapterpagestyle}{scrheadings}  % fügt auch bei chapter Kopf- und Fusszeilen hinzu
+
+% ------------ Code Formatierung -----------------------------------------------
+
+\definecolor{codegreen}{rgb}{0,0.8,0}
+\definecolor{codegray}{rgb}{0.3,0.3,0.3}
+\definecolor{codeorange}{rgb}{0.8,0.3,0}
+\definecolor{codeblue}{rgb}{0,0,0.8}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.96}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor     =   \color{backcolour},   
+    commentstyle        =   \color{codegreen},
+    keywordstyle        =   \color{codeorange},
+    numberstyle         =   \tiny\color{codegray},
+    stringstyle         =   \color{codeblue},
+    basicstyle          =   \ttfamily\footnotesize,
+    breakatwhitespace   =   false,         
+    breaklines          =   true,   
+    mathescape          =   true,              
+    captionpos          =   b,                    
+    keepspaces          =   true,                 
+    numbers             =   left,                    
+    numbersep           =   5pt,                  
+    showspaces          =   false,                
+    showstringspaces    =   false,
+    showtabs            =   false,                  
+    tabsize             =   2,
+    xleftmargin         =   10pt,
+}
+\lstset{style=mystyle}
+
+
+% ------------ eingene Farben --------------------------------------------------
+
+\definecolor{PRENpurple} {rgb} {0.37, 0.16, 0.81}
+\definecolor{PRENmint}   {rgb} {0.62, 0.88, 0.75}
+
+
+% ------------ Colorbox Einstellungen ------------------------------------------
+
+\tcbset{colback=PRENpurple!30!white, colframe=PRENpurple, boxsep=5pt, arc=4pt, auto outer arc, width=\linewidth, left=5pt, right=5pt, top=0pt, bottom=0pt}
+
+
+% ------------ Text-Formatierungen ---------------------------------------------
+
+\setstretch{1.12}               % Zeilenabstand
+
+\setlength{\parskip}{0.8em}     % legt den vertikalen Abstand zwischen aufeinanderfolgenden Absätzen fest
+\setlength{\parindent}{0pt}     % legt die Einrückung der ersten Zeile eines neuen Absatzes fest
+
+\RedeclareSectionCommand[
+  beforeskip=0pt, % Abstand vor \chapter
+  afterskip=12pt  % Abstand nach \chapter
+]{chapter}

@@ -1,11 +1,20 @@
-\documentclass[10.5pt]{article}
+% ============ Preamble ========================================================
+
+\documentclass[11pt, a4paper, portrait]{scrreprt}
+% KOMA-Script:
+% scrartcl für kurze wissenschaftliche Artikel oder Seminararbeiten.
+% scrreprt für Berichte oder Abschlussarbeiten mit Kapiteln.
+% scrbook für Dissertationen oder Bücher.
+
+\input{LaTeX-Files/preamble.tex}
 % compile with pdflatex deckblatt_wipro.tex
-\usepackage{amssymb} 
-\usepackage{color}
-\usepackage[a4paper,bindingoffset=0.2in,%
-            left=3.35cm,right=2.12cm,top=3.75cm,bottom=2.88cm,%
-            footskip=.25in]{geometry}
-\usepackage[T1]{fontenc}
+%\usepackage{amssymb} 
+%\usepackage{color}
+%\usepackage[a4paper,bindingoffset=0.2in,%
+%            left=3.35cm,right=2.12cm,top=3.75cm,bottom=2.88cm,%
+%            footskip=.25in]{geometry}
+%\usepackage[T1]{fontenc}
+
 \begin{document}
 
 \pagenumbering{gobble}
@@ -49,7 +58,9 @@ Rotkreuz, den	\underline{\hspace*{4cm}}	\hspace*{1cm} Visum:	\underline{\hspace*
 \pagenumbering{arabic}
 {\color{red}Your Text}
 
+\tableofcontents 
 
+\input{LaTeX-Files/evaluation_ai_tool.tex}
 
 \end{document}
 

@@ -1,0 +1,94 @@
+\chapter{Evaluation AI Tools}
+Im Projektauftrag unserer WIPRO wird definiert, dass wir mit dem «AI-First» Ansatz die Android APP angehen sollen. 
+Damit wir das sinnvoll machen können und nicht für jede erdenkliche KI ein Abo abschliessen müssen, möchten wir die geeignetste KI evaluieren.
+Wir haben uns dazu entschlossen die Evaluation zum einen aus wissenschaftlichen Daten aufzubauen und zum anderen das Selbstexperiment mit den Gratisversionen der einzelnen KI’s zu machen.
+Nachdem wir die einzelnen Tools evaluiert haben, werden wir uns für eines entscheiden und da dann auch die kostenpflichtige Version verwenden, 
+um alle Features brauchen zu können und diesen «AI-First» Ansatz auch korrekt umsetzen können.
+
+
+\section{Aufgabenstellung für die AI Tools}
+Wir haben diversen KI Tools welche wir als gut empfinden, da wir sie bereits verwenden oder viel gutes gehört haben oder aufgrund der wissenschaftlichen Daten, 
+die gleiche Aufgabe gestellt. 
+
+TODO: Anhang aktivieren!
+%\input{Anhaenge/Aufgabenstellung_fuerAIs.pdf}
+
+Ziel war es dann, die erhaltenen Antworten zu prüfen und miteinander zu vergleichen um zumindest einen Anhaltspunkt zu erhalten, 
+welches Tools die detaillierteste, aber auch für uns beste Analyse liefert.
+
+\section{Antworten}
+
+\subsection{ChatGPT}
+Die Antwort von ChatGPT zu der Fragenstellung ist sehr gut und in einer vernünftigen Tiefe für eine erste Analyse herausgekommen.
+Preis: Pro Version 23Euro/month
+
+TODO: Anhang aktivieren!
+%\input{Anhaenge/Aufgabenstellung_Analyse_Vorgehen_CHATGPT.pdf}
+
+\subsection{Grok}
+
+Die KI von X hat ebenfalls eine Antwort gegeben, womit diverse gute Ansätze beschrieben sind und man eine gute Übersicht erhält, was gemacht werden muss und wie dies möglich sein kann.
+Preis: SuperGrok 30/month
+
+TODO: Anhang aktivieren!
+%\input{Anhaenge/Antwort_xAI_Grok.pdf}
+
+\subsection{DeepSeek}
+
+DeepSeek hat aus meiner Sicht sehr detailliert die Informationen aus der Aufgabenstellung und vor allem den Screenshots und dem Code gezogen. Dementsprechend wurden auch direkt Entwürfe für die Android App generiert und Strategien aufgezeigt. Nebst einer detaillierten Checkliste, was alles erledigt werden muss, gab es auch bereits einige Codebeispiele als Antwort. 
+Preis: Free (bzw. keine Möglichkeit gefunden ein Abo abzuschliessen oder dafür zu zahlen wie bei den anderen)
+
+TODO: Anhang aktivieren!
+%\input{Anhaenge/deepseek_antwort.pdf}
+
+\subsection{Cursor}
+
+Die Antwort von Cursor ist aus meiner Sicht auch korrekt aber nicht gleich detailliert, kann aber denke ich durch gewisses Nachfragen immer noch eine grosse Hilfe für das Projekt sein.
+Cursor ist nicht die gewöhnliche Web KI, sondern kann als Programm heruntergeladen werden und verwendet werden. Dabei kann ein gesamtes Projekt geöffnet werden und man kann da direkt zu einzelnen Dateien eine Frage stellen. Es gibt auch zum Beispiel ein Add On zu VS-Code. Für Android Studio gibt es ebenfalls Plugins.
+Cursor ist aber an sich keine KI sondern ein verbessertes Frontend, womit diverse Models geladen werden können. Durch das frontend bietet es aber einem grossen Vorteil zu den direkten Models.
+siehe auch: https://cursor.com/docs/models
+Preis: Pro Version 20/month
+
+TODO: Anhang aktivieren!
+%\input{Anhaenge/cursor_antwort.pdf}
+
+\section{Vergleich}
+
+\begin {table}[ h ] % ’h ’ bedeutet , dass die Tabelle hier eingefuegt wird
+    \centering % Zentriert die Tabelle
+    \begin {tabular}{| c | c | c | c |} % ’c ’ steht fuer zentriert , ’| ’ fuer vertikale Linien
+        \hline % Horizontale Linie
+        KI & Stärken/beobachtete Fähigkeiten & Schwächen/Unsicherheiten & Eignung \\ % Tabellenkopf
+        \hline % Horizontale Linie
+        Grok (xAI) & xAI hat mit „grok-code-fast-1“ ein Modell vorgestellt, das für Entwickler-Aufgaben optimiert sein soll (Agentic Coding) mit Fokus auf Effizienz und Qualität. Auch in Kombination mit Tools wie Cursor wird Grok als Backend für Code-Assistenz genutzt. & xAI / Grok ist noch relativ jung im Vergleich zu etablierten Modellen; Stabilität, Reife, und Tiefe in Plattformwissen könnte limitiert sein. Es ist nicht klar, wie gut Grok bereits mit Apple / Android SDKs vertraut ist (z.B. UI-Frameworks, Lebenszyklus, Plattformbibliotheken). & Sehr interessante Option — besonders, wenn man Zugriff auf die neuesten Versionen von Grok bekommt. Könnte mit der richtigen Prompt-Strategie und Iteration ein starker Konkurrent zu Claude werden. \\ 
+        \hline % Horizontale Linie
+        DeepSeek & DeepSeek wird als „kostengünstigere“ und vergleichbare Alternative zu etablierten Modellen genannt. DeepSeek kann in IDE-Umgebungen integriert werden. & Weniger dokumentierte Fälle oder Benchmark-Studien verfügbar, um zu beurteilen, wie robust DeepSeek bei cross-platform Portierungen ist. Eventuell weniger ausgereift in gewissen Edge-Cases oder Plattform-spezifischem Code. & Könnte eine gute komplementäre Wahl sein, insbesondere wenn Kosten / Lizenz ein wichtiger Faktor sind. Für kritische Abschnitte oder komplexe Module würde ich aber vorsichtshalber menschliche Review einplanen. \\ 
+        \hline % Horizontale Linie
+        ChatGPT & Sehr stark bei Cross-Plattform-Wissen (iOS und Android SDKs, Frameworks wie SwiftUI/Jetpack Compose, Flutter, React Native). Bewährt in der Praxis, große Community und viele Beispiele. Kann Architektur-Entscheidungen vorschlagen (z.B. ob Rewrite in Flutter sinnvoller ist). Gute Multi-Datei-Kontexte und Testing-Hinweise. & Für sehr große Codebasen evtl. Token-Limits (außer mit Enterprise/Pro-Features). Teilweise "halluziniert" bei API-Namen, daher Code-Review nötig. & Top-Option neben Claude. Sehr stark bei Architekturentscheidungen und Best Practices. \\
+        \hline % Horizontale Linie
+        Cursor & Cursor ist eher ein (IDE-)Frontend / Integrationsschicht, in der man verschiedene Modelle (z. B. Grok) nutzen kann. Cursor erleichtert die Verbindung von Modellen mit Editor / Entwicklungsumgebung, was den Workflow verbessert. & Cursor selbst ist kein Modell, sondern ein Rahmenwerk. Seine Leistungsfähigkeit hängt davon ab, welches Modell man darunter betreibt. & Nicht als eigenständige KI-Wahl, sondern als Interface / Werkzeug, das mit einem leistungsfähigen Modell kombiniert werden sollte (z.B. eines der noch aufgeführten Tools). \\
+        \hline % Horizontale Linie
+    \end {tabular}
+    \caption {Auswertung der KI in Tabellenform} % Bildunterschrift
+    \label { tab : example } % Label fuer Referenzierung
+\end {table}
+
+\section{Detaillierter Fragen zu Cursor}
+Da wir von Cursor sehr begeistert sind, da es eine Applikation mit eigenem Frontend ist und wir ganze Ordnerstrukturen öffnen können (wie bei Visual Studio Code zum Beispiel), hat die KI direkt einen gesamten Überblick über die Codebasis.
+Dadurch ist es einfacher an bessere Informationen zu gelangen, da der Kontext einzelner Codestellen für die KI immer klar ist, nicht wie bei herkömmlichen Online-Tools wo nur der wirklich hochgeladene Code vorhanden ist und da teilweise aber auch nicht korrekte Interpretationen gemacht werden.
+
+Nachfolgend einige Screenshots welche an einem Beispiel zeigen wie gut eine Datei analysiert wird, da der Kontext vorhanden ist. 
+Es wurde gefragt, was die Datei "CommonApplicationBaseModuleLoader.swift" macht und wie der Zusammenhang zum Rest de Projektes ist:
+
+TODO: Fotos aktivieren!
+%\input{Fotos/Cursor_1.png}
+%\input{Fotos/Cursor_2.png}
+%\input{Fotos/Cursor_3.png}
+%\input{Fotos/Cursor_4.png}
+
+Hier sieht man sehr gut den Vorteil, da direkt die ganze Projektstruktur analysiert werden kann und so auch die Zusammenhänge besser klar sind für die KI. Zusätzlich werden auch relevante Codestellen hervorgehoben.
+
+\section{Fazit}
+Nach all den Informationen welche wir gesammelt haben sind wir zum Schluss gekommen, dass wir mit Cursor und einer der oben aufgeführten KIs verwenden wollen.
+Schlussendlich ist das wichtigste, dass die KI den Kontext des gesamten Projekts hat um möglichst sinnvollen Code zu erstellen und da hat Cursor klar den Vorteil.
+Die eigentlichen LLMs sind im Grundsatz nicht gross anders. Da wir beide Privat ein ChatGPT Pro Abo haben, werden wir mit Cursor und ChatGPT den AI-First Ansatz umsetzen.
