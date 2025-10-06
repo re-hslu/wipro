@@ -1,13 +1,16 @@
 \babel@toc {ngerman}{}\relax 
-\contentsline {paragraph}{\nonumberline \textbf {Eidesstattliche Erkl\"arung}}{}{paragraph*.2}%
-\contentsline {chapter}{\numberline {1}Evaluation AI Tools}{3}{chapter.1}%
-\contentsline {section}{\numberline {1.1}Aufgabenstellung für die AI Tools}{3}{section.1.1}%
-\contentsline {section}{\numberline {1.2}Antworten}{3}{section.1.2}%
-\contentsline {subsection}{\numberline {1.2.1}ChatGPT}{3}{subsection.1.2.1}%
-\contentsline {subsection}{\numberline {1.2.2}Grok}{3}{subsection.1.2.2}%
-\contentsline {subsection}{\numberline {1.2.3}DeepSeek}{3}{subsection.1.2.3}%
-\contentsline {subsection}{\numberline {1.2.4}Cursor}{4}{subsection.1.2.4}%
-\contentsline {section}{\numberline {1.3}Vergleich}{4}{section.1.3}%
-\contentsline {section}{\numberline {1.4}Detaillierter Fragen zu Cursor}{4}{section.1.4}%
-\contentsline {section}{\numberline {1.5}Fazit}{4}{section.1.5}%
+\contentsline {paragraph}{\nonumberline \textbf {Eidesstattliche Erklärung}}{}{paragraph*.2}%
+\contentsline {chapter}{Abstract / Zusammenfassung oder Management Summary}{i}{chapter*.3}%
+\contentsline {chapter}{\numberline {1}Problem, Fragestellung, Vision}{1}{chapter.1}%
+\contentsline {chapter}{\numberline {2}Stand der Forschung oder Stand der Praxis/Technik}{2}{chapter.2}%
+\contentsline {chapter}{\numberline {3}Ideen und Konzepte}{3}{chapter.3}%
+\contentsline {chapter}{\numberline {4}Methode(n)}{4}{chapter.4}%
+\contentsline {chapter}{\numberline {5}Realisierung}{5}{chapter.5}%
+\contentsline {chapter}{\numberline {6}Validierung und Evaluation}{6}{chapter.6}%
+\contentsline {chapter}{\numberline {7}Ausblick}{7}{chapter.7}%
+\def \@chapapp {\appendixname }
+\contentsline {chapter}{\numberline {A}Anhänge}{8}{appendix.A}%
+\contentsline {section}{\numberline {A.1}Zusatzmaterial}{8}{section.A.1}%
+\contentsline {chapter}{Abkürzungs-, Abbildungs-, Tabellen-, KI-, Formelverzeichnis}{9}{chapter*.5}%
+\contentsline {chapter}{Literaturverzeichnis}{10}{chapter*.11}%
 \providecommand \tocbasic@end@toc@file {}\tocbasic@end@toc@file 

@@ -1,0 +1,43 @@
+# =========================
+# LaTeX / HSLU Projekt Gitignore
+# =========================
+
+# Build artefacts
+*.aux
+*.bbl
+*.bcf
+*.blg
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.run.xml
+*.synctex.gz
+*.synctex(busy)
+*.toc
+*.lot
+*.lof
+*.lol
+*.nav
+*.snm
+*.vrb
+
+# PDF-Ausgabe
+*.pdf
+
+# Backup & temporäre Dateien
+*~
+*.bak
+*.tmp
+*.swp
+*.sav
+
+# Mac & Windows system files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE / Editor files
+.vscode/
+.idea/
+*.code-workspace
