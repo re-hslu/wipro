@@ -1,74 +1,96 @@
-% ==============================================================================
-% Autor Vorlage:    Amir Suter
-% Datum:            20.09.2024
-% 
-% Hochschule Luzern T&A
-%
-% ==============================================================================
+% ================== Preamble ===================================================
 
-\usepackage{scrhack}                                % Hinzufügen, um bestimmte Warnungen zu vermeiden
-\usepackage{scrlayer-scrpage}                       % Für Kopf- und Fusszeilen bei Verwendung von KOMA-Script
-\usepackage[utf8]{inputenc}                         % Verwendung von UTF-8 Codierung
-\usepackage[T1]{fontenc}                            % Für korrekte Silbentrennung und Schriftzeichen
-\usepackage[ngerman]{babel}                         % Korrekte Formatierung und Übersetzungen für Deutsch               
-\usepackage{graphicx, float}                        % Paket zum Einfügen und Anpassen von Grafiken
-\usepackage{amsmath, amssymb, amsthm}               % Mathematische Umgebungen und Symbole
+\documentclass[11pt, a4paper, portrait]{scrreprt}
+
+% ------------------------------------------------------------------------------
+% Pakete
+% ------------------------------------------------------------------------------
+
+\usepackage{scrhack}                                % KOMA-Kompatibilität verbessern
+\usepackage{scrlayer-scrpage}                       % Kopf- und Fußzeilen
+\usepackage{fontspec}                               % Ermöglicht Systemschriftarten (LuaLaTeX/XeLaTeX)
+\usepackage[ngerman]{babel}                         % Deutsche Spracheinstellungen
+\usepackage{graphicx, float}                        % Grafiken und Floating-Umgebungen
+\usepackage{amsmath, amssymb, amsthm}               % Mathematische Pakete
 \usepackage[a4paper, top=2.5cm, bottom=2.5cm, 
-            left=1.5cm, right=1.5cm]{geometry}      % Seitenränder für A4-Papier einstellen
-\usepackage{setspace}                               % Paket zur Anpassung des Zeilenabstands
-\usepackage{url}                                    % Für die Darstellung von URLs
-\usepackage[hidelinks]{hyperref}                    % Hyperlinks im Dokument, ohne farbige Rahmen
-\usepackage{tcolorbox}                              % Für farbige Boxen zur besseren Darstellung von Inhalten
-\usepackage{tikz}                                   % Für das Erstellen von Grafiken
-\usepackage{pgfplots}                               % Für das Erstellen von Plots und Diagrammen
-\usepackage{listings}                               % Für die Darstellung von Quellcode
-\usepackage{xcolor}                                 % Für die Definition eigener Farben
-\usepackage{soul}                                   % Für Textmarkierung
-\usepackage[backend=biber, style=numeric]{biblatex}  % für Zitate und Literaturverzeichnis      citestyle=apa, bibstyle=apa
-\usepackage{csquotes}                               % Für korrekte Zitate in verschiedenen Sprachen
-\usepackage{acronym}                                % Für Abkürzungsverzeichnis und -definitionen
-\usepackage{array}                                  % Für erweiterte Tabellenformatierung
+            left=1.5cm, right=1.5cm]{geometry}      % Seitenränder
+\usepackage{setspace}                               % Zeilenabstand
+\usepackage{url}                                    % URLs im Text
+\usepackage[hidelinks]{hyperref}                    % Verlinkungen ohne Rahmen
+\usepackage{tcolorbox}                              % Farbboxen
+\usepackage{tikz}                                   % Grafiken
+\usepackage{pgfplots}                               % Diagramme
+\usepackage{listings}                               % Quellcode
+\usepackage{xcolor}                                 % Farben
+\usepackage{soul}                                   % Textmarkierung
+\usepackage[backend=biber, style=numeric]{biblatex} % Literaturverzeichnis
+\usepackage{csquotes}                               % Korrekte Zitate
+\usepackage{acronym}                                % Abkürzungsverzeichnis
+\usepackage{array}                                  % Erweiterte Tabellen
 \usepackage{csvsimple}
-\usepackage{multicol}                               % Für mehrspaltige Texte oder Auflistungen
-\usepackage{hyperref}                               % Für Hyperlinks
-\usepackage{pdfpages}                               % PDFs in den Anhang (oder auch sonst wo)
-\usepackage{enumitem}                               % Erforderlich für erweiterte Listen, z.B. alphabetisch
-\usepackage{pdflscape}                              % Für Querformat
-\usepackage{graphicx}                               % Für Grafiken und Bilder
-\usepackage{enumitem}                               % Für erweiterte Listen 
+\usepackage{multicol}                               % Mehrspaltiger Text
+\usepackage{pdfpages}                               % PDF-Einbindung
+\usepackage{enumitem}                               % Erweiterte Listensteuerung
+\usepackage{pdflscape}                              % Querformatseiten
 
+\addbibresource{referenzen.bib}                     % Bibliographie-Datei
+\usetikzlibrary{trees, mindmap}                     % TikZ-Erweiterungen
+\graphicspath{{Fotos/}}                             % Standardpfad für Bilder
+\pgfplotsset{compat=1.18}
 
+% ------------------------------------------------------------------------------
+% Schriftart (Calibri)
+% ------------------------------------------------------------------------------
+\setmainfont{Calibri}
+\setsansfont{Calibri}
+\setmonofont{Consolas}
 
-\addbibresource{referenzen.bib}                     % Einbindung der Bibliografie-Ressource
+% ------------------------------------------------------------------------------
+% Zeilenabstand und Absatzformatierung
+% ------------------------------------------------------------------------------
+\setstretch{1.12}
+\setlength{\parskip}{0.8em}
+\setlength{\parindent}{0pt}
 
-\usetikzlibrary{trees, mindmap}                     % TikZ-Bibliotheken für Baumstrukturen und Mindmaps
+% ------------------------------------------------------------------------------
+% Listen-Abstände anpassen (kein zusätzlicher Abstand zwischen Items)
+% ------------------------------------------------------------------------------
+\setlist[itemize]{noitemsep, topsep=0pt, partopsep=0pt, parsep=0pt}
+\setlist[enumerate]{noitemsep, topsep=0pt, partopsep=0pt, parsep=0pt}
 
-\graphicspath{{Fotos/}}                             % Pfad für das Laden von Grafiken festlegen
+% ------------------------------------------------------------------------------
+% Kapitelüberschriften (Abstand oben/unten)
+% ------------------------------------------------------------------------------
+\RedeclareSectionCommand[
+  beforeskip=-15pt,   % Negativ = näher am oberen Seitenrand
+  afterskip=12pt
+]{chapter}
 
-\pgfplotsset{compat=1.18}                           % Verwendung der neuesten Version von PGFPlots
-
-
-% ------------ Kopf-und Fusszeile -----------------------------------------------
-
+% ------------------------------------------------------------------------------
+% Kopf- und Fußzeilen
+% ------------------------------------------------------------------------------
 \pagestyle{scrheadings}
 
-\ihead{Dokumentation PREN1}
-\chead{}
-\ohead{Gruppe 21}
-
-\ifoot{HSLU Technik und Architektur, HSLU Informatik}
+\ihead{HSLU Mobile Apps - Android Jetpack Compose - AI First}
+\ohead{WIPRO HS25}
 \cfoot{}
 \ofoot{\thepage}
 
 \KOMAoptions{
-    headsepline = 0.4pt:\textwidth,  % Linie unter der Kopfzeile (Dicke 0.4pt, Länge 90% der Seitenbreite)
-    footsepline = 0.4pt:\textwidth   % Linie über der Fusszeile (Dicke 0.4pt, Länge 90% der Seitenbreite)
+  headsepline = 0.4pt:\textwidth,
+  footsepline = 0.4pt:\textwidth
 }
 
-\renewcommand*{\chapterpagestyle}{scrheadings}  % fügt auch bei chapter Kopf- und Fusszeilen hinzu
+\renewcommand*{\chapterpagestyle}{scrheadings}
 
-% ------------ Code Formatierung -----------------------------------------------
+% ------------------------------------------------------------------------------
+% Zeilennummerierung deaktivieren (falls lineno geladen wurde)
+% ------------------------------------------------------------------------------
+\nolinenumbers
 
+% ------------------------------------------------------------------------------
+% Codeformatierung
+% ------------------------------------------------------------------------------
 \definecolor{codegreen}{rgb}{0,0.8,0}
 \definecolor{codegray}{rgb}{0.3,0.3,0.3}
 \definecolor{codeorange}{rgb}{0.8,0.3,0}
@@ -82,9 +104,7 @@
     numberstyle         =   \tiny\color{codegray},
     stringstyle         =   \color{codeblue},
     basicstyle          =   \ttfamily\footnotesize,
-    breakatwhitespace   =   false,         
     breaklines          =   true,   
-    mathescape          =   true,              
     captionpos          =   b,                    
     keepspaces          =   true,                 
     numbers             =   left,                    
@@ -97,26 +117,10 @@
 }
 \lstset{style=mystyle}
 
-
-% ------------ eingene Farben --------------------------------------------------
-
-\definecolor{PRENpurple} {rgb} {0.37, 0.16, 0.81}
-\definecolor{PRENmint}   {rgb} {0.62, 0.88, 0.75}
-
-
-% ------------ Colorbox Einstellungen ------------------------------------------
-
-\tcbset{colback=PRENpurple!30!white, colframe=PRENpurple, boxsep=5pt, arc=4pt, auto outer arc, width=\linewidth, left=5pt, right=5pt, top=0pt, bottom=0pt}
-
-
-% ------------ Text-Formatierungen ---------------------------------------------
-
-\setstretch{1.12}               % Zeilenabstand
-
-\setlength{\parskip}{0.8em}     % legt den vertikalen Abstand zwischen aufeinanderfolgenden Absätzen fest
-\setlength{\parindent}{0pt}     % legt die Einrückung der ersten Zeile eines neuen Absatzes fest
-
-\RedeclareSectionCommand[
-  beforeskip=0pt, % Abstand vor \chapter
-  afterskip=12pt  % Abstand nach \chapter
-]{chapter}
+% ------------------------------------------------------------------------------
+% Seitennummerierung (nur arabisch, keine römischen Zahlen)
+% ------------------------------------------------------------------------------
+\AtBeginDocument{
+  \pagenumbering{arabic}
+  \setcounter{page}{1}
+}
