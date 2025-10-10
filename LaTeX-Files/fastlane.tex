@@ -1,0 +1,11 @@
+\section{Fastlane}
+Die bestehende Android APP, welche nicht auf Jetpackcompose sondern XML basiert, hat bereits für beide Tenants ein Fastfile
+in welchem diverse Lanes für den CI/CD Prozess definiert sind.
+Daran möchten wir anknöpfen und die bestehende Funktionalität anpassen und verbessern. Im Moment gibt es pro Tenant ein Fastfile,
+wenn man diese aber vergleicht, gibt es sehr viele Redundanzen und das möchten wir insofern verbessern, das es nur noch ein Fastfile gibt
+und per Parameter entweder HSLU_I spezifische oder HSLU_TA spezifische Variablen verwendet werden und so ein Grossteil der Redundanzen
+eliminiert werden können.
+
+\subsection{Fastfile}
+\subsubsection{Erklärungen Lanes/Funktionen}
+\subsubsection{Parameter definierte Aufrufe}
