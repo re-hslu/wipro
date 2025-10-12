@@ -108,7 +108,17 @@ Screenshots, Diagramme, Code-Ausschnitte etc.
 \addcontentsline{toc}{chapter}{Abkürzungs-, Abbildungs-, Tabellen-, KI-, Formelverzeichnis}
 
 \section*{Abkürzungsverzeichnis}
+
 \section*{Abbildungsverzeichnis}
+\vspace{-4.5em}
+\begingroup
+\renewcommand{\listfigurename}{}
+\let\clearpage\relax
+\let\cleardoublepage\relax
+\listoffigures
+\endgroup
+
+
 \section*{Tabellenverzeichnis}
 \section*{KI-Verzeichnis}
 \section*{Formelverzeichnis}
