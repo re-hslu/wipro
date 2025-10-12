@@ -1,0 +1,96 @@
+% ================== Kapitel: Methoden ============================================
+
+\section{Gewünschte Methoden und Vorgehen}
+Inkrementelles, iteratives, agiles Vorgehen.  
+Regelmässige Treffen mit dem Auftraggeber finden statt, inklusive Statusbericht am Vorabend.  
+Der Statusbericht umfasst erledigte Aufgaben, den aktuellen Zwischenstand, eine Risikobewertung sowie die nächsten geplanten Arbeiten.  
+Zur Nachvollziehbarkeit von Fortschritt und Aufgaben wird ein Projektmanagement-Tool verwendet, das eine transparente Verfolgung der Issues ermöglicht.
+
+\section{Kreativität, Methoden, Innovation}
+Im Projekt sollen moderne Technologien eingesetzt und evaluiert werden, wie beispielsweise AI-gestützte Entwicklungswerkzeuge, Jetpack Compose oder CI/CD-Automatisierungen.  
+Die Unterstützung durch künstliche Intelligenz wird aktiv in den Entwicklungsprozess eingebunden, dokumentiert und reflektiert.  
+Je nach Erkenntnissen im Projektverlauf wird die Gewichtung des AI-Anteils flexibel angepasst, um die bestmöglichen Resultate zu erzielen.
+
+\section{Projektmanagement}
+
+\subsection{Stakeholder}
+\begin{itemize}
+    \item Auftraggeber / Dozent: Jürg Nietlispach
+    \item Experte: Martin Vogel
+    \item Projektteam: Raphael Eiholzer, Samuel Kurmann
+\end{itemize}
+
+\subsection{Agiles Vorgehen}
+Im Projekt wurde nach dem agilen Vorgehensmodell \textit{Scrum} gearbeitet.  
+Die Sprints wurden jeweils über zwei Wochen definiert, wodurch sich insgesamt sieben Sprints ergaben.  
+Am Ende jedes Sprints fand eine Besprechung mit dem Auftraggeber statt, um den Fortschritt zu präsentieren und den nächsten Sprint zu planen.  
+
+Zu Beginn wurden alle Aufgaben in GitLab als Issues erfasst und in das Product Backlog aufgenommen.  
+Während der Sprintplanung wurden die Issues nach Priorität ausgewählt und dem kommenden Sprint zugeordnet.  
+Dieses Vorgehen ermöglichte eine strukturierte und transparente Projektabwicklung mit klaren Zuständigkeiten und Fortschrittskontrolle.  
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{Fotos/sprint_cycle.png}
+    \caption{Darstellung des Scrum-Prozesses im Projekt}
+    \label{fig:scrum}
+\end{figure}
+
+\subsection{Planung}
+Zu Beginn des Projekts wurde eine detaillierte Planung der auszuführenden Arbeitsschritte erstellt.  
+Dazu erfolgte zunächst eine Analyse der bestehenden iOS-App und ein Vergleich mit der bisherigen Jetpack-Compose-Version.  
+Die wichtigsten Meilensteine wurden in einem Plan zusammengeführt, um den Projektfortschritt wöchentlich zu überprüfen und Abweichungen frühzeitig zu erkennen.  
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{Fotos/meilensteinplan.png}
+    \caption{Meilensteinplan des Projekts}
+    \label{fig:meilensteinplan}
+\end{figure}
+
+Die definierten Meilensteine wurden in GitLab abgebildet und die einzelnen Arbeiten als Issues erfasst und den entsprechenden Meilensteinen zugeordnet.  
+Die Aufgaben wurden in zwei Kategorien unterteilt:
+\begin{itemize}
+    \item \textit{Common-Arbeiten}: allgemeine App-Funktionalitäten, die von mehreren Modulen genutzt werden (z. B. Netzwerkkommunikation)
+    \item \textit{Feature-Arbeiten}: spezifische App-Funktionen oder Menüpunkte, die unabhängig voneinander entwickelt werden können
+\end{itemize}
+
+Die Aufgaben wurden so gestaltet, dass sie von einer einzelnen Person vollständig bearbeitet werden konnten.  
+Die Reihenfolge der Issues wurde zu Projektbeginn grob festgelegt, aber jeweils in der Sprintplanung überprüft und bei Bedarf angepasst.  
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{Fotos/sprintplanung-1.png}
+    \caption{Beispielhafte Darstellung des Backlogs in GitLab}
+    \label{fig:backlog}
+\end{figure}
+
+Jedes Issue wurde als User Story formuliert und mit einer Definition of Done (DoD) versehen.  
+Die Projektmitglieder konnten sich selbst Issues zuweisen, wodurch eine klare Arbeitsaufteilung gewährleistet war.  
+Für jede Aufgabe wurde die aufgewendete Zeit direkt im Issue dokumentiert, um den Arbeitsaufwand über die gesamte Projektlaufzeit nachvollziehen zu können.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{Fotos/issue-userstory-dod.png}
+    \caption{Beispiel einer User Story mit Definition of Done (DoD)}
+    \label{fig:userstory}
+\end{figure}
+
+\subsection{Risikoanalyse}
+Zu Beginn des Projekts wurde eine Risikoanalyse erstellt, um die grössten Risiken frühzeitig zu identifizieren und entsprechende Gegenmassnahmen zu planen.  
+Die Risiken wurden hinsichtlich Eintrittswahrscheinlichkeit und Auswirkung bewertet.  
+Das Produkt dieser beiden Faktoren bestimmte den Gesamtrisiko-Wert und erlaubte es, die kritischsten Risiken zu priorisieren.  
+
+Für jedes Risiko wurden präventive Massnahmen festgelegt, um die Eintrittswahrscheinlichkeit oder die Auswirkungen zu minimieren.  
+Nach Umsetzung dieser Massnahmen wurde die Bewertung erneut vorgenommen, um verbleibende Risiken zu identifizieren und ihre Entwicklung über die Projektlaufzeit zu beobachten.  
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{Fotos/risikomatrix.png}
+    \caption{Risikoanalyse und Risikomatrix des Projekts}
+    \label{fig:risikomatrix}
+\end{figure}
+
+Die Risikoanalyse wurde während der gesamten Projektdauer regelmässig überprüft und aktualisiert.  
+Am Ende jedes Sprints diskutierten die Studierenden gemeinsam die aktuelle Risikosituation und leiteten mögliche Anpassungen ein.  
+Die drei grössten Risiken wurden zusätzlich an den Auftraggeber übermittelt, um Transparenz über den Projektfortschritt und potenzielle Herausforderungen sicherzustellen.
