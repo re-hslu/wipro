@@ -21,7 +21,9 @@
 \usepackage{listings}                               % Quellcode
 \usepackage{xcolor}                                 % Farben
 \usepackage{soul}                                   % Textmarkierung
-\usepackage[backend=biber, style=numeric]{biblatex} % Literaturverzeichnis
+\usepackage[backend=biber,style=apa]{biblatex}      % Literaturverzeichnis
+\addbibresource{literatur.bib}                      % Literaturverzeichnis
+\DeclareLanguageMapping{ngerman}{ngerman-apa}       % für deutsche APA-Formatierung
 \usepackage{csquotes}                               % Korrekte Zitate
 \usepackage{acronym}                                % Abkürzungsverzeichnis
 \usepackage{array}                                  % Erweiterte Tabellen
@@ -38,7 +40,6 @@
 \usepackage{array}
 \usepackage{caption}
 
-\addbibresource{referenzen.bib}                     % Bibliographie-Datei
 \usetikzlibrary{trees, mindmap}                     % TikZ-Erweiterungen
 \graphicspath{{Fotos/}}                             % Standardpfad für Bilder
 \pgfplotsset{compat=1.18}
