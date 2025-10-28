@@ -47,6 +47,7 @@ Rotkreuz, den \underline{\hspace*{4cm}} \hspace*{1cm} Visum: \underline{\hspace*
 \newpage
 
 % ================== Inhalt =====================================================
+
 \pagenumbering{roman}
 
 \chapter*{Abstract / Zusammenfassung oder Management Summary}
@@ -58,6 +59,7 @@ Hier folgt die kurze Zusammenfassung der Arbeit (max. 1 Seite).
 \newpage
 
 % ================== Hauptteil ==================================================
+
 \pagenumbering{arabic}
 
 \chapter{Problem, Fragestellung, Vision}
@@ -75,18 +77,30 @@ Führe die entwickelten Ideen, Konzepte oder Ansätze aus, die im Projekt verfol
 Beschreibe die verwendeten Methoden, Vorgehensmodelle oder Frameworks.
 
 \input{LaTeX-Files/Methoden.tex}
-
+\newpage
 
 \chapter{Realisierung}
-Erläutere die Umsetzung, Architektur, Implementierungsdetails usw.
-\input{LaTeX-Files/Network_Feature.tex}
+% Erläutere die Umsetzung, Architektur, Implementierungsdetails usw.
 
+\section{Common}
+\input{LaTeX-Files/Komponenten_Bibliotheken.tex}
+\newpage
+\input{LaTeX-Files/Konfigurationen_AppConfig.tex}
+\newpage
+\input{LaTeX-Files/Network_Feature.tex}
+\newpage
 \input{LaTeX-Files/fastlane.tex}
+\newpage
+
+\section{Features}
+% hier später:
+% \input{LaTeX-Files/FeatureMensa.tex}
 
 \chapter{Validierung und Evaluation}
 Beschreibe, wie die Lösung überprüft, getestet oder bewertet wurde.
 
 \input{LaTeX-Files/Teststrategie.tex}
+\newpage
 
 \input{LaTeX-Files/evaluation_ai_tool.tex}
 
@@ -98,7 +112,24 @@ Welche zukünftigen Arbeiten, Verbesserungen oder Erweiterungen sind denkbar?
 \appendix
 \chapter{Anhänge}
 \section{Zusatzmaterial}
-Screenshots, Diagramme, Code-Ausschnitte etc.
+% Screenshots, Diagramme, Code-Ausschnitte etc.
+
+\section{Protokolle und Statusberichte}
+
+% Sitzungsprotokolle
+\includepdf[pages=1,pagecommand=\subsection{Kickoff-Meeting (19.09.2025)}]{Anhaenge/Sitzungsprotokolle/1_19.09.2025 Kick-Off Meeting.pdf}
+\includepdf[pages=2-,pagecommand={}]{Anhaenge/Sitzungsprotokolle/1_19.09.2025 Kick-Off Meeting.pdf}
+
+\includepdf[pages=1,pagecommand=\subsection{Projektstatus-Meeting (25.09.2025)}]{Anhaenge/Sitzungsprotokolle/2_25.09.2025 Projektstatus-Meeting.pdf}
+\includepdf[pages=2-,pagecommand={}]{Anhaenge/Sitzungsprotokolle/2_25.09.2025 Projektstatus-Meeting.pdf}
+
+\includepdf[pages=1,pagecommand=\subsection{Projektstatus-Meeting (16.10.2025)}\label{anhang:meeting16102025}]{Anhaenge/Sitzungsprotokolle/3_16.10.2025 Projektstatus-Meeting.pdf}
+\includepdf[pages=2-,pagecommand={}]{Anhaenge/Sitzungsprotokolle/3_16.10.2025 Projektstatus-Meeting.pdf}
+
+% Status-Reports
+\includepdf[pages=1,pagecommand=\subsection{Status-Report (16.10.2025)}]{Anhaenge/Status-Report/Status-Report 16.10.2025.pdf}
+
+
 
 % ================== Verzeichnisse =============================================
 
