@@ -1,0 +1,113 @@
+\subsection{Feature: AppInit (Bootstrapping)}
+
+Das Feature \textbf{AppInit} bildet die Grundlage für das dynamische Laden und Initialisieren der App-Module zur Laufzeit (Bootstrapping) . 
+Die Idee ist analog zur iOS-Implementierung: Menüeinträge werden nicht statisch im Code definiert, 
+sondern dynamisch über das Netzwerk geladen, lokal gespeichert und bei Bedarf aktualisiert. 
+So kann beispielsweise ein Menüpunkt remote aktiviert oder deaktiviert werden, 
+ohne dass eine neue App-Version verteilt werden muss.
+
+\subsubsection*{Ziel und Motivation}
+Bereits im Vorgängerprojekt (\textit{Android-XML}) existierte ein ähnlicher Mechanismus.
+In der neuen Version wurde das System aber vollständig überarbeitet und an die Architektur der iOS-App angepasst.
+Die gesamte Bootstrapping-Funktionalität wird somit wie bei iOS im Feature "AppInit" umgesetzt.
+Das Bootstrapping-System übernimmt die Synchronisation, Speicherung und Darstellung der Menüstruktur nach Mandat.
+
+\subsubsection*{Funktionsweise}
+Beim Start der App ruft die Klasse \texttt{AppBootstrappingViewModel} die aktuellen Menüdefinitionen 
+über das Netzwerk ab und vergleicht sie mit der lokal gespeicherten Version:
+\begin{itemize}
+    \item Ist der lokale Datensatz aktuell (gleicher Timestamp), wird kein Download durchgeführt.
+    \item Liegt eine neuere Server-Version vor, werden die Daten heruntergeladen und im Cache gespeichert.
+\end{itemize}
+
+Während dieser Initialisierung wird ein Ladebildschirm angezeigt, der über die \texttt{AppBootstrappingView} 
+gesteuert wird. Diese Komponente entscheidet, welcher Bildschirm angezeigt werden soll (z.\,B. Splash, Progress oder Loading).
+(Aktuell ist aber wie bei iOS nur der Splash-Bildschirm tatsächlich umgesetzt.)
+
+\begin{itemize}
+    \item \textbf{AppBootstrappingView} – entscheidet, welche Ansicht gezeigt wird.
+    \item \textbf{AppBootstrappingSplashView} – zeigt das Logo und startet im Hintergrund den Bootstrapping-Prozess.
+    \item \textbf{AppTabNavigationView} – rendert die Navigation, sobald alle Module geladen wurden.
+\end{itemize}
+
+\subsubsection*{Architekturüberblick}
+Die Architektur ist so aufgebaut, dass keine zirkulären Abhängigkeiten entstehen: 
+\texttt{Features} können auf \texttt{Common} zugreifen, jedoch nicht umgekehrt. 
+Das Feature \texttt{AppInit} kennt die einzelnen Module der Anwendung (in AppInitModuleDTO gespeichert) 
+und kann sie bei Bedarf laden, während die Module selbst keine Kenntnis voneinander oder der App-Struktur haben. 
+Dies ermöglicht eine klare Entkopplung der Funktionalitäten.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.3\textwidth]{Fotos/feature_appinit_architektur.png}
+    \caption{Architekturübersicht des Bootstrapping-Systems}
+    \label{fig:feature_appinit_architektur}
+\end{figure}
+
+\subsubsection*{iOS~→~Android Umsetzung}
+Die Logik wurde vom iOS-Bootstrapping-System übernommen und an die Android-Umgebung angepasst. 
+Die Funktion des \texttt{AppBootstrappingModuleLoader} (iOS-Service) übernimmt im Android-Projekt 
+das \texttt{AppBootstrappingViewModel} , das die zentrale Steuerung übernimmt.
+
+\begin{table}[H]
+    \centering
+    \caption{Vergleich iOS vs. Android Bootstrapping}
+    \begin{tabular}{p{3cm}p{5cm}p{5cm}}
+    \toprule
+    \textbf{Komponente} & \textbf{iOS (Swift)} & \textbf{Android (Kotlin)} \\
+    \midrule
+    Logik & Loader-Klassen mit \texttt{@State} / \texttt{ObservableObject} & ViewModel mit \texttt{StateFlow} \\
+    Asynchronität & \texttt{async/await} & Coroutines \\
+    Storage & FileManager & StorageService (JSON) \\
+    UI & SwiftUI Views & Jetpack Compose Views \\
+    \bottomrule
+    \end{tabular}
+\end{table}
+
+\subsubsection*{Implementierte Komponenten}
+
+\begin{enumerate}
+    \item \textbf{Modelle (DTOs)} – analog zu iOS:
+    \begin{itemize}
+        \item \texttt{AppInitModuleItemDTO} – einzelnes Modul
+        \item \texttt{AppInitModuleDTO} – Liste aller Module
+        \item \texttt{AppInitModuleSyncDTO} – Sync-Metadaten
+    \end{itemize}
+
+    \item \textbf{StorageService} – JSON-basiert; speichert und lädt Moduldefinitionen lokal.
+    \item \textbf{AppBootstrappingViewModel} – Hauptlogik mit:
+    \begin{itemize}
+        \item \texttt{syncData()} – Remote/Local-Synchronisation
+        \item \texttt{orderData()} – Reihenfolgenlogik
+        \item \texttt{process()} – Startet Bootstrapping
+        \item \texttt{reset()} – Lädt alle Daten neu
+    \end{itemize}
+    \item \textbf{Integration:} \texttt{MainActivity.kt} bindet das System ein, 
+    mit Fallback auf Standardnavigation und tenant-spezifischer Konfiguration.
+    \item \textbf{Helper und Views:}
+    \begin{itemize}
+        \item \texttt{BootstrappingHelper.kt} – konvertiert DTOs
+        \item \texttt{AppBootstrappingView.kt} – UI-Komponente
+    \end{itemize}
+\end{enumerate}
+
+\subsubsection*{Ablauf}
+\begin{enumerate}
+    \item App-Start über \texttt{MainActivity.kt}
+    \item Anzeige des Splashscreens (\texttt{AppBootstrappingSplashView})
+    \item Download und Sync der Module über \texttt{AppBootstrappingViewModel}
+    \item Aufbau der Navigation via \texttt{DynamicTabNavigationView}
+\end{enumerate}
+
+\subsubsection*{Ergebnis}
+Das Bootstrapping-System erlaubt ein dynamisches, modulares Laden der App-Struktur. 
+Neue Menüpunkte oder Features können serverseitig aktiviert werden, ohne die App neu zu veröffentlichen. 
+Durch die klare Entkopplung der Module wird ein flexibles, erweiterbares System geschaffen, 
+das iOS und Android konzeptionell vereinheitlicht.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.3\textwidth]{Fotos/feature_appinit_hierarchie.png}
+    \caption{Modularer Aufbau: AppInit als Einstiegspunkt für Feature-Module}
+    \label{fig:feature_appinit_hierarchie}
+\end{figure}

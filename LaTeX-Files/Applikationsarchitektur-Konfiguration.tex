@@ -1,0 +1,22 @@
+\section*{Einleitung}
+
+Das Ziel der Entwicklung war es, eine modulare und erweiterbare Applikation zu schaffen. 
+Dazu wurde auf die bestehende iOS-Projektstruktur aufgebaut und das Android-Projekt analog dazu umgesetzt. 
+
+Im Wesentlichen wurde die Anwendung in die beiden Hauptmodule \texttt{common} und \texttt{features} gegliedert:
+\begin{itemize}
+    \item \textbf{common}: Enthält alle allgemeinen und wiederverwendbaren Komponenten, wie z.\,B. UI-Elemente, Utility-Klassen und grundlegende Architekturbausteine.
+    \item \textbf{features}: Beinhaltet die einzelnen Funktionsmodule der App, die jeweils auf spezifische Anwendungsbereiche oder Features ausgerichtet sind.
+\end{itemize}
+
+Dabei gilt die Abhängigkeitsregel, dass \texttt{features}-Module auf Inhalte aus \texttt{common} zugreifen dürfen, 
+nicht jedoch umgekehrt – um zirkuläre Abhängigkeiten und eine enge Kopplung zu vermeiden.
+
+\vspace{1em}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.375\textwidth]{Fotos/projektexplorer_androidstudio.png}
+    \caption{Projektstruktur im Android Studio}
+    \label{fig:projektstruktur_androidstudio}
+\end{figure}
