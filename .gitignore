@@ -22,8 +22,6 @@
 *.snm
 *.vrb
 
-# PDF-Ausgabe
-*.pdf
 
 # Backup & temporäre Dateien
 *~
