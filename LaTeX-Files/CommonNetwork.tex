@@ -1,12 +1,12 @@
-\subsection{Netzwerk}
+\subsubsection{Netzwerk}
 Die gesamte iOS Netzwerkarchitektur wurde auf Android migriert. Dabei wurde versucht eine identische Architektur beizubehalten und gleiche Methodennamen sowie API-Struktur zu verwenden.
 Weiter wurden auch die Patterns konsistent über beide Plattformen gehalten.
 Es wurden moderne Android best Practices verwendet wie Kotlin Coroutines, StateFlow für reaktives UI, Hilt Dependency Injection und eine Type-safe API mit Compile-Time-Checks.
 Sowohl wurde auch hier der Multitenant Ansatz berücksichtigt und je nach build Variants werden die korrekten URLs und Tokens verwendet, somit konnten Redundanzen verhindert werden.
 
-\subsubsection{Architektur Übersicht}
+\subsubsection*{Architektur Übersicht}
 
-\subsubsection{Kern-Komponenten}
+\subsubsection*{Kern-Komponenten}
 \begin {table}[ h ] 
     \centering 
     \begin {tabular}{| c | c | c |} 
@@ -29,7 +29,7 @@ Sowohl wurde auch hier der Multitenant Ansatz berücksichtigt und je nach build 
     \label { tab : kernkomponenten } % Label fuer Referenzierung
 \end {table}
 
-\subsubsection{Tenant-Konfiguration}
+\subsubsection*{Tenant-Konfiguration}
 \begin {table}[ h ] 
     \centering 
     \begin {tabular}{| c | c | c | c |} 
@@ -44,7 +44,7 @@ Sowohl wurde auch hier der Multitenant Ansatz berücksichtigt und je nach build 
     \label { tab : tenantkonfiguration } % Label fuer Referenzierung
 \end {table}
 
-\subsubsection{Datei-Struktur}
+\subsubsection*{Datei-Struktur}
 \dirtree{%
 .1 Common/Infrastructure/src/main/java/ch/hslu/mobileapps/infrastructure/.
 .2 network/.
@@ -69,6 +69,6 @@ Sowohl wurde auch hier der Multitenant Ansatz berücksichtigt und je nach build 
 .3 HslutaNetworkModule.kt.
 }
 
-\subsubsection{Tests}
+\subsubsection*{Tests}
 \textbf{Unittests}\\
 \textbf{Integrationtests}\\
