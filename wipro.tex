@@ -31,7 +31,7 @@ $\square$ Öffentlich \quad $\square$ Vertraulich
 
 \vspace*{1cm}
 
-\paragraph{\textbf{Eidesstattliche Erklärung}}
+\paragraph*{\textbf{Eidesstattliche Erklärung}}
 Ich erkläre hiermit, dass wir die vorliegende Arbeit selbständig und ohne unerlaubte fremde Hilfe angefertigt haben, alle verwendeten Quellen, Literatur und andere Hilfsmittel angegeben haben, wörtlich oder inhaltlich entnommene Stellen als solche kenntlich gemacht haben, das Vertraulichkeitsinteresse des Auftraggebers wahren und die Urheberrechtsbestimmungen der Hochschule Luzern respektieren werden.
 
 \vspace*{1cm}
@@ -51,8 +51,8 @@ Rotkreuz, den \underline{\hspace*{4cm}} \hspace*{1cm} Visum: \underline{\hspace*
 \pagenumbering{roman}
 
 \chapter*{Abstract / Zusammenfassung oder Management Summary}
-\addcontentsline{toc}{chapter}{Abstract / Zusammenfassung oder Management Summary}
-Hier folgt die kurze Zusammenfassung der Arbeit (max. 1 Seite).
+\addcontentsline{toc}{chapter}{Abstract}
+\input{LaTeX-Files/Abstract.tex} \newpage
 
 \newpage
 \tableofcontents
@@ -69,13 +69,14 @@ Beschreibe das Problem, die Zielsetzung und die übergeordnete Vision des Projek
 
 \chapter{Stand der Forschung oder Stand der Praxis/Technik}
 Erkläre den aktuellen Stand der Technik, Forschung oder Praxis zum Thema.
+\input{LaTeX-Files/StandderForschung.tex}
 
 \chapter{Ideen und Konzepte}
 Führe die entwickelten Ideen, Konzepte oder Ansätze aus, die im Projekt verfolgt werden.
+\input{LaTeX-Files/IdeenundKonzepte.tex}
 
 \chapter{Methode(n)}
 Beschreibe die verwendeten Methoden, Vorgehensmodelle oder Frameworks.
-
 \input{LaTeX-Files/Methoden.tex}
 \newpage
 
@@ -138,6 +139,7 @@ Beschreibe, wie die Lösung überprüft, getestet oder bewertet wurde.
 
 \chapter{Ausblick}
 Welche zukünftigen Arbeiten, Verbesserungen oder Erweiterungen sind denkbar?
+\input{LaTeX-Files/Ausblick.tex}
 
 % ================== Anhänge ====================================================
 
