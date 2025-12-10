@@ -1,0 +1,77 @@
+Die Applikation ist konsequent feature-orientiert aufgebaut. 
+Sämtliche fachlichen Funktionalitäten der App sind in eigenständigen Feature-Modulen gekapselt, 
+welche sich im Verzeichnis \texttt{/features} befinden.
+Ein Feature repräsentiert dabei jeweils einen abgegrenzten Anwendungsbereich (und Menüpunkt) der App,
+wie beispielsweise \textit{Blog}, \textit{News}, \textit{Mensa}, \textit{Events}, \textit{Raumsuche},
+\textit{Stundenplan}, \textit{Einstellungen} oder \textit{AppInit}.
+Jedes Feature ist als separates Android-Library-Modul umgesetzt und kann unabhängig entwickelt,
+getestet und gewartet werden. Im Falle unserer Android-App hat auch jedes Feature einen 
+eigenen API-Endpunnkt.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.4\textwidth]{Fotos/features_projekt.png}
+    \caption{Features in Android-Studio}
+    \label{fig:features_projekt}
+\end{figure}
+
+\subsubsection*{Ziel und Rolle der Features}
+
+Features bilden die funktionale Ebene der Applikation.
+Sie enthalten alle Bestandteile, die für eine bestimmte Funktionalität erforderlich sind.
+Durch diese Aufteilung wird sichergestellt, dass einzelne Funktionen klar voneinander getrennt sind
+und Änderungen möglichst lokal auf ein einzelnes Feature beschränkt bleiben.
+
+Ein zentrales Architekturprinzip ist, dass Features ausschliesslich von den
+\textit{Common}-Modulen abhängen dürfen, jedoch nicht voneinander (Einzige Ausnahme: \textit{AppInit}).
+Dadurch werden zyklische Abhängigkeiten vermieden und die Architektur bleibt langfristig erweiterbar
+und wartbar.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.16\textwidth]{Fotos/abhaengigkeiten.png}
+    \caption{Abhängigkeiten in Pfeilrichtung erlaubt/vorhanden}
+    \label{fig:abhaengigkeiten}
+\end{figure}
+
+\subsubsection*{Aufbau eines Features}
+
+Alle Features folgen grundsätzlich der gleichen Struktur.
+Die Struktur und Benennung der Ordner wurden bewusst an der iOS-App orientiert,
+sodass Entwickler, die an beiden Projekten arbeiten,
+die entsprechenden Code-Stellen plattformübergreifend schnell wiederfinden.
+
+Ein Feature gliedert sich typischerweise in folgende Bereiche:
+
+\begin{itemize}
+    \item \textbf{Domain:} 
+    Enthält die fachlichen Modelle und Domain-Objekte des Features.
+    Diese Schicht ist unabhängig von Android- oder UI-spezifischen Frameworks
+    und bildet die Grundlage für Business-Logik und Datenverarbeitung.
+
+    \item \textbf{Services:} 
+    Beinhaltet die Logik zum Laden, Synchronisieren und Verarbeiten von Daten.
+    Hier befinden sich unter anderem Loader-Klassen, welche für den Zugriff auf Backend-APIs,
+    die lokale Speicherung sowie Synchronisationsmechanismen verantwortlich sind.
+
+    \item \textbf{View:} 
+    Enthält die UI-Komponenten des Features, umgesetzt mit Jetpack Compose.
+    Die Views reagieren reaktiv auf Zustandsänderungen der ViewModels
+    und stellen die Daten dem Nutzer dar.
+
+    \item \textbf{Resources:} 
+    Feature-spezifische Ressourcen wie Strings oder weitere Assets,
+    die unabhängig von anderen Features gepflegt werden können.
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.4\textwidth]{Fotos/features_projekt_event.png}
+    \caption{Struktur der Features am Beispiel \textit{Event}}
+    \label{fig:features_projekt_event}
+\end{figure}
+
+Das Feature \textit{AppInit} unterscheidet sich dabei grundsätzlich von den übrigen Features,
+da es nicht eine fachliche Funktionalität bereitstellt,
+sondern für die initiale Konfiguration, das Bootstrapping und die Steuerung
+der Applikation verantwortlich ist.
