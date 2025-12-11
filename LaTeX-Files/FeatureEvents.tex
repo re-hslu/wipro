@@ -1,3 +1,50 @@
 \subsection{Events}
 
-Todo Raphi
+Das Feature \textit{FeatureEvents} erweitert die App um die Möglichkeit, 
+aktuelle Veranstaltungen der Hochschule Luzern direkt anzuzeigen. 
+Im Gegensatz zu den zuvor beschriebenen Features \textit{News} und \textit{Blog}, 
+die ihre Inhalte über die WordPress-API beziehen, basiert dieses Feature auf 
+der Sitecore-Plattform der HSLU. Sitecore stellt Inhalte strukturiert über 
+eine JSON-basierte API bereit und ist damit eine gute Grundlage für eine 
+native Darstellung in der App. \parencite{noauthor_sitecore_nodate}
+
+Die grundlegende Architektur folgt weiterhin dem bekannten Muster: 
+Ein \texttt{ModuleLoader} stellt die Moduldefinitionen bereit, 
+während der \texttt{EventsDataLoader} die Eventdaten lädt, in 
+Kotlin-Domainobjekte umwandelt und diese der UI zur Verfügung stellt. 
+Das JSON-Processing unterscheidet sich jedoch in einigen Punkten von News und Blog:
+\begin{itemize}
+\item Die Sitecore-API liefert andere Feldstrukturen, z.,B. separate Eigenschaften für Start- und Enddatum.
+\item Der Eventtext enthält oft komplexere HTML-Fragmente, weshalb das Parsing stärker variieren kann.
+\item Die Events besitzen zusätzliche Metadaten wie \textit{organizer}, \textit{event type} oder Kategorien.
+\end{itemize}
+
+Die Daten werden in der App wieder in zwei Compose-Views dargestellt: 
+einer Übersicht aller Events sowie einer Detailansicht (\texttt{EventsDetailSitecoreView}),
+ die die Inhalte strukturiert rendert und zusätzlich den Link zur Eventseite der HSLU anbietet.
+
+Um sicherzustellen, dass nur relevante Events des Departements Informatik angezeigt werden, 
+kann das Backend Sitecore-spezifische Filter konfigurieren. So kann etwa der 
+Query-Parameter \texttt{filters[]=1621} gesetzt werden, ohne dass dieser Wert im App-Code hinterlegt sein muss. 
+Die Filterlogik bleibt damit vollständig backend-gesteuert.
+
+\vspace{0.5cm}
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.23\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Fotos/feature-screenshots/event_json.png}
+        \caption{Übersicht Events}
+        \label{fig:events_json}
+    \end{subfigure}
+    \hspace{0.3cm}
+    \begin{subfigure}[b]{0.23\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Fotos/feature-screenshots/event_json_detail.png}
+        \caption{Detail-Ansicht}
+        \label{fig:events_json_detail}
+    \end{subfigure}
+    \caption{Screenshots des Events-Features}
+    \label{fig:events_feature}
+\end{figure}
