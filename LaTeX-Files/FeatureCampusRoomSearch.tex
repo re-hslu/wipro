@@ -1,3 +1,88 @@
 \subsection{CampusRoomSearch}
 
-Todo Sämi
+Das CampusRoomSearch Feature ermöglicht es Benutzern, Räume auf dem Campus zu suchen und zu finden. 
+Es stellt interaktive PDF-Karten bereit, die Campus-Übersichten und Gebäudepläne enthalten, und ermöglicht es Benutzern, 
+durch Klicken auf annotierte Bereiche in den PDFs zu navigieren und detaillierte Informationen zu Räumen, Gebäuden und Etagen abzurufen. 
+Das Feature unterstützt sowohl deutsche als auch englische Sprachversionen und speichert PDF-Dateien lokal für Offline-Zugriff.
+
+\subsubsection*{Ziel und Motivation}
+
+Das Hauptziel des CampusRoomSearch Features besteht darin, Studierenden und Mitarbeitenden eine intuitive Möglichkeit zu bieten, 
+Räume auf dem Campus zu finden. Durch die Verwendung von interaktiven PDF-Karten mit Annotationen können Benutzer direkt auf Bereiche in den Karten klicken, 
+um zu detaillierten Gebäude- und Etagenplänen zu navigieren. Dies bietet eine benutzerfreundliche Alternative zu textbasierten Suchfunktionen.
+
+Ein weiteres wichtiges Ziel ist die Offline-Funktionalität. Da Campus-Pläne und Gebäudekarten häufig benötigt werden, 
+werden alle PDF-Dateien lokal gespeichert, sodass das Feature auch ohne aktive Netzwerkverbindung vollständig funktionsfähig ist. 
+Die Synchronisation erfolgt intelligent basierend auf Timestamp-Vergleichen, um unnötige Downloads zu vermeiden.
+
+\subsubsection*{Umsetzung / Funktionsweise}
+
+Die Implementierung basiert auf einer zweistufigen Architektur: \texttt{CampusRoomSearchModuleLoader} lädt die Liste der verfügbaren Campus-Standorte, 
+während \texttt{CampusRoomSearchDataLoader} die detaillierten Daten für einen spezifischen Campus-Standort lädt, 
+einschließlich aller PDF-Dateien.
+
+Der \texttt{CampusRoomSearchModuleLoader} erbt von \texttt{CommonApplicationBaseModuleLoader} und erweitert die Standard-Funktionalität, 
+um nach dem Laden der Campus-Liste automatisch die detaillierten Daten für alle Items zu laden.
+Die vollständige Implementierung der \texttt{process()}-Methode findet sich in \texttt{CampusRoomSearchModuleLoader.kt}, Zeilen 80-100.
+
+Die \texttt{loadRemoteDetailedData()}-Methode lädt die detaillierten Campus-Daten von der API und lädt anschliessend alle zugehörigen PDF-Dateien herunter.
+Die vollständige Implementierung der \texttt{loadRemoteDetailedData()}-Methode findet sich in \texttt{CampusRoomSearchModuleLoader.kt}, Zeilen 102-150.
+
+Die \texttt{PDFRoomSearchView} Komponente rendert PDF-Dateien mit Android's \texttt{PdfRenderer} und unterstützt interak
+tive Annotationen. Die Komponente lädt PDFs aus der Room-Datenbank und ermöglicht Zoom- und Pan-Gesten.
+Die vollständige Implementierung der \texttt{PDFRoomSearchView} Komponente findet sich in \texttt{PDFRoomSearchView.kt}, Zeilen 38-60.
+
+Die Annotation-Erkennung funktioniert durch Koordinaten-Transformation. Wenn ein Benutzer auf das PDF klickt, 
+werden die Tap-Koordinaten basierend auf dem aktuellen Zoom- und Pan-Zustand transformiert, um die entsprechende Annotation zu finden.
+Die vollständige Implementierung der \texttt{transformTapCoordinates()}-Methode findet sich in \texttt{PDFRoomSearchView.kt}, Zeilen 147-165.
+
+Der \texttt{RoomsearchViewModel} verwaltet die Suche nach Räumen und die Interaktion mit den SVG-Karten. 
+Er verwendet JavaScript-Interfaces, um Kommunikation zwischen WebView und Android-Code zu ermöglichen.
+Die vollständige Implementierung des \texttt{IJavascriptHandler} findet sich in \texttt{RoomsearchViewModel.kt}, Zeilen 231-242.
+
+\subsubsection*{Spezifische Infos}
+
+Die folgende Tabelle gibt einen Überblick über die wichtigsten Funktionalitäten des \texttt{CampusRoomSearch} Features:
+
+\begin{table}[h]
+\centering
+\begin{tabularx}{\textwidth}{|l|X|}
+\hline
+\textbf{Funktionalität} & \textbf{Beschreibung} \\
+\hline
+\textbf{Hybride Speicherstrategie} & 
+Das Feature verwendet eine hybride Speicherstrategie: JSON-Daten werden in der Room-Datenbank gespeichert, während PDF-Dateien als \texttt{ByteArray} in der \texttt{FileEntity} Tabelle gespeichert werden. 
+Dies ermöglicht eine effiziente Speicherung und schnellen Zugriff auf die Dateien, ohne dass externe Dateisystem-Zugriffe erforderlich sind. \\
+\hline
+\textbf{PDF-Annotationen} & 
+Die PDF-Annotationen werden aus den PDF-Metadaten extrahiert und als unsichtbare, aber klickbare Bereiche über dem PDF gerendert. 
+Dies ermöglicht eine präzise Interaktion, während das ursprüngliche PDF-Layout erhalten bleibt. Die Koordinaten-Transformation berücksichtigt Zoom- und Pan-Zustände für eine genaue Erkennung. \\
+\hline
+\textbf{Sprachauswahl} & 
+Die Sprachauswahl erfolgt automatisch basierend auf der System-Locale. Falls die bevorzugte Sprache nicht verfügbar ist, wird automatisch auf die alternative Sprache zurückgegriffen. 
+Dies gewährleistet, dass das Feature immer funktionsfähig ist, unabhängig von der verfügbaren Sprachversion. \\
+\hline
+\textbf{Intelligente Synchronisation} & 
+Die Synchronisation verwendet Timestamp-Vergleiche, ähnlich wie andere Module. Der \texttt{CampusRoomSearchDataLoader} prüft zuerst, ob lokale Daten vorhanden sind, und lädt nur dann Remote-Daten, wenn eine Aktualisierung notwendig ist oder keine lokalen Daten vorhanden sind. 
+Dies reduziert unnötige Downloads und spart Bandbreite. \\
+\hline
+\textbf{Hierarchische Navigation} & 
+Das Feature unterstützt mehrere Campus-Standorte, wobei jeder Standort seine eigenen Gebäude, Etagen und Räume hat. 
+Die Navigation erfolgt hierarchisch: Campus → Gebäude → Etage → Raum, wobei jede Ebene durch entsprechende PDF-Karten und Annotationen dargestellt wird. \\
+\hline
+\textbf{WebView-Integration} & 
+Die WebView-Integration für SVG-Karten ermöglicht interaktive Gebäudekarten, bei denen Benutzer auf Gebäude klicken können, um direkt zu den entsprechenden Etagenplänen zu navigieren. 
+Die JavaScript-Interface-Implementierung ermöglicht eine bidirektionale Kommunikation zwischen der WebView und dem Android-Code. \\
+\hline
+\textbf{Offline-Funktionalität} & 
+Alle PDF-Dateien werden lokal gespeichert, sodass das Feature auch ohne aktive Netzwerkverbindung vollständig funktionsfähig ist. 
+Die Synchronisation erfolgt intelligent basierend auf Timestamp-Vergleichen, um unnötige Downloads zu vermeiden. \\
+\hline
+\textbf{PDF-Rendering} & 
+Die PDF-Dateien werden mit Android's \texttt{PdfRenderer} gerendert und unterstützen Zoom- und Pan-Gesten. 
+Die Komponente lädt PDFs aus der Room-Datenbank und ermöglicht eine flüssige Interaktion mit den Karten. \\
+\hline
+\end{tabularx}
+\caption{Wichtigste Funktionalitäten des \texttt{CampusRoomSearch} Features}
+\label{tab:campusroomsearch-features}
+\end{table}

@@ -1,1 +1,72 @@
-todo
+\subsection{CommonPresentation}
+
+Das Common Presentation Module stellt eine Sammlung wiederverwendbarer UI-Komponenten für Jetpack Compose bereit, 
+die von allen Feature-Modulen verwendet werden können. Es bietet standardisierte Komponenten für Buttons, Textfelder, 
+Progress-Indikatoren, Dialoge, Fehleranzeigen und weitere UI-Elemente, die eine konsistente Benutzeroberfläche über die gesamte Anwendung hinweg gewährleisten.
+
+\subsubsection*{Ziel und Motivation}
+
+Das Hauptziel besteht darin, Code-Duplikation zu vermeiden und eine konsistente Benutzeroberfläche zu schaffen, 
+indem gemeinsame UI-Komponenten zentralisiert werden. Durch die Verwendung von wiederverwendbaren Komponenten wird sichergestellt, 
+dass alle Feature-Module das gleiche Design-System verwenden und Änderungen am Design zentral vorgenommen werden können.
+
+Ein weiteres wichtiges Ziel ist die Bereitstellung einer generischen Bootstrapping-Progress-View, die mit jedem Modul-Loader verwendet werden kann, 
+der das \texttt{ModuleLoaderContract} Interface implementiert. Dies ermöglicht es, den gesamten Datenlade- und Synchronisationsprozess mit einer einheitlichen UI zu visualisieren, 
+ohne dass jedes Feature-Modul seine eigene Implementierung erstellen muss.
+
+\subsubsection*{Umsetzung / Funktionsweise}
+
+Die Komponenten sind als Composable-Funktionen implementiert und folgen den Jetpack Compose Best Practices. 
+Die wichtigste Komponente ist \texttt{CommonBootstrappingProgressView}, die eine generische Implementierung für das Anzeigen von Lade- und Synchronisationsstatus bietet.
+Die vollständige Implementierung der \\ \texttt{CommonBootstrappingProgressView} findet sich in \texttt{CommonBootstrappingProgressView.kt}, Zeilen 48-124.
+
+Die Komponente reagiert auf Statusänderungen des Modul-Loaders und zeigt entsprechend den aktuellen Zustand an. 
+Bei \texttt{Not\_Initialized} wird die \texttt{setup()}-Funktion aufgerufen, bei \texttt{Initialized} wird automatisch \texttt{process()} aufgerufen, 
+und bei \texttt{Success} wird die übergebene \texttt{successView} angezeigt.
+
+Für Buttons werden standardisierte Komponenten bereitgestellt. \texttt{PrimaryButton} ist eine wiederverwendbare Button-Komponente mit konsistentem Styling.
+Die vollständige Implementierung der \texttt{PrimaryButton} Komponente findet sich in \texttt{PrimaryButton.kt}, Zeilen 14-31.
+
+Die \texttt{AutoCompleteTextField} Komponente bietet eine Suchfunktion mit automatischer Vervollständigung.
+Die vollständige Implementierung der \texttt{AutoCompleteTextField} Komponente findet sich in \texttt{AutoCompleteTextField.kt}, Zeilen 33-91.
+
+Die \texttt{LogoSplashView} Komponente zeigt einen animierten Splash-Screen mit Logo und Untertitel.
+Die vollständige Implementierung der \texttt{LogoSplashView} Komponente findet sich in \texttt{LogoSplashView.kt}, Zeilen 35-84.
+
+Die \texttt{WebViewScreen} Komponente bietet eine integrierte WebView-Implementierung mit Unterstützung für interne und externe Browser.
+Die vollständige Implementierung der \texttt{WebViewScreen} Komponente findet sich in \\ \texttt{WebViewScreen.kt}, Zeilen 21-36.
+
+\subsubsection*{Spezifische Infos}
+
+Die folgende Tabelle gibt einen Überblick über die wichtigsten technischen Aspekte des \texttt{CommonPresentation} Moduls:
+
+\begin{table}[h]
+\centering
+\begin{tabularx}{\textwidth}{|l|X|}
+\hline
+\textbf{Aspekt} & \textbf{Beschreibung} \\
+\hline
+\textbf{Material Design 3} & 
+Alle Komponenten verwenden Material Design 3 und folgen den Jetpack Compose Best Practices. 
+Die Komponenten sind vollständig reaktiv und reagieren auf State-Änderungen durch StateFlow oder andere State-Management-Mechanismen. \\
+\hline
+\textbf{GenericErrorView} & 
+Die \texttt{GenericErrorView} Komponente bietet eine standardisierte Fehleranzeige mit optionaler Retry-Funktionalität. 
+Die vollständige Implementierung der \texttt{GenericErrorView} Komponente findet sich in \texttt{GenericErrorView.kt}, Zeilen 14-30. \\
+\hline
+\textbf{Dependency Injection} & 
+Das Modul verwendet Hilt für Dependency Injection, insbesondere für ViewModels wie \texttt{WebViewViewModel}. 
+Die WebView-Implementierung unterstützt JavaScript, Zoom-Kontrollen und verschiedene Cache-Modi basierend auf der Netzwerkverfügbarkeit. \\
+\hline
+\textbf{Flexibilität} & 
+Die Komponenten sind so designed, dass sie flexibel anpassbar sind durch Modifier-Parameter und Lambda-Funktionen für Callbacks. 
+Dies ermöglicht es, die Komponenten in verschiedenen Kontexten zu verwenden, während das grundlegende Design und Verhalten konsistent bleibt. \\
+\hline
+\textbf{Integration mit Common Domain} & 
+Das Modul integriert sich nahtlos mit dem Common Domain Modul, indem es die \texttt{ModuleLoaderContract} Interface und \texttt{CommonModuleLoaderStatus} Enum verwendet, 
+was eine lose Kopplung zwischen Presentation- und Application-Schicht gewährleistet. \\
+\hline
+\end{tabularx}
+\caption{Technische Aspekte des \texttt{CommonPresentation} Moduls}
+\label{tab:commonpresentation-specs}
+\end{table}

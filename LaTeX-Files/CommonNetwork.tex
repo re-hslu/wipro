@@ -1,74 +1,114 @@
-\subsubsection{Netzwerk}
-Die gesamte iOS Netzwerkarchitektur wurde auf Android migriert. Dabei wurde versucht eine identische Architektur beizubehalten und gleiche Methodennamen sowie API-Struktur zu verwenden.
-Weiter wurden auch die Patterns konsistent über beide Plattformen gehalten.
-Es wurden moderne Android best Practices verwendet wie Kotlin Coroutines, StateFlow für reaktives UI, Hilt Dependency Injection und eine Type-safe API mit Compile-Time-Checks.
-Sowohl wurde auch hier der Multitenant Ansatz berücksichtigt und je nach build Variants werden die korrekten URLs und Tokens verwendet, somit konnten Redundanzen verhindert werden.
+\subsubsection{CommonNetwork}
 
-\subsubsection*{Architektur Übersicht}
+Das Common Network Modul stellt die zentrale Netzwerkschicht der Anwendung dar und bietet eine einheitliche Schnittstelle für alle Netzwerkoperationen. 
+Es abstrahiert die Komplexität der Netzwerkkommunikation und bietet typsichere Methoden für HTTP-Requests, JSON-Parsing und Datei-Downloads. 
+Die gesamte iOS Netzwerkarchitektur wurde auf Android migriert, wobei eine identische Architektur beibehalten wurde und gleiche Methodennamen sowie API-Struktur verwendet werden.
+Es wurden moderne Android Best Practices verwendet wie Kotlin Coroutines, StateFlow für reaktives UI, Hilt Dependency Injection und eine Type-safe API mit Compile-Time-Checks.
+Der Multitenant-Ansatz wurde berücksichtigt, sodass je nach Build-Varianten die korrekten URLs und Tokens verwendet werden, wodurch Redundanzen verhindert werden konnten.
 
-\subsubsection*{Kern-Komponenten}
-\begin {table}[ h ] 
-    \centering 
-    \begin {tabular}{| c | c | c |} 
-        \hline % Horizontale Linie
-        Komponente & iOS & Android \\ 
-        \hline % Horizontale Linie
-        NetzwerkMonitor & NWPathMonitor & ConnectivityManager \\
-        \hline % Horizontale Linie
-        CommonNetworkService & async/await & suspend fun \\
-        \hline % Horizontale Linie
-        NetworkConfig & struct & data class \\
-        \hline % Horizontale Linie
-        UrlConstants & static let & object \\
-        \hline % Horizontale Linie
-        Dependency Injection & EnvironmentObject & Hilt \\
-        \hline % Horizontale Linie
-        State Management & @Published & StateFlow \\
-        \hline % Horizontale Linie
-    \end {tabular}
-    \label { tab : kernkomponenten } % Label fuer Referenzierung
-\end {table}
+\subsubsection*{Ziel und Motivation}
 
-\subsubsection*{Tenant-Konfiguration}
-\begin {table}[ h ] 
-    \centering 
-    \begin {tabular}{| c | c | c | c |} 
-        \hline % Horizontale Linie
-        Tenant & Base URL & Client Token & Build Variant \\ 
-        \hline % Horizontale Linie
-        HSLU I & hslui.mobile-hslu.ch & xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx & hslui \\
-        \hline % Horizontale Linie
-        HSLU TA & hsluta.mobile-hslu.ch & xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx & hsluta \\
-        \hline % Horizontale Linie
-    \end {tabular}
-    \label { tab : tenantkonfiguration } % Label fuer Referenzierung
-\end {table}
+Das Hauptziel besteht darin, eine zentrale, wiederverwendbare Netzwerkschicht zu schaffen, die von allen Feature-Modulen verwendet werden kann, 
+ohne dass jedes Modul seine eigene Netzwerk-Implementierung benötigt. Durch die Verwendung von Kotlin Coroutines und suspend-Funktionen wird eine moderne, 
+asynchrone API bereitgestellt, die den Main-Thread nicht blockiert und eine reaktive Programmierung ermöglicht.
 
-\subsubsection*{Datei-Struktur}
-\dirtree{%
-.1 Common/Infrastructure/src/main/java/ch/hslu/mobileapps/infrastructure/.
-.2 network/.
-.3 CommonNetworkService.kt .
-.3 NetworkMonitor.kt
-.3 NetworkConfig.kt
-.2 config/.
-.3 TenantUrlProvider.kt.
-.2 di/.
-.3 NetworkModule.kt.
-.1 app/src/hslui/java/ch/hslu/i/.
-.2 config/.
-.3 UrlConstants.kt.
-.3 TenantUrlProviderImpl.kt.
-.2 di/.
-.3 HsluiNetworkModule.kt.
-.1 app/src/hsluta/java/ch/hslu/ta/.
-.2 config/.
-.3 UrlConstants.kt.
-.3 TenantUrlProviderImpl.kt.
-.2 di/.
-.3 HslutaNetworkModule.kt.
-}
+Ein weiteres wichtiges Ziel ist die Konsistenz zwischen iOS und Android. Die Architektur wurde von iOS migriert, wobei versucht wurde, 
+eine identische Struktur beizubehalten und gleiche Methodennamen sowie API-Struktur zu verwenden. 
+Dies erleichtert die Wartung und das Verständnis des Codes über beide Plattformen hinweg.
 
-\subsubsection*{Tests}
-\textbf{Unittests}\\
-\textbf{Integrationtests}\\
+Die Verwendung von Hilt für Dependency Injection ermöglicht eine saubere Trennung von Konfiguration und Implementierung, 
+während der Multitenant-Ansatz sicherstellt, dass verschiedene Build-Varianten (hslui, hsluta) automatisch die korrekten URLs und Tokens verwenden.
+
+\subsubsection*{Umsetzung / Funktionsweise}
+
+Die Implementierung basiert auf Android's HTTP-Client-Bibliotheken und Kotlin Coroutines. 
+Der \texttt{CommonNetworkService} ist die zentrale Service-Klasse, die alle Netzwerkoperationen kapselt.
+Die vollständige Service-Klassendefinition findet sich in \texttt{CommonNetworkService.kt}, Zeilen 34-50.
+
+Die Architektur folgt einem klaren Komponentenmodell, das die iOS-Architektur widerspiegelt. 
+Die folgende Tabelle zeigt die Entsprechungen zwischen iOS- und Android-Komponenten:
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|c|c|c|}
+\hline
+\textbf{Komponente} & \textbf{iOS} & \textbf{Android} \\
+\hline
+NetzwerkMonitor & NWPathMonitor & ConnectivityManager \\
+\hline
+CommonNetworkService & async/await & suspend fun \\
+\hline
+NetworkConfig & struct & data class \\
+\hline
+UrlConstants & static let & object \\
+\hline
+Dependency Injection & EnvironmentObject & Hilt \\
+\hline
+State Management & @Published & StateFlow \\
+\hline
+\end{tabular}
+\caption{Entsprechungen zwischen iOS- und Android-Komponenten}
+\label{tab:commonnetwork-components}
+\end{table}
+
+Der \texttt{NetworkMonitor} überwacht die Netzwerkverbindung und stellt Informationen über die aktuelle Verbindungsqualität bereit. 
+Die Implementierung verwendet Android's \texttt{ConnectivityManager} für die Erkennung von Netzwerkänderungen.
+
+Die Tenant-Konfiguration ermöglicht es, verschiedene Build-Varianten mit unterschiedlichen URLs und Tokens zu verwenden:
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|c|c|c|c|}
+\hline
+\textbf{Tenant} & \textbf{Base URL} & \textbf{Client Token} & \textbf{Build Variant} \\
+\hline
+HSLU I & hslui.mobile-hslu.ch & xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx & hslui \\
+\hline
+HSLU TA & hsluta.mobile-hslu.ch & xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx & hsluta \\
+\hline
+\end{tabular}
+\caption{Tenant-Konfiguration für verschiedene Build-Varianten}
+\label{tab:commonnetwork-tenants}
+\end{table}
+
+\subsubsection*{Spezifische Infos}
+
+Die folgende Tabelle gibt einen Überblick über die wichtigsten technischen Aspekte des \texttt{CommonNetwork} Moduls:
+
+\begin{table}[h]
+\centering
+\begin{tabularx}{\textwidth}{|l|X|}
+\hline
+\textbf{Aspekt} & \textbf{Beschreibung} \\
+\hline
+\textbf{Asynchrone Operationen} & 
+Alle Netzwerkoperationen werden asynchron über Kotlin Coroutines ausgeführt. Die Verwendung von suspend-Funktionen stellt sicher, dass alle Operationen nicht-blockierend sind und den Main-Thread nicht beeinträchtigen. 
+Dies ermöglicht eine reaktive Programmierung und verbessert die Performance der Anwendung. \\
+\hline
+\textbf{Type-Safe API} & 
+Die API ist type-safe mit Compile-Time-Checks. Methoden wie \texttt{getAsJsonObject()}, \texttt{getAsJsonString()} und \texttt{getAsDownload()} bieten typsichere Rückgabewerte und reduzieren Laufzeitfehler. \\
+\hline
+\textbf{Multitenant-Unterstützung} & 
+Der Multitenant-Ansatz wird durch \texttt{TenantUrlProvider} und tenant-spezifische Implementierungen unterstützt. 
+Je nach Build-Variant werden automatisch die korrekten URLs und Tokens verwendet, wodurch Redundanzen verhindert werden. \\
+\hline
+\textbf{Dependency Injection} & 
+Das Modul verwendet Hilt für Dependency Injection. Tenant-spezifische Module (\texttt{HsluiNetworkModule}, \texttt{HslutaNetworkModule}) stellen die entsprechenden Konfigurationen bereit. 
+Dies ermöglicht eine saubere Trennung von Konfiguration und Implementierung. \\
+\hline
+\textbf{Netzwerk-Monitoring} & 
+Der \texttt{NetworkMonitor} überwacht kontinuierlich die Netzwerkverbindung und stellt Informationen über die Verbindungsqualität bereit. 
+Dies ermöglicht es der Anwendung, auf Netzwerkänderungen zu reagieren und entsprechende Strategien zu implementieren. \\
+\hline
+\textbf{iOS-Kompatibilität} & 
+Die Architektur wurde von iOS migriert, wobei versucht wurde, eine identische Struktur beizubehalten. 
+Gleiche Methodennamen und API-Struktur erleichtern die Wartung und das Verständnis des Codes über beide Plattformen hinweg. \\
+\hline
+\textbf{StateFlow für reaktives UI} & 
+StateFlow wird für reaktives State-Management verwendet, ähnlich wie \texttt{@Published} in SwiftUI. 
+Dies ermöglicht es, UI-Komponenten reaktiv auf Netzwerkstatusänderungen zu reagieren. \\
+\hline
+\end{tabularx}
+\caption{Technische Aspekte des \texttt{CommonNetwork} Moduls}
+\label{tab:commonnetwork-specs}
+\end{table}
