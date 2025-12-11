@@ -1,3 +1,120 @@
 \subsection{News}
 
-Todo Raphi
+Das Feature \textit{FeatureNews} dient dazu, die aktuellen Neuigkeiten der HSLU über
+die WordPress-basierte Plattform \url{https://news.hslu.ch/} direkt in der App anzuzeigen.
+Ursprünglich war vorgesehen, die Inhalte über eine einfache WebView zu laden, doch im
+Laufe des Semesters wurde die Lösung vollständig auf eine JSON-basierte Darstellung
+umgestellt.
+
+\subsection*{Motivation und Zielsetzung}
+
+Im ersten Schritt wird der anzuzeigende News-Link nicht hart im Code definiert, sondern
+von der API geladen. Dadurch können die App-Verantwortlichen die Quelle jederzeit
+anpassen, ohne dass die App neu kompiliert werden muss. Zudem ermöglicht dies eine
+saubere Trennung für unterschiedliche Tenants (z.\,B. \textit{HSLU-I} und \textit{HSLU-TA}),
+da beide auf verschiedene APIs zugreifen und somit unterschiedliche News-Quellen
+verwenden können.
+
+Die ursprüngliche Umsetzung im früheren XML-basierten Android-Projekt verwendete
+die Accompanist-WebView \parencite{noauthor_webview_nodate}. Da diese Library jedoch als \textit{deprecated} markiert
+wurde, ersetzten wir sie durch die native \texttt{android.webkit.WebView}, welche
+alle benötigten Funktionen bereitstellt.
+
+Während des Semesters fiel jedoch dann die Entscheidung, auf beiden Plattformen (iOS und
+Android) auf WebViews zu verzichten. Gründe dafür waren insbesondere
+Datenschutzaspekte, fehlende Kontrolle über Tracking-Mechanismen externer Websites
+sowie die Tatsache, dass WebViews Abhängigkeiten zu fremden Cookies, Skripten und
+Datenschutzrichtlinien erzeugen.
+
+Die Lösung wurde deshalb auf ein JSON-basiertes Rendering umgestellt: Die App lädt
+nicht mehr die komplette Website, sondern nur die strukturierten Daten des Artikels
+und rendert den Inhalt vollständig nativ.
+
+\subsection*{Funktionsweise JSON-View}
+
+Die News werden über die WordPress-REST-API von \texttt{news.hslu.ch} als JSON geladen.
+Der Download erfolgt über den \texttt{NewsDataLoader}, der auf der gemeinsamen Utility-Klasse
+\texttt{JsonDataLoader} basiert. Diese stellt ein hybrides Ladeverhalten bereit:  
+\begin{itemize}
+  \item Bei aktiver Internetverbindung werden die Daten remote geladen und lokal
+        gecached.
+  \item Ohne Internet werden die News aus dem Cache gelesen (falls vorhanden).
+\end{itemize}
+
+Die JSON-Daten werden anschliessend in das Domain-Objekt
+\texttt{NewsPostWordpress.kt} konvertiert, das Titel, Beschreibung, Inhalt,
+Publikationsdatum, Autor sowie das \textit{featured image} enthält.
+
+Um die Inhalte darzustellen, werden die HTML-Fragmente der WordPress-API mit einem
+HTML-Parser verarbeitet. Der Parser extrahiert Absätze, Überschriften, Blockquotes
+und wandelt HTML-Entities wie \texttt{\&nbsp;} oder \texttt{\&ldquo;} in reguläre Zeichen um.
+Der Parser erzeugt daraus eine strukturierte Liste von Content-Blöcken (z.\,B.
+\texttt{Subheading}, \texttt{Paragraph}), die anschliessend vom Compose-Renderer
+(\texttt{NewsContentRenderer}) visuell aufbereitet werden. Die grundlegende Logik des
+Parsers basiert auf regulären Ausdrücken und Entity-Decoding.
+
+\newpage
+
+\subsection*{Darstellung der News}
+
+Die Darstellung erfolgt dann vollständig in Jetpack Compose und besteht aus zwei Bereichen:
+
+\begin{itemize}
+  \item \textbf{NewsOverviewWordpressView}:  
+        Zeigt eine Übersicht aller verfügbaren News. Jede News wird als Karte mit
+        Titel, Bild, Kurzbeschreibung und Datum dargestellt.  
+        Die View beobachtet den Ladezustand des \texttt{NewsDataLoader} und reagiert
+        reaktiv auf Statusänderungen.
+  \item \textbf{NewsDetailWordpressView}:  
+        Öffnet einen einzelnen Artikel als Dialog oder Vollbildansicht.  
+        Die View rendert den gesamten strukturierten Inhalt, erlaubt das Ausklappen
+        langer Texte und bietet einen Button \textit{„Im Browser öffnen“}, falls der
+        Nutzer den Originalartikel betrachten möchte.
+\end{itemize}
+
+\subsection*{Herausforderungen und Einschränkungen}
+
+Durch den Wechsel von der WebView zur nativen JSON-Darstellung ist die App nun
+darauf angewiesen, dass die HTML-Struktur der WordPress-Beiträge stabil bleibt.
+Während der Parser viele HTML-Entitäten und Formatierungen zuverlässig erkennt,
+ist es technisch nicht möglich, alle denkbaren Formatierungsvarianten eindeutig
+zu interpretieren.  
+
+Beispielsweise kann ein Redaktor einen Titel visuell fett und gross darstellen,
+ohne ihn als \texttt{<h1>}–\texttt{<h6>} zu markieren. In der WebView wäre dies
+optisch korrekt, aber unser Parser kann diese Formatierung nicht als Titel
+erkennen und behandelt sie als normalen Text. Solche Abweichungen liegen ausserhalb
+des Einflussbereichs der App und sind nur durch redaktionelle Disziplin vermeidbar.
+
+Falls WordPress ein Update einführt oder die API plötzlich andere Strukturen liefert,
+kann dies zu Darstellungsproblemen führen. Im Notfall könnte das Backend temporär
+wieder auf die alte WebView-Variante zurückschalten, bis das neue Format korrekt
+unterstützt wird.
+
+\vspace{0.5cm}
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.23\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Fotos/feature-screenshots/news_web.png}
+        \caption{Web-Ansicht}
+        \label{fig:news_web}
+    \end{subfigure}
+    \hspace{0.3cm}
+    \begin{subfigure}[b]{0.23\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Fotos/feature-screenshots/news_json.png}
+        \caption{JSON-Übersicht}
+        \label{fig:news_overview}
+    \end{subfigure}
+    \hspace{0.3cm}
+    \begin{subfigure}[b]{0.23\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Fotos/feature-screenshots/news_json_detail.png}
+        \caption{JSON-Detailansicht}
+        \label{fig:news_detail}
+    \end{subfigure}
+    \caption{Screenshots des News-Features}
+    \label{fig:news_feature}
+\end{figure}
