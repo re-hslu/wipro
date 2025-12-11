@@ -1,1 +1,83 @@
-todo
+\subsection{CommonApplication}
+
+Das Common Application Modul stellt die zentrale Anwendungsschicht für die modulare Multi-Tenant Android-Anwendung dar. 
+Es implementiert eine generische, wiederverwendbare Architektur für das Laden, Synchronisieren und Verwalten von Feature-Modulen über verschiedene Datenquellen hinweg. 
+Die Kernkomponente ist die abstrakte Basisklasse \texttt{CommonApplicationBaseModuleLoader}, die von allen Feature-Modulen erweitert wird.
+
+\subsubsection*{Ziel und Motivation}
+
+Das Hauptziel besteht darin, Code-Duplikation zu vermeiden und eine konsistente Datenlade- und Synchronisationslogik über alle Feature-Module hinweg zu gewährleisten. 
+Durch eine abstrakte Basisklasse, die den gesamten Datenlade- und Synchronisationsprozess kapselt, 
+müssen konkrete Feature-Module nur noch ihre spezifischen Typparameter und Konfigurationen bereitstellen. 
+Dies reduziert den Implementierungsaufwand erheblich und stellt sicher, dass alle Module die gleichen Qualitätsstandards in Bezug auf Fehlerbehandlung, 
+Offline-Funktionalität und Performance-Optimierungen einhalten.
+
+Ein weiteres wichtiges Ziel ist die Implementierung einer intelligenten Synchronisationsstrategie,
+ die sowohl Bandbreite als auch Batterie schont. Durch den Vergleich von lokalen und remote Timestamps wird nur dann eine Aktualisierung durchgeführt, 
+ wenn tatsächlich neue Daten verfügbar sind, was eine Offline-First-Architektur ermöglicht.
+
+\subsubsection*{Umsetzung / Funktionsweise}
+
+Die Umsetzung basiert auf dem Template-Method-Pattern mit generischen Typparametern. 
+Die Basisklasse verwendet drei Typparameter: \texttt{I} für den Item-Typ, \texttt{T} für den Container-Typ und 
+\texttt{C} für den Konfigurationstyp.
+Die vollständige Klassendefinition findet sich in \texttt{CommonApplicationBaseModuleLoader.kt}, Zeilen 26-28.
+
+Der Loader verwaltet seinen Zustand über einen \texttt{StateFlow<CommonModuleLoaderStatus<I>>}, der verschiedene Zustände unterstützt: 
+\texttt{Not\_Initialized}, \texttt{Initialized}, \texttt{Processing}, \texttt{Success}, \texttt{Success\_Cached} und \texttt{ErrorOn}. 
+Die \texttt{process()}-Methode orchestriert den gesamten Datenladevorgang und wählt basierend auf dem \texttt{moduleLoaderType} die entsprechende Strategie.
+Die vollständige Implementierung der \texttt{process()}-Methode findet sich in \texttt{CommonApplicationBaseModuleLoader.kt}, Zeilen 52-77.
+
+Der Hybrid-Modus implementiert eine intelligente Synchronisationslogik, die auf Timestamp-Vergleichen basiert. 
+Zuerst wird über die Sync-URL ein JSON-Objekt abgerufen, das das Feld \texttt{ModuleLastUpdated} enthält. 
+Gleichzeitig wird versucht, den lokalen Timestamp aus der Room-Datenbank zu laden. 
+Die Entscheidungslogik vergleicht diese beiden Timestamps.
+Die vollständige Timestamp-Vergleichslogik findet sich in \texttt{CommonApplicationBaseModuleLoader.kt}, Zeilen 151-157.
+
+Wenn eine Aktualisierung notwendig ist, werden die Daten heruntergeladen und mit Gson deserialisiert. 
+Dabei wird ein \texttt{TypeToken} verwendet, um die korrekte Generik-Auflösung zur Laufzeit zu gewährleisten.
+Die Gson-Deserialisierung findet sich in \\ \texttt{CommonApplicationBaseModuleLoader.kt}, Zeilen 169-172.
+
+Nach erfolgreichem Parsing wird überprüft, ob die Daten gespeichert werden sollen. 
+Die \texttt{shouldStoreData()}-Methode kann von Subklassen überschrieben werden, um bestimmte Datentypen nicht zu speichern. 
+Wenn die Daten gespeichert werden sollen, werden sie zusammen mit dem \texttt{lastUpdated}-Timestamp als \texttt{ModuleDataEntity} in der Room-Datenbank gespeichert.
+
+\subsubsection*{Spezifische Infos}
+
+Die folgende Tabelle gibt einen Überblick über die wichtigsten technischen Aspekte \\ des \texttt{CommonApplicationBaseModuleLoader}:
+
+\begin{table}[h]
+\centering
+\begin{tabularx}{\textwidth}{|l|X|}
+\hline
+\textbf{Aspekt} & \textbf{Beschreibung} \\
+\hline
+\textbf{Dependency Injection} & 
+Die Integration mit Feature-Modulen erfolgt über Dependency Injection mit Dagger Hilt. 
+Ein konkretes Feature-Modul wie \texttt{MensaModuleLoader} erbt von \texttt{CommonApplicationBaseModuleLoader} und spezifiziert die Typparameter \texttt{I}, \texttt{T} und \texttt{C}. 
+Die vollständige Implementierung des \texttt{MensaModuleLoader} findet sich in \texttt{MensaModuleLoader.kt}, Zeilen 16-31. \\
+\hline
+\textbf{UI-Integration} & 
+In ViewModels oder Composables kann der Loader direkt verwendet werden. Der \texttt{loadingStatus} wird als \texttt{StateFlow} bereitgestellt und kann mit \texttt{collectAsState()} beobachtet werden, um reaktive UI-Updates zu ermöglichen. 
+Die \texttt{process()}-Methode wird typischerweise in einem \texttt{LaunchedEffect} aufgerufen. \\
+\hline
+\textbf{Asynchrone Operationen} & 
+Alle asynchronen Operationen werden über Kotlin Coroutines abgewickelt. Der Loader erbt von \texttt{ViewModel}, was automatisch einen \texttt{viewModelScope} bereitstellt, der alle Coroutines automatisch abbricht, wenn das ViewModel zerstört wird. 
+Netzwerk- und Speicheroperationen werden explizit auf \texttt{Dispatchers.IO} ausgeführt, um den Main-Thread nicht zu blockieren. \\
+\hline
+\textbf{Fehlerbehandlung} & 
+Die Fehlerbehandlung ist mehrschichtig implementiert: 
+\begin{itemize}[leftmargin=*,nosep]
+    \item Netzwerk-Fehler werden durch \texttt{networkService.hasConnection()} und \texttt{isRemoteReachable()} erkannt
+    \item Parse-Fehler werden durch try-catch-Blöcke bei der Gson-Deserialisierung abgefangen
+    \item Speicher-Fehler werden bei Room-Datenbankoperationen abgefangen und geloggt
+\end{itemize} \\
+\hline
+\textbf{Performance-Optimierungen} & 
+Performance-Optimierungen umfassen Lazy Loading, Caching in der Room-Datenbank und inkrementelle Updates, wobei nur bei geänderten Timestamps Daten neu geladen werden. 
+Die Offline-First-Strategie stellt sicher, dass lokale Daten Priorität haben, wenn keine Netzwerkverbindung verfügbar ist. \\
+\hline
+\end{tabularx}
+\caption{Technische Aspekte des \texttt{CommonApplicationBaseModuleLoader}}
+\label{tab:commonapplication-specs}
+\end{table}

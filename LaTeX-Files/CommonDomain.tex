@@ -1,1 +1,83 @@
-todo
+\subsection{CommonDomain}
+
+Das Common Domain Module stellt die Domänenschicht der Anwendung dar und enthält alle zentralen Geschäftsobjekte, 
+Data Transfer Objects (DTOs), Enums und Konfigurationsklassen, die die Kernentitäten der Anwendung repräsentieren. 
+Es handelt sich um ein reines Domänenmodul ohne Abhängigkeiten zu Android-Frameworks, 
+das den Prinzipien der Clean Architecture folgt und eine klare Trennung zwischen Domänenlogik und Infrastruktur ermöglicht.
+
+\subsubsection*{Ziel und Motivation}
+
+Das Hauptziel des Common Domain Modules besteht darin, eine zentrale Domänenschicht zu schaffen, 
+die von allen anderen Modulen verwendet werden kann, ohne direkte Abhängigkeiten zu Infrastruktur- oder Anwendungsschichten zu haben. 
+Dies ermöglicht eine saubere Architektur, bei der Geschäftsobjekte unabhängig von ihrer konkreten Implementierung definiert werden können. 
+Durch die Verwendung von DTOs für die API-Kommunikation wird eine klare Schnittstelle zwischen der Anwendung und externen Datenquellen geschaffen.
+
+Ein weiteres wichtiges Ziel ist die Vermeidung von Code-Duplikation durch die Bereitstellung von Basisklassen wie 
+\texttt{CommonAppBaseModuleItemAPIDTO} und \texttt{CommonAppBaseModuleAPIDTO}, die von allen Feature-spezifischen DTOs erweitert werden können. 
+Dies stellt sicher, dass alle Module eine konsistente Datenstruktur verwenden und gemeinsame Funktionalität zentralisiert wird.
+
+\subsubsection*{Umsetzung / Funktionsweise}
+
+Die Struktur des Moduls basiert auf einer klaren Trennung in verschiedene Pakete: \texttt{dto} für Data Transfer Objects, 
+\texttt{enums} für Aufzählungstypen, \texttt{config} für Konfigurationsklassen, \texttt{loader} für Loader-Interfaces und 
+\texttt{protocols} für Protokoll-Definitionen.
+
+Die Basis-DTOs definieren die gemeinsame Struktur für alle Modul-DTOs. \texttt{CommonAppBaseModuleItemAPIDTO} stellt die Basis für einzelne Modul-Items dar.
+Die vollständige Definition findet sich in \texttt{CommonAppBaseModuleDTOs.kt}, Zeilen 5-8.
+
+\texttt{CommonAppBaseModuleAPIDTO} ist ein generischer Container für Modul-Daten, der sowohl einzelne Items als auch Listen unterstützt.
+Die vollständige Definition findet sich in \texttt{CommonAppBaseModuleDTOs.kt}, Zeilen 10-21.
+
+Feature-spezifische DTOs erben von diesen Basisklassen. Beispielsweise erbt \texttt{AppMensaModuleItemAPIDTO} von 
+\texttt{CommonAppBaseModuleItemAPIDTO} und fügt mensa-spezifische Felder hinzu. 
+Die Verwendung von Gson-Annotationen wie \texttt{@SerializedName} ermöglicht die korrekte Deserialisierung von JSON-Daten aus der API.
+
+Die Enum-Klassen definieren verschiedene Zustände und Typen der Anwendung. \texttt{CommonModuleLoaderStatus} ist eine sealed class, 
+die alle möglichen Zustände eines Modul-Loaders repräsentiert.
+Die vollständige Definition der sealed class findet sich in \texttt{CommonModuleLoaderStatus.kt}, Zeilen 5-12.
+
+\texttt{CommonAppModuleType} definiert alle verfügbaren Modultypen der Anwendung.
+Die vollständige Enum-Definition mit der \texttt{parse()}-Methode findet sich in \texttt{CommonAppModuleType.kt}, Zeilen 7-35.
+
+Die Konfigurationsklassen definieren die Einstellungen für verschiedene Module. 
+\texttt{CommonModuleBaseLoaderConfig} stellt die Basis-Konfiguration für Modul-Loader bereit.
+Die vollständige Konfigurationsklasse findet sich in \\ \texttt{CommonModuleBaseLoaderConfig.kt}, Zeilen 6-13.
+
+Das \texttt{ModuleLoaderContract} Interface definiert den Vertrag für alle Modul-Loader.
+Die vollständige Interface-Definition findet sich in \texttt{CommonModuleLoaderTypes.kt}, Zeilen 7-10.
+
+\subsubsection*{Spezifische Infos}
+
+Die folgende Tabelle gibt einen Überblick über die wichtigsten technischen Aspekte des \texttt{CommonDomain} Moduls:
+
+\begin{table}[h]
+\centering
+\begin{tabularx}{\textwidth}{|l|X|}
+\hline
+\textbf{Aspekt} & \textbf{Beschreibung} \\
+\hline
+\textbf{Abhängigkeiten} & 
+Das Modul hat minimale Abhängigkeiten: \texttt{androidx.core:core-ktx} für Android Core Utilities, \texttt{com.google.code.gson:gson} für JSON-Serialisierung und \texttt{kotlinx-coroutines-core} für Coroutines-Unterstützung. 
+Dies stellt sicher, dass das Modul keine Android-spezifischen Abhängigkeiten hat und theoretisch auch in anderen Kontexten verwendet werden könnte. \\
+\hline
+\textbf{Gson-Annotationen} & 
+Die DTOs verwenden Gson-Annotationen für die Serialisierung und Deserialisierung. Die \texttt{@SerializedName}-Annotation ermöglicht es, JSON-Feldnamen zu mappen, die nicht den Kotlin-Namenskonventionen entsprechen. 
+Dies ist besonders wichtig bei der Integration mit externen APIs, die möglicherweise andere Namenskonventionen verwenden. \\
+\hline
+\textbf{Computed Properties} & 
+Einige DTOs wie \texttt{AppInitModuleItemAPIDTO} enthalten computed properties, die basierend auf der aktuellen Locale die richtige Sprache auswählen. 
+Die vollständige Implementierung der computed property findet sich in \texttt{AppInitModuleItemDTO.kt}, Zeilen 62-66. \\
+\hline
+\textbf{Sealed Classes} & 
+Die Verwendung von sealed classes für Status-Enums ermöglicht exhaustive when-Ausdrücke in Kotlin, was die Typsicherheit erhöht und Compiler-Warnungen bei fehlenden Fällen auslöst. 
+Dies verbessert die Code-Qualität und reduziert potenzielle Laufzeitfehler. \\
+\hline
+\textbf{Clean Architecture} & 
+Das Modul folgt den Prinzipien der Clean Architecture, indem es keine Abhängigkeiten zu anderen Schichten hat. 
+Alle anderen Module können das Domain-Modul verwenden, aber das Domain-Modul selbst hängt nur von Standard-Kotlin- und minimalen Android-Bibliotheken ab. 
+Dies ermöglicht eine einfache Testbarkeit und Wartbarkeit des Codes. \\
+\hline
+\end{tabularx}
+\caption{Technische Aspekte des \texttt{CommonDomain} Moduls}
+\label{tab:commondomain-specs}
+\end{table}
