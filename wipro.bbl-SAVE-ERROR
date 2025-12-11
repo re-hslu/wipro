@@ -1,0 +1,159 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.3 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \datalist[entry]{apa/apasortcite//global/global/global}
+    \entry{noauthor_uses-sdk_nodate}{misc}{}{}
+      \list{language}{1}{%
+        {de-x-mtfrom-en}%
+      }
+      \field{sortinit}{u}
+      \field{sortinithash}{6901a00e45705986ee5e7ca9fd39adca}
+      \field{labeldatesource}{nodate}
+      \field{labeltitlesource}{title}
+      \field{abstract}{Damit können Sie die Kompatibilität einer Anwendung mit einer oder mehreren Versionen der Android-Plattform mithilfe einer Ganzzahl auf API-Ebene ausdrücken. Das von einer App ausgedrückte API-Level wird mit dem API-Level eines bestimmten Android-Systems verglichen, das variieren kann...}
+      \field{journaltitle}{Android Developers}
+      \field{title}{{<}uses-sdk{>} {|} {App} architecture}
+      \field{urlday}{28}
+      \field{urlmonth}{10}
+      \field{urlyear}{2025}
+      \field{urldateera}{ce}
+      \verb{file}
+      \verb Snapshot:C\:\\Users\\Raphael\\Zotero\\storage\\GSAZVDJI\\uses-sdk-element.html:text/html
+      \endverb
+      \verb{urlraw}
+      \verb https://developer.android.com/guide/topics/manifest/uses-sdk-element?hl=de
+      \endverb
+      \verb{url}
+      \verb https://developer.android.com/guide/topics/manifest/uses-sdk-element?hl=de
+      \endverb
+    \endentry
+    \entry{atlassian_was_nodate}{misc}{}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=a8fd8cd0b6d2cfda939a8ef257e60192}{%
+           family={Atlassian},
+           familyi={A\bibinitperiod}}}%
+      }
+      \list{language}{1}{%
+        {de}%
+      }
+      \strng{namehash}{a8fd8cd0b6d2cfda939a8ef257e60192}
+      \strng{fullhash}{a8fd8cd0b6d2cfda939a8ef257e60192}
+      \strng{fullhashraw}{a8fd8cd0b6d2cfda939a8ef257e60192}
+      \strng{bibnamehash}{a8fd8cd0b6d2cfda939a8ef257e60192}
+      \strng{authorbibnamehash}{a8fd8cd0b6d2cfda939a8ef257e60192}
+      \strng{authornamehash}{a8fd8cd0b6d2cfda939a8ef257e60192}
+      \strng{authorfullhash}{a8fd8cd0b6d2cfda939a8ef257e60192}
+      \strng{authorfullhashraw}{a8fd8cd0b6d2cfda939a8ef257e60192}
+      \field{sortinit}{A}
+      \field{sortinithash}{2f401846e2029bad6b3ecc16d50031e2}
+      \field{labeldatesource}{nodate}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{shorttitle}
+      \field{abstract}{Scrum ist ein Framework für agiles Projektmanagement, das in agilen Softwareentwicklungsteams regelmäßig zum Einsatz kommt. Weitere Informationen zu Agile vs. Scrum und mehr.}
+      \field{journaltitle}{Atlassian}
+      \field{shorttitle}{Was ist {Scrum}?}
+      \field{title}{Was ist {Scrum}? [+ {Tipps} für den {Einstieg}]}
+      \field{urlday}{16}
+      \field{urlmonth}{10}
+      \field{urlyear}{2025}
+      \field{urldateera}{ce}
+      \verb{file}
+      \verb Snapshot:C\:\\Users\\Raphael\\Zotero\\storage\\HGV88A3M\\scrum.html:text/html
+      \endverb
+      \verb{urlraw}
+      \verb https://www.atlassian.com/de/agile/scrum
+      \endverb
+      \verb{url}
+      \verb https://www.atlassian.com/de/agile/scrum
+      \endverb
+    \endentry
+  \enddatalist
+  \datalist[entry]{apa/global//global/global/global}
+    \entry{noauthor_uses-sdk_nodate}{misc}{}{}
+      \list{language}{1}{%
+        {de-x-mtfrom-en}%
+      }
+      \field{sortinit}{u}
+      \field{sortinithash}{6901a00e45705986ee5e7ca9fd39adca}
+      \field{labeldatesource}{nodate}
+      \field{labeltitlesource}{title}
+      \field{abstract}{Damit können Sie die Kompatibilität einer Anwendung mit einer oder mehreren Versionen der Android-Plattform mithilfe einer Ganzzahl auf API-Ebene ausdrücken. Das von einer App ausgedrückte API-Level wird mit dem API-Level eines bestimmten Android-Systems verglichen, das variieren kann...}
+      \field{journaltitle}{Android Developers}
+      \field{title}{{<}uses-sdk{>} {|} {App} architecture}
+      \field{urlday}{28}
+      \field{urlmonth}{10}
+      \field{urlyear}{2025}
+      \field{urldateera}{ce}
+      \verb{file}
+      \verb Snapshot:C\:\\Users\\Raphael\\Zotero\\storage\\GSAZVDJI\\uses-sdk-element.html:text/html
+      \endverb
+      \verb{urlraw}
+      \verb https://developer.android.com/guide/topics/manifest/uses-sdk-element?hl=de
+      \endverb
+      \verb{url}
+      \verb https://developer.android.com/guide/topics/manifest/uses-sdk-element?hl=de
+      \endverb
+    \endentry
+    \entry{atlassian_was_nodate}{misc}{}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=a8fd8cd0b6d2cfda939a8ef257e60192}{%
+           family={Atlassian},
+           familyi={A\bibinitperiod}}}%
+      }
+      \list{language}{1}{%
+        {de}%
+      }
+      \strng{namehash}{a8fd8cd0b6d2cfda939a8ef257e60192}
+      \strng{fullhash}{a8fd8cd0b6d2cfda939a8ef257e60192}
+      \strng{fullhashraw}{a8fd8cd0b6d2cfda939a8ef257e60192}
+      \strng{bibnamehash}{a8fd8cd0b6d2cfda939a8ef257e60192}
+      \strng{authorbibnamehash}{a8fd8cd0b6d2cfda939a8ef257e60192}
+      \strng{authornamehash}{a8fd8cd0b6d2cfda939a8ef257e60192}
+      \strng{authorfullhash}{a8fd8cd0b6d2cfda939a8ef257e60192}
+      \strng{authorfullhashraw}{a8fd8cd0b6d2cfda939a8ef257e60192}
+      \field{sortinit}{A}
+      \field{sortinithash}{2f401846e2029bad6b3ecc16d50031e2}
+      \field{labeldatesource}{nodate}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{shorttitle}
+      \field{abstract}{Scrum ist ein Framework für agiles Projektmanagement, das in agilen Softwareentwicklungsteams regelmäßig zum Einsatz kommt. Weitere Informationen zu Agile vs. Scrum und mehr.}
+      \field{journaltitle}{Atlassian}
+      \field{shorttitle}{Was ist {Scrum}?}
+      \field{title}{Was ist {Scrum}? [+ {Tipps} für den {Einstieg}]}
+      \field{urlday}{16}
+      \field{urlmonth}{10}
+      \field{urlyear}{2025}
+      \field{urldateera}{ce}
+      \verb{file}
+      \verb Snapshot:C\:\\Users\\Raphael\\Zotero\\storage\\HGV88A3M\\scrum.html:text/html
+      \endverb
+      \verb{urlraw}
+      \verb https://www.atlassian.com/de/agile/scrum
+      \endverb
+      \verb{url}
+      \verb https://www.atlassian.com/de/agile/scrum
+      \endverb
+    \endentry
+  \enddatalist
+\endrefsection
+\endinput
+
