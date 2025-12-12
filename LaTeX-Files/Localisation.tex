@@ -1,0 +1,49 @@
+\subsubsection {Lokalisierung}
+
+Die Lokalisierung stellt die sprachabhängige Darstellung von Texten und Labels in der App sicher. 
+Es basiert auf dem bestehenden Android-Resource-System und wurde so erweitert, 
+dass dynamisch geladene Inhalte (z.\,B. Menüpunkte aus dem Bootstrapping) ebenfalls lokalisiert dargestellt werden können.
+
+\subsubsection*{Neue Umsetzung}
+Die grundlegende Logik blieb unverändert, da die Mehrsprachigkeit bereits funktionierte. 
+Folgende Anpassungen wurden vorgenommen:
+\begin{itemize}
+    \item Sprachwahl erfolgt weiterhin automatisch über die Geräteeinstellung, keine separate App-Sprache erforderlich.
+    \item Ressourcenbasiertes System: Deutsch als Standard in \texttt{values/}, Englisch in \texttt{values-en/} 
+    (appweit und in jedem Feature-Modul).
+    \item Nutzung der UI-Strings erfolgt wie üblich über \texttt{stringResource(R.string...)} 
+    bzw. \texttt{context.getString(...)}.
+\end{itemize}
+
+\subsubsection*{Übersetzung dynamischer Labels}
+Für dynamisch geladene Inhalte, etwa Menüpunkte aus Remote-DTOs, 
+wird die Sprache zur Laufzeit anhand der Systemeinstellung bestimmt. 
+Die Zuordnung erfolgt über \texttt{Locale.getDefault()}:
+\begin{itemize}
+    \item Deutsch (\texttt{de}) → LabelDE / BootstrapResourceUrlDE
+    \item Englisch (Standard) → LabelEN / BootstrapResourceUrlEN
+\end{itemize}
+
+Ein Beispiel der Umsetzung in Kotlin:
+\begin{lstlisting}
+val Label: String
+    get() = when (Locale.getDefault().language.lowercase(Locale.getDefault())) {
+        "de" -> LabelDE ?: LabelEN ?: "Unbenannt"
+        else -> LabelEN ?: LabelDE ?: "Unnamed"
+    }
+\end{lstlisting}
+
+\subsubsection*{Beispiel: Ressourcenbasiertes UI-Label}
+\begin{lstlisting}[language=XML, caption={Default (Deutsch) vs. Englisch in strings.xml}]
+<!-- values/strings.xml -->
+<string name="Roomsearch_NavItem">Raumsuche</string>
+<string name="Settings_NavItem">Einstellungen</string>
+
+<!-- values-en/strings.xml -->
+<string name="Roomsearch_NavItem">Roomsearch</string>
+<string name="Settings_NavItem">Settings</string>
+\end{lstlisting}
+
+Damit ist die App vollständig zweisprachig ausgelegt. 
+Labels aus Remote-Datenquellen werden zur Laufzeit automatisch auf die passende Sprache gemappt, 
+wodurch eine konsistente Benutzererfahrung entsteht.

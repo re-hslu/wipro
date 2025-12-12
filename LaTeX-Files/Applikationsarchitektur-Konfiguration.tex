@@ -1,16 +1,25 @@
-\section*{Einleitung}
-
+\section{Applikationsarchitektur und Konfiguration}
 Das Ziel der Entwicklung war es, eine modulare und erweiterbare Applikation zu schaffen. 
-Dazu wurde auf die bestehende iOS-Projektstruktur aufgebaut und das Android-Projekt analog dazu umgesetzt. 
+Dazu wurde sich an der iOS-Projektstruktur orientiert und das Android-Projekt analog dazu umgesetzt, 
+um eine einheitliche Architektur über beide Plattformen hinweg zu gewährleisten.
 
 Im Wesentlichen wurde die Anwendung in die beiden Hauptmodule \texttt{common} und \texttt{features} gegliedert:
 \begin{itemize}
-    \item \textbf{common}: Enthält alle allgemeinen und wiederverwendbaren Komponenten, wie z.\,B. UI-Elemente, Utility-Klassen und grundlegende Architekturbausteine.
-    \item \textbf{features}: Beinhaltet die einzelnen Funktionsmodule der App, die jeweils auf spezifische Anwendungsbereiche oder Features ausgerichtet sind.
+    \item \textbf{common} (Abschnitt~\ref{sec:common}): Enthält alle allgemeinen 
+    und wiederverwendbaren Komponenten, wie z.\,B. UI-Elemente, Utility-Klassen 
+    und grundlegende Architekturbausteine.
+     \item \textbf{features} (Abschnitt~\ref{sec:features}): Beinhaltet die einzelnen 
+     Funktionsmodule der App, die jeweils auf spezifische Anwendungsbereiche oder 
+     Features ausgerichtet sind.
 \end{itemize}
 
 Dabei gilt die Abhängigkeitsregel, dass \texttt{features}-Module auf Inhalte aus \texttt{common} zugreifen dürfen, 
-nicht jedoch umgekehrt – um zirkuläre Abhängigkeiten und eine enge Kopplung zu vermeiden.
+nicht jedoch umgekehrt, um zirkuläre Abhängigkeiten zu vermeiden.
+
+Zusätzlich existiert das Modul \texttt{app}, das den Einstiegspunkt der Applikation
+(\textit{Application}- und \textit{MainActivity}-Ebene) enthält und
+tenant-spezifische Konfigurationen bündelt, wie etwa Startkonfigurationen,
+Feature-Aktivierungen und API-Endpunkte. (Abschnitt~\ref{sec:appmodul})
 
 \vspace{1em}
 
@@ -20,3 +29,140 @@ nicht jedoch umgekehrt – um zirkuläre Abhängigkeiten und eine enge Kopplung 
     \caption{Projektstruktur im Android Studio}
     \label{fig:projektstruktur_androidstudio}
 \end{figure}
+
+\subsection{Projektkonfiguration und Komponenten}
+Zu Beginn des Projekts wurde entschieden, das bestehende Entwicklungsprojekt
+\textit{android-jetpackcompose-multitenant} 
+weiterzuverwenden. Diese Entscheidung wurde bewusst getroffen, um vorhandene
+Strukturen und Konfigurationsansätze zu übernehmen. In der Praxis zeigte sich
+jedoch, dass ein Grossteil des bestehenden Codes aber im Verlauf des Projekts ohnehin
+neu implementiert wurde.
+
+Da an dem Projekt über längere Zeit nicht mehr aktiv gearbeitet worden war, waren
+nahezu alle eingesetzten Bibliotheken und Konfigurationen veraltet. Entsprechend
+wurde zu Projektbeginn gezielt Zeit investiert, um den gesamten Build-Prozess und
+die Projektkonfiguration zu modernisieren. Dies umfasste die Aktualisierung auf
+Java~21, die Migration auf Kotlin~2.1.21 sowie das Upgrade auf das aktuelle
+Android-SDK-Level~36.
+
+
+\subsection{SDK-Konfiguration}
+Da das Projekt im Rahmen der Neuumsetzung vollständig geändert wurde, bot sich
+der passende Zeitpunkt, um auf die aktuelle Android-SDK-Version~36 zu wechseln.
+Diese ist seit der Veröffentlichung von \textbf{Android~16 (Juni~2025)} der
+empfohlene Standard \parencite{noauthor_sdk_nodate}. Ziel war es, wieder auf dem
+aktuellen Stand der Android-Entwicklung zu sein, moderne APIs zu nutzen und eine
+möglichst langfristige Kompatibilität mit neuen Geräten sicherzustellen.
+
+\begin{itemize}
+    \item \textbf{compileSdk}: 36
+    \item \textbf{targetSdk}: 36
+    \item \textbf{minSdk}: 30
+\end{itemize}
+
+Im Projekt wurde bewusst entschieden, den Fokus auf aktuelle Geräte sowie Geräte
+mit einem maximalen Alter von etwa drei bis vier Jahren zu legen. Da sich die Nutzerbasis
+primär aus Studierenden zusammensetzt, ist davon auszugehen, dass
+mehrheitlich neuere Smartphones im Einsatz sind. Gleichzeitig wurde die
+\texttt{minSdk}-Version auf~30 gesetzt, um auch ältere Geräte weiterhin zu
+unterstützen und eine ausreichende Abdeckung sicherzustellen
+(siehe Anhang~\ref{anhang:meeting16102025}).
+
+\subsection{App-Modul} \label{sec:appmodul}
+
+Das Verzeichnis \texttt{/app} stellt das Hauptmodul der Android-Applikation dar und ist
+der  Einstiegspunkt der Anwendung. Es enthält die gesamte
+App-Konfiguration, die Initialisierung der Benutzeroberfläche sowie die
+tenant-spezifischen Projektstrukturen und Ressourcen für \textit{HSLU~I} und
+\textit{HSLU~TA}.
+Alle weiteren Module der App werden von diesem Modul aus konfiguriert und
+eingebunden, sodass sich in den übrigen Modulen (\texttt{common} und
+\texttt{features}) keine App- oder Tenant-spezifischen Konfigurationen mehr
+befinden und diese dadurch möglichst generisch und wiederverwendbar bleiben.
+
+
+\subsubsection{Multi-Tenant}
+
+Die Multi-Tenant-Fähigkeit der App wird über sogenannte \textit{Product Flavors}
+(\texttt{hslui} und \texttt{hsluta}) realisiert. Tenant-spezifische Konfigurationen
+wie Tenant-ID, Name oder API-Tokens werden dabei direkt im
+\texttt{build.gradle} pro Flavor definiert. Zusätzlich existiert für jeden
+Flavor ein eigenes \texttt{AndroidManifest.xml}, in dem tenant-spezifische
+Einstellungen hinterlegt sind. \hspace{0.3cm}
+
+\begin{lstlisting}[language=XML, caption={Auszug aus build.gradle}]
+productFlavors {
+    create("hslui") {
+        dimension = "tenant"
+        buildConfigField("String", "TENANT_ID", "\"hslui\"")
+        buildConfigField("String", "TENANT_NAME", "\"HSLU I\"")
+        // ...
+    }
+    create("hsluta") {
+        dimension = "tenant"
+        buildConfigField("String", "TENANT_ID", "\"hsluta\"")
+        buildConfigField("String", "TENANT_NAME", "\"HSLU TA\"")
+        // ...
+    }
+}
+\end{lstlisting} \newpage
+
+\subsubsection*{Build}
+Zur Build-Zeit kann beispielsweise in Android Studio ausgewählt werden, welche
+Variante der App gebaut werden soll. Während des Build-Prozesses werden das
+Hauptmanifest und das jeweilige Flavor-Manifest zusammengeführt. Dabei wird der
+Einstiegspunkt der App tenant-spezifisch gesetzt: Für \texttt{hslui} wird die
+\texttt{HsluIApplication} instanziiert, für \texttt{hsluta} entsprechend die
+\texttt{HsluTAApplication}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.4\textwidth]{Fotos/build_variants.png}
+    \caption{Build-Variants in Android Studio}
+    \label{fig:features_projekt}
+\end{figure}
+
+\subsubsection*{Runtime / Dependency Injection}
+Zu diesem Zeitpunkt ist die Applikation gestartet und es läuft bereits die
+tenant-spezifische Application-Klasse \newline (\texttt{HsluIApplication} oder
+\texttt{HsluTAApplication}). In diesen Klassen werden die
+Konfigurationen der App sowie der einzelnen Features vorgenommen.  
+Mithilfe von Dependency Injection (in diesem Projekt umgesetzt mit
+\textit{Dagger Hilt}) werden diese Konfigurationen instanziiert und der
+Applikation zur Verfügung gestellt, sodass sie innerhalb der App genutzt
+werden können. In diesem Schritt werden auch gemeinsam genutzte Services wie
+\texttt{CommonNetworkService} (Abschnitt~\ref{sec:commonnetwork}) und 
+\texttt{CommonStorageService} (Abschnitt~\ref{sec:commonstorage}) erzeugt.
+Diese werden als Singletons bereitgestellt, da sie zentral benötigt werden
+und während der gesamten Laufzeit der App nur einmal existieren sollen.
+
+Zur Laufzeit verwendet die Anwendung dadurch automatisch die zum gewählten
+Tenant gehörenden URLs, Tokens und weiteren Konfigurationen. Auf diese Weise
+lassen sich mehrere App-Varianten aus derselben Codebasis erzeugen, ohne
+tenant-spezifische Logik im eigentlichen Anwendungscode zu vermischen.
+Nach dem Laden der App wird mit dem Bootstrapping (Laden der Features)
+über AppInit begonnen (Abschnitt~\ref{sec:featureappinit}).
+
+Im Beispiel des News-Feature (Abschnitt~\ref{sec:featurenews}) funktioniert die Dependency Injection so:
+
+\begin{lstlisting}[language=Java, caption={Provider-Methode}]
+@Provides
+fun provideFeatureNewsModuleLoaderConfig( provider: TenantUrlProvider): FeatureNewsModuleLoaderConfig {
+    return FeatureNewsModuleLoaderConfig(
+        moduleLoaderUrl = "$base/API/MobileApps/Auth/News",
+        moduleLoaderDataLocalFileName = "news_module_data.json",
+        // ...
+    )
+}
+\end{lstlisting}
+
+\begin{lstlisting}[language=Java, caption={Injection im NewsDataLoader}]
+@HiltViewModel
+class NewsDataLoader @Inject constructor(
+    val tenantConfig: AppTenantConfig, val featureConfig: FeatureNewsConfig,
+    val storageService: CommonStorageService, val networkService: CommonNetworkService
+) : ViewModel()
+\end{lstlisting}
+
+Durch die Annotation \texttt{@HiltViewModel} wird der \texttt{NewsDataLoader} als von Hilt verwaltetes ViewModel registriert.
+Der mit \texttt{@Inject} annotierte Konstruktor ermöglicht es Hilt, alle benötigten Abhängigkeiten automatisch bereitzustellen und den \texttt{NewsDataLoader} ohne manuelle Initialisierung zu erzeugen.

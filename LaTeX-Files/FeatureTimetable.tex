@@ -118,7 +118,7 @@ Widget-Architektur von Android \parencite{noauthor_android_nodate-1}.
 Das Widget wird im \texttt{AndroidManifest.xml} registriert. 
 Der \texttt{TimetableWidgetReceiver} reagiert auf das System-Event 
 \texttt{APPWIDGET\_UPDATE} und verweist über Meta-Daten auf die 
-Widget-Konfiguration (\texttt{timetable\_widget\_info.xml}). 
+Widget-Konfiguration \newline (\texttt{timetable\_widget\_info.xml}). 
 Diese definiert unter anderem die Grösse und das automatische 
 Update-Intervall (30 Minuten) des Widgets. 
 Nach der Installation erscheint das Widget automatisch 
@@ -157,7 +157,7 @@ Die Struktur im Code ist wie folgt aufgebaut:
 
 Die Daten werden über den \texttt{TimetableWidgetDataProvider} geladen. Da Widgets
 in einem separaten Prozess laufen und kein Dependency-Injection-Framework wie
-Hilt verfügbar ist, erfolgt der Kalenderzugriff direkt über \texttt{CalendarContract}
+Hilt verfügbar ist, erfolgt der Kalenderzugriff direkt über \newline \texttt{CalendarContract}
 sowie die gespeicherten Einstellungen aus den \textit{SharedPreferences}.
 Das Widget zeigt bis zu vier kommende Vorlesungen des aktuellen Tages an und blendet
 bereits abgelaufene Termine automatisch aus.
