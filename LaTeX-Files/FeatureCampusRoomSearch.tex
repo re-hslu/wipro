@@ -9,12 +9,9 @@ Das Feature unterstützt sowohl deutsche als auch englische Sprachversionen und 
 
 \begin{figure}[H]
     \centering
-    \begin{subfigure}[b]{0.8\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Fotos/feature-screenshots/campusroomsearch_diagramm.png}
-        \caption{Ablaufdiagramm}
-        \label{fig:campusroomsearch_diagramm}
-    \end{subfigure}
+    \includegraphics[width=0.9\textwidth]{Fotos/feature-screenshots/campusroomsearch_diagramm.png}
+    \caption{Ablaufdiagramm}
+    \label{fig:campusroomsearch_diagramm}
 \end{figure}
 
 \subsubsection*{Ziel und Motivation}
@@ -31,7 +28,7 @@ Die Synchronisation erfolgt intelligent basierend auf Timestamp-Vergleichen, um 
 
 Die Implementierung basiert auf einer zweistufigen Architektur: \texttt{CampusRoomSearchModuleLoader} lädt die Liste der verfügbaren Campus-Standorte, 
 während \texttt{CampusRoomSearchDataLoader} die detaillierten Daten für einen spezifischen Campus-Standort lädt, 
-einschließlich aller PDF-Dateien.
+einschliesslich aller PDF-Dateien.
 
 Der \texttt{CampusRoomSearchModuleLoader} erbt von \texttt{CommonApplicationBaseModuleLoader} und erweitert die Standard-Funktionalität, 
 um nach dem Laden der Campus-Liste automatisch die detaillierten Daten für alle Items zu laden.
