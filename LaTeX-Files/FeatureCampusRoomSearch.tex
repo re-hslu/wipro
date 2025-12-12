@@ -5,6 +5,18 @@ Es stellt interaktive PDF-Karten bereit, die Campus-Übersichten und Gebäudepl�
 durch Klicken auf annotierte Bereiche in den PDFs zu navigieren und detaillierte Informationen zu Räumen, Gebäuden und Etagen abzurufen. 
 Das Feature unterstützt sowohl deutsche als auch englische Sprachversionen und speichert PDF-Dateien lokal für Offline-Zugriff.
 
+\vspace{0.5cm}
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.8\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Fotos/feature-screenshots/campusroomsearch_diagramm.png}
+        \caption{Ablaufdiagramm}
+        \label{fig:campusroomsearch_diagramm}
+    \end{subfigure}
+\end{figure}
+
 \subsubsection*{Ziel und Motivation}
 
 Das Hauptziel des CampusRoomSearch Features besteht darin, Studierenden und Mitarbeitenden eine intuitive Möglichkeit zu bieten, 
@@ -23,26 +35,45 @@ einschließlich aller PDF-Dateien.
 
 Der \texttt{CampusRoomSearchModuleLoader} erbt von \texttt{CommonApplicationBaseModuleLoader} und erweitert die Standard-Funktionalität, 
 um nach dem Laden der Campus-Liste automatisch die detaillierten Daten für alle Items zu laden.
-Die vollständige Implementierung der \texttt{process()}-Methode findet sich in \texttt{CampusRoomSearchModuleLoader.kt}, Zeilen 80-100.
 
 Die \texttt{loadRemoteDetailedData()}-Methode lädt die detaillierten Campus-Daten von der API und lädt anschliessend alle zugehörigen PDF-Dateien herunter.
-Die vollständige Implementierung der \texttt{loadRemoteDetailedData()}-Methode findet sich in \texttt{CampusRoomSearchModuleLoader.kt}, Zeilen 102-150.
 
-Die \texttt{PDFRoomSearchView} Komponente rendert PDF-Dateien mit Android's \texttt{PdfRenderer} und unterstützt interak
-tive Annotationen. Die Komponente lädt PDFs aus der Room-Datenbank und ermöglicht Zoom- und Pan-Gesten.
-Die vollständige Implementierung der \texttt{PDFRoomSearchView} Komponente findet sich in \texttt{PDFRoomSearchView.kt}, Zeilen 38-60.
+Die \texttt{PDFRoomSearchView} Komponente rendert PDF-Dateien mit Android's \texttt{PdfRenderer} und unterstützt interaktive Annotationen. Die Komponente lädt PDFs aus der Room-Datenbank und ermöglicht Zoom- und Pan-Gesten:
+
+\begin{lstlisting}[language=Java]
+@Composable
+fun PDFRoomSearchView(
+    pdfData: ByteArray,
+    annotations: List<Annotation>,
+    onAnnotationClick: (Annotation) -> Unit
+) {
+    // PDF-Rendering mit PdfRenderer
+}
+\end{lstlisting}
 
 Die Annotation-Erkennung funktioniert durch Koordinaten-Transformation. Wenn ein Benutzer auf das PDF klickt, 
-werden die Tap-Koordinaten basierend auf dem aktuellen Zoom- und Pan-Zustand transformiert, um die entsprechende Annotation zu finden.
-Die vollständige Implementierung der \texttt{transformTapCoordinates()}-Methode findet sich in \texttt{PDFRoomSearchView.kt}, Zeilen 147-165.
+werden die Tap-Koordinaten basierend auf dem aktuellen Zoom- und Pan-Zustand transformiert, um die entsprechende Annotation zu finden:
+
+\begin{lstlisting}[language=Java]
+fun transformTapCoordinates(
+    tapX: Float, tapY: Float,
+    zoom: Float, panX: Float, panY: Float
+): Pair<Float, Float> {
+    return ((tapX - panX) / zoom, (tapY - panY) / zoom)
+}
+\end{lstlisting}
 
 Der \texttt{RoomsearchViewModel} verwaltet die Suche nach Räumen und die Interaktion mit den SVG-Karten. 
-Er verwendet JavaScript-Interfaces, um Kommunikation zwischen WebView und Android-Code zu ermöglichen.
-Die vollständige Implementierung des \texttt{IJavascriptHandler} findet sich in \texttt{RoomsearchViewModel.kt}, Zeilen 231-242.
+Er verwendet JavaScript-Interfaces, um Kommunikation zwischen WebView und Android-Code zu ermöglichen:
 
-\subsubsection*{Spezifische Infos}
+\begin{lstlisting}[language=Java]
+interface IJavascriptHandler {
+    @JavascriptInterface
+    fun onBuildingClick(buildingId: String)
+}
+\end{lstlisting}
 
-Die folgende Tabelle gibt einen Überblick über die wichtigsten Funktionalitäten des \texttt{CampusRoomSearch} Features:
+\subsubsection*{Weitere Informationen}
 
 \begin{table}[h]
 \centering

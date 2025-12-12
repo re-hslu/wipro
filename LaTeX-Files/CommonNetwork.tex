@@ -22,8 +22,17 @@ während der Multitenant-Ansatz sicherstellt, dass verschiedene Build-Varianten 
 \subsubsection*{Umsetzung / Funktionsweise}
 
 Die Implementierung basiert auf Android's HTTP-Client-Bibliotheken und Kotlin Coroutines. 
-Der \texttt{CommonNetworkService} ist die zentrale Service-Klasse, die alle Netzwerkoperationen kapselt.
-Die vollständige Service-Klassendefinition findet sich in \texttt{CommonNetworkService.kt}, Zeilen 34-50.
+Der \texttt{CommonNetworkService} ist die zentrale Service-Klasse, die alle Netzwerkoperationen kapselt:
+
+\begin{lstlisting}[language=Java]
+class CommonNetworkService(
+    private val httpClient: OkHttpClient,
+    private val tenantUrlProvider: TenantUrlProvider
+) {
+    suspend fun getAsJsonObject(url: String): JsonObject?
+    // ...
+}
+\end{lstlisting}
 
 Die Architektur folgt einem klaren Komponentenmodell, das die iOS-Architektur widerspiegelt. 
 Die folgende Tabelle zeigt die Entsprechungen zwischen iOS- und Android-Komponenten:
@@ -71,9 +80,7 @@ HSLU TA & hsluta.mobile-hslu.ch & xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx & hsluta 
 \label{tab:commonnetwork-tenants}
 \end{table}
 
-\subsubsection*{Spezifische Infos}
-
-Die folgende Tabelle gibt einen Überblick über die wichtigsten technischen Aspekte des \texttt{CommonNetwork} Moduls:
+\subsubsection*{Weitere Informationen}
 
 \begin{table}[h]
 \centering

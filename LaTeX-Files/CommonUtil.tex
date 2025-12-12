@@ -22,29 +22,36 @@ Das Modul besteht aus drei Hauptkomponenten: \texttt{DateFormatter} für Datumsf
 Die \texttt{DateFormatter} Klasse bietet Funktionen zur Formatierung von ISO-Datumsstrings in deutsches Format. 
 Die \texttt{formatDate()}-Methode konvertiert ein ISO-formatierte Datum (yyyy-MM-dd'T'HH:mm:ss) in deutsches Format (dd.MM.yyyy):
 
-Die vollständige Implementierung des \texttt{DateFormatter} Objects mit beiden Formatierungsmethoden findet sich in \texttt{DateFormatter.kt}, Zeilen 9-58.
+\begin{lstlisting}[language=Java]
+object DateFormatter {
+    fun formatDate(isoDate: String): String {
+        val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.US)
+        val outputFormat = SimpleDateFormat("dd.MM.yyyy", Locale("de", "CH"))
+        return outputFormat.format(inputFormat.parse(isoDate) ?: Date())
+    }
+}
+\end{lstlisting}
 
 Die \texttt{HtmlContentParser} bietet Funktionen zum Parsen von HTML-Content und Extraktion von Content-Blöcken. 
 Die \texttt{stripOutHtml()}-Extension-Funktion entfernt HTML-Tags und dekodiert HTML-Entities:
 
-Die vollständige Implementierung der \texttt{stripOutHtml()}-Extension-Funktion findet sich in \texttt{HtmlContentParser.kt}, Zeilen 16-27.
+\begin{lstlisting}[language=Java]
+fun String.stripOutHtml(): String {
+    return this.replace(Regex("<[^>]*>"), "")
+        .replace("&nbsp;", " ")
+        .replace("&ldquo;", "\"")
+        // ...
+}
+\end{lstlisting}
 
-Die \texttt{parseContentBlocks()}-Funktion extrahiert strukturierte Content-Blöcke aus HTML:
-
-Die vollständige Implementierung der \texttt{parseContentBlocks()}-Funktion mit der \texttt{ContentBlock} sealed class und der \texttt{stripHtmlAndDecode()}-Helper-Funktion findet sich in \texttt{HtmlContentParser.kt}, Zeilen 6-154.
+Die \texttt{parseContentBlocks()}-Funktion extrahiert strukturierte Content-Blöcke aus HTML und erzeugt eine Liste von \texttt{ContentBlock}-Objekten (z.\,B. \texttt{Paragraph}, \texttt{Subheading}, \texttt{Blockquote}).
 
 Die \texttt{JsonDataLoader} Klasse bietet generische Funktionen für JSON-Datenlade-Operationen. 
-Die \texttt{syncData()}-Funktion lädt Daten von Remote oder aus dem lokalen Cache:
+Die \texttt{syncData()}-Funktion lädt Daten von Remote oder aus dem lokalen Cache und implementiert eine Offline-First-Strategie.
 
-Die vollständige Implementierung der \texttt{JsonDataLoader} Klasse mit der \texttt{JsonSyncResult} data class und der \texttt{syncData()}-Methode findet sich in \texttt{JsonDataLoader.kt}, Zeilen 13-87.
+Die \texttt{reset()}-Funktion ermöglicht das Zurücksetzen und Neu-Synchronisieren von Daten, indem der lokale Cache gelöscht und die Daten erneut vom Remote-Server geladen werden.
 
-Die \texttt{reset()}-Funktion ermöglicht das Zurücksetzen und Neu-Synchronisieren von Daten:
-
-Die vollständige Implementierung der \texttt{reset()}-Methode findet sich in \texttt{JsonDataLoader.kt}, Zeilen 102-134.
-
-\subsubsection*{Spezifische Infos}
-
-Die folgende Tabelle gibt einen Überblick über die wichtigsten technischen Aspekte des \texttt{CommonUtil} Moduls:
+\subsubsection*{Weitere Informationen}
 
 \begin{table}[h]
 \centering
