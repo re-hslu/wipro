@@ -17,28 +17,45 @@ ohne dass jedes Feature-Modul seine eigene Implementierung erstellen muss.
 \subsubsection*{Umsetzung / Funktionsweise}
 
 Die Komponenten sind als Composable-Funktionen implementiert und folgen den Jetpack Compose Best Practices. 
-Die wichtigste Komponente ist \texttt{CommonBootstrappingProgressView}, die eine generische Implementierung für das Anzeigen von Lade- und Synchronisationsstatus bietet.
-Die vollständige Implementierung der \\ \texttt{CommonBootstrappingProgressView} findet sich in \texttt{CommonBootstrappingProgressView.kt}, Zeilen 48-124.
+Die wichtigste Komponente ist \texttt{CommonBootstrappingProgressView}, die eine generische Implementierung für das Anzeigen von Lade- und Synchronisationsstatus bietet:
+
+\begin{lstlisting}[language=Java]
+@Composable
+fun CommonBootstrappingProgressView(
+    loader: ModuleLoaderContract<*>,
+    successView: @Composable () -> Unit
+) {
+    val status by loader.loadingStatus.collectAsState()
+    // ...
+}
+\end{lstlisting}
 
 Die Komponente reagiert auf Statusänderungen des Modul-Loaders und zeigt entsprechend den aktuellen Zustand an. 
 Bei \texttt{Not\_Initialized} wird die \texttt{setup()}-Funktion aufgerufen, bei \texttt{Initialized} wird automatisch \texttt{process()} aufgerufen, 
 und bei \texttt{Success} wird die übergebene \texttt{successView} angezeigt.
 
-Für Buttons werden standardisierte Komponenten bereitgestellt. \texttt{PrimaryButton} ist eine wiederverwendbare Button-Komponente mit konsistentem Styling.
-Die vollständige Implementierung der \texttt{PrimaryButton} Komponente findet sich in \texttt{PrimaryButton.kt}, Zeilen 14-31.
+Für Buttons werden standardisierte Komponenten bereitgestellt. \texttt{PrimaryButton} ist eine wiederverwendbare Button-Komponente mit konsistentem Styling:
+
+\begin{lstlisting}[language=Java]
+@Composable
+fun PrimaryButton(
+    text: String,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Button(onClick = onClick, modifier = modifier) {
+        Text(text)
+    }
+}
+\end{lstlisting}
 
 Die \texttt{AutoCompleteTextField} Komponente bietet eine Suchfunktion mit automatischer Vervollständigung.
-Die vollständige Implementierung der \texttt{AutoCompleteTextField} Komponente findet sich in \texttt{AutoCompleteTextField.kt}, Zeilen 33-91.
 
 Die \texttt{LogoSplashView} Komponente zeigt einen animierten Splash-Screen mit Logo und Untertitel.
-Die vollständige Implementierung der \texttt{LogoSplashView} Komponente findet sich in \texttt{LogoSplashView.kt}, Zeilen 35-84.
 
 Die \texttt{WebViewScreen} Komponente bietet eine integrierte WebView-Implementierung mit Unterstützung für interne und externe Browser.
-Die vollständige Implementierung der \texttt{WebViewScreen} Komponente findet sich in \\ \texttt{WebViewScreen.kt}, Zeilen 21-36.
 
-\subsubsection*{Spezifische Infos}
-
-Die folgende Tabelle gibt einen Überblick über die wichtigsten technischen Aspekte des \texttt{CommonPresentation} Moduls:
+\subsubsection*{Weitere Informationen}
 
 \begin{table}[h]
 \centering
@@ -51,8 +68,7 @@ Alle Komponenten verwenden Material Design 3 und folgen den Jetpack Compose Best
 Die Komponenten sind vollständig reaktiv und reagieren auf State-Änderungen durch StateFlow oder andere State-Management-Mechanismen. \\
 \hline
 \textbf{GenericErrorView} & 
-Die \texttt{GenericErrorView} Komponente bietet eine standardisierte Fehleranzeige mit optionaler Retry-Funktionalität. 
-Die vollständige Implementierung der \texttt{GenericErrorView} Komponente findet sich in \texttt{GenericErrorView.kt}, Zeilen 14-30. \\
+Die \texttt{GenericErrorView} Komponente bietet eine standardisierte Fehleranzeige mit optionaler Retry-Funktionalität. \\
 \hline
 \textbf{Dependency Injection} & 
 Das Modul verwendet Hilt für Dependency Injection, insbesondere für ViewModels wie \texttt{WebViewViewModel}. 

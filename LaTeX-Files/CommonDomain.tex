@@ -22,33 +22,48 @@ Die Struktur des Moduls basiert auf einer klaren Trennung in verschiedene Pakete
 \texttt{enums} für Aufzählungstypen, \texttt{config} für Konfigurationsklassen, \texttt{loader} für Loader-Interfaces und 
 \texttt{protocols} für Protokoll-Definitionen.
 
-Die Basis-DTOs definieren die gemeinsame Struktur für alle Modul-DTOs. \texttt{CommonAppBaseModuleItemAPIDTO} stellt die Basis für einzelne Modul-Items dar.
-Die vollständige Definition findet sich in \texttt{CommonAppBaseModuleDTOs.kt}, Zeilen 5-8.
+Die Basis-DTOs definieren die gemeinsame Struktur für alle Modul-DTOs. \texttt{CommonAppBaseModuleItemAPIDTO} stellt die Basis für einzelne Modul-Items dar:
 
-\texttt{CommonAppBaseModuleAPIDTO} ist ein generischer Container für Modul-Daten, der sowohl einzelne Items als auch Listen unterstützt.
-Die vollständige Definition findet sich in \texttt{CommonAppBaseModuleDTOs.kt}, Zeilen 10-21.
+\begin{lstlisting}[language=Java]
+abstract class CommonAppBaseModuleItemAPIDTO {
+    abstract val id: String
+    abstract val title: String
+}
+\end{lstlisting}
+
+\texttt{CommonAppBaseModuleAPIDTO} ist ein generischer Container für Modul-Daten, der sowohl einzelne Items als auch Listen unterstützt:
+
+\begin{lstlisting}[language=Java]
+data class CommonAppBaseModuleAPIDTO<I>(
+    val items: List<I>? = null,
+    val item: I? = null,
+    val ModuleLastUpdated: String? = null
+)
+\end{lstlisting}
 
 Feature-spezifische DTOs erben von diesen Basisklassen. Beispielsweise erbt \texttt{AppMensaModuleItemAPIDTO} von 
 \texttt{CommonAppBaseModuleItemAPIDTO} und fügt mensa-spezifische Felder hinzu. 
 Die Verwendung von Gson-Annotationen wie \texttt{@SerializedName} ermöglicht die korrekte Deserialisierung von JSON-Daten aus der API.
 
 Die Enum-Klassen definieren verschiedene Zustände und Typen der Anwendung. \texttt{CommonModuleLoaderStatus} ist eine sealed class, 
-die alle möglichen Zustände eines Modul-Loaders repräsentiert.
-Die vollständige Definition der sealed class findet sich in \texttt{CommonModuleLoaderStatus.kt}, Zeilen 5-12.
+die alle möglichen Zustände eines Modul-Loaders repräsentiert:
 
-\texttt{CommonAppModuleType} definiert alle verfügbaren Modultypen der Anwendung.
-Die vollständige Enum-Definition mit der \texttt{parse()}-Methode findet sich in \texttt{CommonAppModuleType.kt}, Zeilen 7-35.
+\begin{lstlisting}[language=Java]
+sealed class CommonModuleLoaderStatus<I> {
+    object Not_Initialized : CommonModuleLoaderStatus<Nothing>()
+    data class Success<I>(val data: I) : CommonModuleLoaderStatus<I>()
+    // ...
+}
+\end{lstlisting}
+
+\texttt{CommonAppModuleType} definiert alle verfügbaren Modultypen der Anwendung und bietet eine \texttt{parse()}-Methode zur Konvertierung von Strings.
 
 Die Konfigurationsklassen definieren die Einstellungen für verschiedene Module. 
 \texttt{CommonModuleBaseLoaderConfig} stellt die Basis-Konfiguration für Modul-Loader bereit.
-Die vollständige Konfigurationsklasse findet sich in \\ \texttt{CommonModuleBaseLoaderConfig.kt}, Zeilen 6-13.
 
-Das \texttt{ModuleLoaderContract} Interface definiert den Vertrag für alle Modul-Loader.
-Die vollständige Interface-Definition findet sich in \texttt{CommonModuleLoaderTypes.kt}, Zeilen 7-10.
+Das \texttt{ModuleLoaderContract} Interface definiert den Vertrag für alle Modul-Loader und stellt die grundlegenden Methoden wie \texttt{setup()} und \texttt{process()} bereit.
 
-\subsubsection*{Spezifische Infos}
-
-Die folgende Tabelle gibt einen Überblick über die wichtigsten technischen Aspekte des \texttt{CommonDomain} Moduls:
+\subsubsection*{Weitere Informationen}
 
 \begin{table}[h]
 \centering
@@ -66,7 +81,7 @@ Dies ist besonders wichtig bei der Integration mit externen APIs, die möglicher
 \hline
 \textbf{Computed Properties} & 
 Einige DTOs wie \texttt{AppInitModuleItemAPIDTO} enthalten computed properties, die basierend auf der aktuellen Locale die richtige Sprache auswählen. 
-Die vollständige Implementierung der computed property findet sich in \texttt{AppInitModuleItemDTO.kt}, Zeilen 62-66. \\
+Die Implementierung verwendet \texttt{Locale.getDefault().language} und einen \texttt{when}-Ausdruck, um zwischen deutschen und englischen Titeln zu wählen. \\
 \hline
 \textbf{Sealed Classes} & 
 Die Verwendung von sealed classes für Status-Enums ermöglicht exhaustive when-Ausdrücke in Kotlin, was die Typsicherheit erhöht und Compiler-Warnungen bei fehlenden Fällen auslöst. 

@@ -21,30 +21,45 @@ Ein weiteres wichtiges Ziel ist die Implementierung einer intelligenten Synchron
 Die Umsetzung basiert auf dem Template-Method-Pattern mit generischen Typparametern. 
 Die Basisklasse verwendet drei Typparameter: \texttt{I} für den Item-Typ, \texttt{T} für den Container-Typ und 
 \texttt{C} für den Konfigurationstyp.
-Die vollständige Klassendefinition findet sich in \texttt{CommonApplicationBaseModuleLoader.kt}, Zeilen 26-28.
+Die Klassendefinition sieht folgendermassen aus:
+
+\begin{lstlisting}[language=Java]
+abstract class CommonApplicationBaseModuleLoader<I, T, C>(
+    // ...
+) : ViewModel(), ModuleLoaderContract<I>
+\end{lstlisting}
 
 Der Loader verwaltet seinen Zustand über einen \texttt{StateFlow<CommonModuleLoaderStatus<I>>}, der verschiedene Zustände unterstützt: 
 \texttt{Not\_Initialized}, \texttt{Initialized}, \texttt{Processing}, \texttt{Success}, \texttt{Success\_Cached} und \texttt{ErrorOn}. 
 Die \texttt{process()}-Methode orchestriert den gesamten Datenladevorgang und wählt basierend auf dem \texttt{moduleLoaderType} die entsprechende Strategie.
-Die vollständige Implementierung der \texttt{process()}-Methode findet sich in \texttt{CommonApplicationBaseModuleLoader.kt}, Zeilen 52-77.
+Die Methode prüft zunächst die Netzwerkverbindung und wählt dann zwischen Remote-, Cache- oder Hybrid-Modus.
 
 Der Hybrid-Modus implementiert eine intelligente Synchronisationslogik, die auf Timestamp-Vergleichen basiert. 
 Zuerst wird über die Sync-URL ein JSON-Objekt abgerufen, das das Feld \texttt{ModuleLastUpdated} enthält. 
 Gleichzeitig wird versucht, den lokalen Timestamp aus der Room-Datenbank zu laden. 
-Die Entscheidungslogik vergleicht diese beiden Timestamps.
-Die vollständige Timestamp-Vergleichslogik findet sich in \texttt{CommonApplicationBaseModuleLoader.kt}, Zeilen 151-157.
+Die Entscheidungslogik vergleicht diese beiden Timestamps:
+
+\begin{lstlisting}[language=Java]
+if (remoteTimestamp > localTimestamp) {
+    // Daten aktualisieren
+} else {
+    // Lokale Daten verwenden
+}
+\end{lstlisting}
 
 Wenn eine Aktualisierung notwendig ist, werden die Daten heruntergeladen und mit Gson deserialisiert. 
-Dabei wird ein \texttt{TypeToken} verwendet, um die korrekte Generik-Auflösung zur Laufzeit zu gewährleisten.
-Die Gson-Deserialisierung findet sich in \\ \texttt{CommonApplicationBaseModuleLoader.kt}, Zeilen 169-172.
+Dabei wird ein \texttt{TypeToken} verwendet, um die korrekte Generik-Auflösung zur Laufzeit zu gewährleisten:
+
+\begin{lstlisting}[language=Java]
+val type = object : TypeToken<T>() {}.type
+val data = gson.fromJson<T>(jsonString, type)
+\end{lstlisting}
 
 Nach erfolgreichem Parsing wird überprüft, ob die Daten gespeichert werden sollen. 
 Die \texttt{shouldStoreData()}-Methode kann von Subklassen überschrieben werden, um bestimmte Datentypen nicht zu speichern. 
 Wenn die Daten gespeichert werden sollen, werden sie zusammen mit dem \texttt{lastUpdated}-Timestamp als \texttt{ModuleDataEntity} in der Room-Datenbank gespeichert.
 
-\subsubsection*{Spezifische Infos}
-
-Die folgende Tabelle gibt einen Überblick über die wichtigsten technischen Aspekte \\ des \texttt{CommonApplicationBaseModuleLoader}:
+\subsubsection*{Weitere Informationen}
 
 \begin{table}[h]
 \centering
@@ -55,7 +70,7 @@ Die folgende Tabelle gibt einen Überblick über die wichtigsten technischen Asp
 \textbf{Dependency Injection} & 
 Die Integration mit Feature-Modulen erfolgt über Dependency Injection mit Dagger Hilt. 
 Ein konkretes Feature-Modul wie \texttt{MensaModuleLoader} erbt von \texttt{CommonApplicationBaseModuleLoader} und spezifiziert die Typparameter \texttt{I}, \texttt{T} und \texttt{C}. 
-Die vollständige Implementierung des \texttt{MensaModuleLoader} findet sich in \texttt{MensaModuleLoader.kt}, Zeilen 16-31. \\
+Die Klasse wird mit der \texttt{@HiltViewModel}-Annotation versehen und erbt von der Basisklasse. \\
 \hline
 \textbf{UI-Integration} & 
 In ViewModels oder Composables kann der Loader direkt verwendet werden. Der \texttt{loadingStatus} wird als \texttt{StateFlow} bereitgestellt und kann mit \texttt{collectAsState()} beobachtet werden, um reaktive UI-Updates zu ermöglichen. 

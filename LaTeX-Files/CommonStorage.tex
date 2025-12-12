@@ -21,34 +21,53 @@ Alle Operationen werden automatisch auf \texttt{Dispatchers.IO} ausgeführt, was
 \subsubsection*{Umsetzung / Funktionsweise}
 
 Die Implementierung basiert auf Android's Room-Persistenzbibliothek. Die \texttt{AppDatabase} ist die zentrale Datenbankklasse, 
-die alle Entities und DAOs verwaltet.
-Die vollständige Datenbankdefinition findet sich in \texttt{AppDatabase.kt}, Zeilen 12-52.
+die alle Entities und DAOs verwaltet:
+
+\begin{lstlisting}[language=Java]
+@Database(
+    entities = [ModuleDataEntity::class, FileEntity::class, ...],
+    version = 1
+)
+abstract class AppDatabase : RoomDatabase() {
+    abstract fun moduleDataDao(): ModuleDataDao
+    // ...
+}
+\end{lstlisting}
 
 Der \texttt{CommonStorageService} verwendet das Singleton-Pattern für die Datenbankinstanz und bietet eine Factory-Methode zur Erstellung.
-Die vollständige Service-Klassendefinition findet sich in \texttt{CommonStorageService.kt}, Zeilen 15-27.
 
-Für die Speicherung von Modul-Daten wird die \texttt{ModuleDataEntity} verwendet, die JSON-Daten als String speichert.
-Die vollständige Entity-Definition findet sich in \texttt{ModuleDataEntity.kt}, Zeilen 11-19.
+Für die Speicherung von Modul-Daten wird die \texttt{ModuleDataEntity} verwendet, die JSON-Daten als String speichert:
+
+\begin{lstlisting}[language=Java]
+@Entity(tableName = "module_data")
+data class ModuleDataEntity(
+    @PrimaryKey val moduleId: String,
+    val jsonData: String,
+    val lastUpdated: String
+)
+\end{lstlisting}
 
 Die \texttt{storeModuleData()}-Methode konvertiert DTOs in Entities und speichert sie in der Datenbank.
-Die vollständige Implementierung der \texttt{storeModuleData()}-Methode findet sich in \texttt{CommonStorageService.kt}, Zeilen 190-207.
 
 Die \texttt{getModuleData()}-Methode lädt Daten aus der Datenbank und gibt sie als JSON-String zurück.
-Die vollständige Implementierung der \texttt{getModuleData()}-Methode findet sich in \texttt{CommonStorageService.kt}, Zeilen 214-224.
 
 Für AppInitModule-Daten werden DTOs in Entities konvertiert. Die \texttt{storeAppInitModules()}-Methode mappt eine Liste von DTOs zu Entities.
-Die vollständige Implementierung der \texttt{storeAppInitModules()}-Methode findet sich in \texttt{CommonStorageService.kt}, Zeilen 34-58.
 
 Die \texttt{getAppInitModuleOrder()}-Methode demonstriert eine komplexere Abfrage, 
 die Daten aus mehreren Tabellen kombiniert.
-Die vollständige Implementierung der \texttt{getAppInitModuleOrder()}-Methode findet sich in \texttt{CommonStorageService.kt}, Zeilen 155-182.
 
-Für Dateispeicherung wird die \texttt{FileEntity} verwendet, die Dateien als \texttt{ByteArray} speichert.
-Die vollständige Entity-Definition findet sich in \texttt{FileEntity.kt}, Zeilen 12-20.
+Für Dateispeicherung wird die \texttt{FileEntity} verwendet, die Dateien als \texttt{ByteArray} speichert:
 
-\subsubsection*{Spezifische Infos}
+\begin{lstlisting}[language=Java]
+@Entity(tableName = "files")
+data class FileEntity(
+    @PrimaryKey val fileId: String,
+    val data: ByteArray,
+    val mimeType: String
+)
+\end{lstlisting}
 
-Die folgende Tabelle gibt einen Überblick über die wichtigsten technischen Aspekte des \texttt{CommonStorage} Moduls:
+\subsubsection*{Weitere Informationen}
 
 \begin{table}[h]
 \centering
@@ -56,33 +75,21 @@ Die folgende Tabelle gibt einen Überblick über die wichtigsten technischen Asp
 \hline
 \textbf{Aspekt} & \textbf{Beschreibung} \\
 \hline
-\textbf{Asynchrone Operationen} & 
-Alle Datenbankoperationen werden asynchron über Kotlin Coroutines ausgeführt. Die Verwendung von \texttt{withContext(Dispatchers.IO)} stellt sicher, dass alle Operationen auf dem IO-Dispatcher laufen und den Main-Thread nicht blockieren. 
-Dies ist besonders wichtig für grössere Datenmengen oder komplexe Abfragen. \\
+\textbf{Asynchrone Operationen} & Alle Datenbankoperationen werden asynchron über Kotlin Coroutines ausgeführt. Die Verwendung von \texttt{withContext(Dispatchers.IO)} stellt sicher, dass alle Operationen auf dem IO-Dispatcher laufen und den Main-Thread nicht blockieren. Dies ist besonders wichtig für grössere Datenmengen oder komplexe Abfragen. \\
 \hline
 \textbf{Fehlerbehandlung} & 
-Die Fehlerbehandlung erfolgt durch try-catch-Blöcke, die Fehler loggen und \texttt{null} oder \texttt{false} zurückgeben, anstatt Exceptions zu werfen. 
-Dies ermöglicht es den aufrufenden Komponenten, elegant mit Fehlern umzugehen, ohne dass die gesamte Anwendung abstürzt. \\
+Die Fehlerbehandlung erfolgt durch try-catch-Blöcke, die Fehler loggen und \texttt{null} oder \texttt{false} zurückgeben, anstatt Exceptions zu werfen. Dies ermöglicht es den aufrufenden Komponenten, elegant mit Fehlern umzugehen, ohne dass die gesamte Anwendung abstürzt. \\
 \hline
 \textbf{Singleton-Pattern} & 
-Die Datenbank verwendet das Singleton-Pattern mit thread-sicherer Initialisierung. Die \texttt{getDatabase()}-Methode verwendet \texttt{synchronized}, um sicherzustellen, dass nur eine Instanz der Datenbank erstellt wird, auch bei gleichzeitigen Zugriffen von mehreren Threads. 
-Die vollständige Implementierung der Singleton-Initialisierung findet sich in \texttt{AppDatabase.kt}, Zeilen 35-48. \\
+Die Datenbank verwendet das Singleton-Pattern mit thread-sicherer Initialisierung. Die \texttt{getDatabase()}-Methode verwendet \texttt{synchronized}, um sicherzustellen, dass nur eine Instanz der Datenbank erstellt wird, auch bei gleichzeitigen Zugriffen von mehreren Threads. \\
 \hline
-\textbf{Datenbank-Migrationen} & 
-Die Verwendung von \texttt{fallbackToDestructiveMigration(true)} bedeutet, dass bei Schema-Änderungen die Datenbank neu erstellt wird. 
-Dies ist für Entwicklung geeignet, sollte aber in Produktion durch Migrationen ersetzt werden. \\
+\textbf{Datenbank-Migrationen} & Die Verwendung von \texttt{fallbackToDestructiveMigration(true)} bedeutet, dass bei Schema-Änderungen die Datenbank neu erstellt wird. Dies ist für Entwicklung geeignet, sollte aber in Produktion durch Migrationen ersetzt werden. \\
 \hline
-\textbf{DAOs} & 
-Die DAOs verwenden Room-Annotationen für typsichere SQL-Abfragen. Beispielsweise verwendet \texttt{ModuleDataDao} \texttt{@Query}-Annotationen für benutzerdefinierte Abfragen. 
-Die vollständige DAO-Interface-Definition findet sich in \texttt{ModuleDataDao.kt}, Zeilen 9-35. \\
+\textbf{DAOs} & Die DAOs verwenden Room-Annotationen für typsichere SQL-Abfragen. Beispielsweise verwendet \texttt{ModuleDataDao} \texttt{@Query}-Annotationen für benutzerdefinierte Abfragen. Die DAO-Interfaces werden mit \texttt{@Dao} annotiert und enthalten suspend-Funktionen für asynchrone Datenbankzugriffe. \\
 \hline
-\textbf{OnConflictStrategy} & 
-Die Verwendung von \texttt{OnConflictStrategy.REPLACE} bei Insert-Operationen stellt sicher, dass vorhandene Einträge aktualisiert werden, anstatt Fehler zu verursachen. 
-Dies ist besonders nützlich für Synchronisationsoperationen, bei denen Daten regelmässig aktualisiert werden. \\
+\textbf{OnConflictStrategy} & Die Verwendung von \texttt{OnConflictStrategy.REPLACE} bei Insert-Operationen stellt sicher, dass vorhandene Einträge aktualisiert werden, anstatt Fehler zu verursachen. Dies ist besonders nützlich für Synchronisationsoperationen, bei denen Daten regelmässig aktualisiert werden. \\
 \hline
-\textbf{Dateispeicherung} & 
-Der Service unterstützt auch Dateispeicherung, was für Features wie CampusRoomSearch wichtig ist, die PDF-Dateien speichern müssen. 
-Die \texttt{storeFile()}- und \texttt{getFile()}-Methoden ermöglichen es, beliebige Binärdaten zu speichern und abzurufen, ohne dass externe Dateisystem-Zugriffe erforderlich sind. \\
+\textbf{Dateispeicherung} & Der Service unterstützt auch Dateispeicherung, was für Features wie CampusRoomSearch wichtig ist, die PDF-Dateien speichern müssen. Die \texttt{storeFile()}- und \texttt{getFile()}-Methoden ermöglichen es, beliebige Binärdaten zu speichern und abzurufen, ohne dass externe Dateisystem-Zugriffe erforderlich sind. \\
 \hline
 \end{tabularx}
 \caption{Technische Aspekte des \texttt{CommonStorage} Moduls}
