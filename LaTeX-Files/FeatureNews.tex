@@ -6,7 +6,7 @@ Ursprünglich war vorgesehen, die Inhalte über eine einfache WebView zu laden, 
 Laufe des Semesters wurde die Lösung vollständig auf eine JSON-basierte Darstellung
 umgestellt.
 
-\subsection*{Motivation und Zielsetzung}
+\subsubsection*{Motivation und Zielsetzung}
 
 Im ersten Schritt wird der anzuzeigende News-Link nicht hart im Code definiert, sondern
 von der API geladen. Dadurch können die App-Verantwortlichen die Quelle jederzeit
@@ -30,7 +30,7 @@ Die Lösung wurde deshalb auf ein JSON-basiertes Rendering umgestellt: Die App l
 nicht mehr die komplette Website, sondern nur die strukturierten Daten des Artikels
 und rendert den Inhalt vollständig nativ.
 
-\subsection*{Funktionsweise JSON-View}
+\subsubsection*{Funktionsweise JSON-View}
 
 Die News werden über die WordPress-REST-API von \texttt{news.hslu.ch} als JSON geladen.
 Der Download erfolgt über den \texttt{NewsDataLoader}, der auf der gemeinsamen Utility-Klasse
@@ -55,7 +55,7 @@ Parsers basiert auf regulären Ausdrücken und Entity-Decoding.
 
 \newpage
 
-\subsection*{Darstellung der News}
+\subsubsection*{Darstellung der News}
 
 Die Darstellung erfolgt dann vollständig in Jetpack Compose und besteht aus zwei Bereichen:
 
@@ -72,7 +72,7 @@ Die Darstellung erfolgt dann vollständig in Jetpack Compose und besteht aus zwe
         Nutzer den Originalartikel betrachten möchte.
 \end{itemize}
 
-\subsection*{Herausforderungen und Einschränkungen}
+\subsubsection*{Herausforderungen und Einschränkungen}
 
 Durch den Wechsel von der WebView zur nativen JSON-Darstellung ist die App nun
 darauf angewiesen, dass die HTML-Struktur der WordPress-Beiträge stabil bleibt.

@@ -1,40 +1,34 @@
-\subsubsection {Lokalisierung}
+\subsection{Lokalisierung}
 
-Die Lokalisierung stellt die sprachabhängige Darstellung von Texten und Labels in der App sicher. 
-Es basiert auf dem bestehenden Android-Resource-System und wurde so erweitert, 
-dass dynamisch geladene Inhalte (z.\,B. Menüpunkte aus dem Bootstrapping) ebenfalls lokalisiert dargestellt werden können.
+Die App ist so konzipiert, dass sie in mehreren Sprachen verfügbar ist
+(aktuell Deutsch und Englisch). Eine grundlegende Lokalisierungslogik war
+bereits im ursprünglichen Android-Projekt vorhanden und wurde im Rahmen
+dieses Projekts weiterentwickelt.
 
-\subsubsection*{Neue Umsetzung}
-Die grundlegende Logik blieb unverändert, da die Mehrsprachigkeit bereits funktionierte. 
-Folgende Anpassungen wurden vorgenommen:
+Die Lokalisierung basiert weiterhin auf dem standardmässigen
+Android-Resource-System. (Android wählt automatisch die passende strings.xml 
+basierend auf dem System-Locale) 
+Dieses System wurde zusätzlich so ergänzt, dass auch
+dynamisch geladene Inhalte (beispielsweise Menüpunkte aus dem
+Bootstrapping-Prozess) zur Laufzeit korrekt lokalisiert dargestellt
+werden können.
+
+\subsubsection*{Konzept}
 \begin{itemize}
-    \item Sprachwahl erfolgt weiterhin automatisch über die Geräteeinstellung, keine separate App-Sprache erforderlich.
-    \item Ressourcenbasiertes System: Deutsch als Standard in \texttt{values/}, Englisch in \texttt{values-en/} 
-    (appweit und in jedem Feature-Modul).
-    \item Nutzung der UI-Strings erfolgt wie üblich über \texttt{stringResource(R.string...)} 
-    bzw. \texttt{context.getString(...)}.
+    \item Die Sprachauswahl erfolgt automatisch über die Systemeinstellung
+    des Geräts; eine separate Auswahl der App-Sprache ist nicht vorgesehen.
+    \item Es wird ein ressourcenbasiertes Lokalisierungskonzept verwendet:
+    Deutsch ist als Standardsprache im Ordner \texttt{values/} hinterlegt,
+    Englisch im Ordner \texttt{values-en/}. Diese Ordner existieren jeweils
+    pro Feature-Modul.
+    \item Die Verwendung von UI-Strings erfolgt Android-typisch über
+    \texttt{stringResource(R.string.\dots)} in Compose beziehungsweise über
+    \texttt{context.getString(\dots)}.
 \end{itemize}
 
-\subsubsection*{Übersetzung dynamischer Labels}
-Für dynamisch geladene Inhalte, etwa Menüpunkte aus Remote-DTOs, 
-wird die Sprache zur Laufzeit anhand der Systemeinstellung bestimmt. 
-Die Zuordnung erfolgt über \texttt{Locale.getDefault()}:
-\begin{itemize}
-    \item Deutsch (\texttt{de}) → LabelDE / BootstrapResourceUrlDE
-    \item Englisch (Standard) → LabelEN / BootstrapResourceUrlEN
-\end{itemize}
+\hspace{0.3cm}
 
-Ein Beispiel der Umsetzung in Kotlin:
-\begin{lstlisting}
-val Label: String
-    get() = when (Locale.getDefault().language.lowercase(Locale.getDefault())) {
-        "de" -> LabelDE ?: LabelEN ?: "Unbenannt"
-        else -> LabelEN ?: LabelDE ?: "Unnamed"
-    }
-\end{lstlisting}
-
-\subsubsection*{Beispiel: Ressourcenbasiertes UI-Label}
-\begin{lstlisting}[language=XML, caption={Default (Deutsch) vs. Englisch in strings.xml}]
+\begin{lstlisting}[language=XML, caption={Default (Deutsch) und Englisch in \texttt{strings.xml}}]
 <!-- values/strings.xml -->
 <string name="Roomsearch_NavItem">Raumsuche</string>
 <string name="Settings_NavItem">Einstellungen</string>
@@ -44,6 +38,29 @@ val Label: String
 <string name="Settings_NavItem">Settings</string>
 \end{lstlisting}
 
-Damit ist die App vollständig zweisprachig ausgelegt. 
-Labels aus Remote-Datenquellen werden zur Laufzeit automatisch auf die passende Sprache gemappt, 
-wodurch eine konsistente Benutzererfahrung entsteht.
+\subsubsection*{Übersetzung dynamischer Inhalte}
+Für dynamisch geladene Inhalte, wie beispielsweise Menüpunkte aus
+Remote-DTOs (siehe Abschnitt~\ref{sec:featureappinit}), wird die Sprache zur Laufzeit 
+anhand der aktuellen Systemsprache bestimmt. Die Auswahl erfolgt über \newline
+\texttt{Locale.getDefault()} und ordnet die passenden Sprachfelder zu:
+
+\hspace{0.3cm}
+
+\begin{lstlisting}[language=Java, caption={Auswahl der passenden Sprachvariante}]
+val label: String
+    get() = when (Locale.getDefault().language.lowercase(Locale.getDefault())) {
+        "de" -> LabelDE ?: LabelEN ?: "Unbenannt"
+        else -> LabelEN ?: LabelDE ?: "Unnamed"
+    }
+\end{lstlisting}
+
+(Es wird zuerst versucht, die aktuell gesetzte Systemsprache zu
+verwenden. Ist für diese keine Übersetzung verfügbar, wird automatisch
+auf die jeweils andere unterstützte Sprache zurückgegriffen. Sollte
+auch diese nicht vorhanden sein, wird ein Fallback-Wert
+(\textit{z.\,B.} \texttt{'Unnamed'}) verwendet.)
+
+Damit sind alle Inhalte der App
+vollständig auf Deutsch und Englisch verfügbar. Weitere Sprachen könnten
+bei Bedarf einfach ergänzt werden, indem zusätzliche
+\texttt{strings.xml}-Dateien angelegt werden.
