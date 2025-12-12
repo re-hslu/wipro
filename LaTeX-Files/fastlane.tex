@@ -1,13 +1,263 @@
 \subsection{Fastlane}
-Die bestehende Android APP, welche nicht auf Jetpackcompose sondern XML basiert, hat bereits für beide Tenants ein Fastfile
-in welchem diverse Lanes für den CI/CD Prozess definiert sind.
-Daran möchten wir anknöpfen und die bestehende Funktionalität anpassen und verbessern. Im Moment gibt es pro Tenant ein Fastfile,
-wenn man diese aber vergleicht, gibt es sehr viele Redundanzen und das möchten wir insofern verbessern, das es nur noch ein Fastfile gibt
-und per Parameter entweder HSLU\_I spezifische oder HSLU\_TA spezifische Variablen verwendet werden und so ein Grossteil der Redundanzen
-eliminiert werden können.
 
-\subsubsection{Fastfile}
+Das Fastlane-Setup für die Android-App automatisiert den Build- und Deployment-Prozess für beide Tenants (HSLU I und HSLU TA). 
+Anstatt separate Fastfiles pro Tenant zu verwenden, wurde ein einheitliches, parametrisiertes Fastfile implementiert, 
+das Redundanzen eliminiert und die Wartbarkeit verbessert. Das Fastfile unterstützt Debug- und Release-Builds sowie automatische Uploads zu Google Play Store in verschiedenen Tracks (Beta, Internal, Production).
 
-\textbf{Erklärungen Lanes/Funktionen}\\
+\subsubsection*{Ziel und Motivation}
 
-\textbf{Parameter definierte Aufrufe}\\
+Das Hauptziel besteht darin, die CI/CD-Pipeline zu vereinfachen und Redundanzen zu eliminieren. 
+Durch die Parametrisierung mit dem \texttt{tenant}-Parameter kann ein einziges Fastfile für beide Tenants verwendet werden, 
+was die Wartbarkeit erheblich verbessert. Zusätzlich werden alle sensiblen Daten (Keystores, API-Keys) sicher in einem separaten Git-Repository gespeichert und verschlüsselt, 
+sodass sie nicht im Haupt-Repository liegen.
+
+Ein weiteres wichtiges Ziel ist die Automatisierung des gesamten Build- und Deployment-Prozesses, 
+von der Kompilierung über die Signierung bis hin zum Upload in den Google Play Store. 
+Dies reduziert manuelle Fehler und beschleunigt den Release-Prozess erheblich.
+
+\subsubsection*{Umsetzung / Funktionsweise}
+
+Die Implementierung basiert auf einem zentralen \texttt{before\_all}-Block, der die Initialisierung und Konfiguration für alle Lanes übernimmt. 
+Das Fastfile verwendet Dotenv für die Verwaltung von Secrets und parametrisiert alle tenant-spezifischen Werte.
+
+\paragraph*{Initialisierung und Konfiguration}
+
+Der \texttt{before\_all}-Block wird vor jeder Lane ausgeführt und übernimmt die gesamte Konfiguration:
+
+\begin{verbatim}
+before_all do |lane, options|
+  # Load secrets from .env.secret
+  Dotenv.overload '.env.secret'
+  
+  # Validate tenant parameter
+  UI.user_error!("Please pass a tenant, e.g., fastlane build_release tenant:hslui") 
+    unless options[:tenant]
+  
+  TENANT = options[:tenant].to_s # "hslui" or "hsluta"
+  TENANT_UP = TENANT.upcase      # "HSLUI" or "HSLUTA"
+  
+  # Define paths
+  SYSTEM_TMP_DIR = Dir.tmpdir()
+  CERTS_GIT_CLONE_TMP_FOLDER = SYSTEM_TMP_DIR + "/fastlane_certs/"
+  ARTIFACT_PATH = '../../../output/'
+  SOURCE_PROJECT_DIR = '../../../'
+  
+  # Map tenant to Android module and package ID
+  case TENANT
+  when "hslui"
+    ENV["ANDROID_MODULE"] = "app_hslui"
+    ENV["ANDROID_APPID"]  = "ch.hslu.mobile_app_dept_i"
+  when "hsluta"
+    ENV["ANDROID_MODULE"] = "app_hsluta"
+    ENV["ANDROID_APPID"]  = "ch.hslu.taapp"
+  else
+    UI.user_error!("Unknown tenant: #{TENANT}")
+  end
+end
+\end{verbatim}
+
+Die tenant-spezifischen Umgebungsvariablen werden aus \texttt{.env.secret} geladen und in generische Variablen gemappt:
+
+\begin{verbatim}
+ENV["KEY_ALIAS"]       = ENV["ENV_KEY_ALIAS_#{TENANT_UP}"]
+ENV["STORE_FILE"]      = ENV["ENV_STORE_FILE_#{TENANT_UP}"]
+ENV["KEY_PASSWORD"]    = ENV["ENV_KEY_PASSWORD_#{TENANT_UP}"]
+ENV["STORE_PASSWORD"]  = ENV["ENV_STORE_PASSWORD_#{TENANT_UP}"]
+ENV["STORE_KEY_JKS"]   = ENV["ENV_STORE_KEY_JKS_#{TENANT_UP}"]
+ENV["PLAY_API_JSON"]   = ENV["ENV_GOOGLE_PLAY_JSON_#{TENANT_UP}"]
+\end{verbatim}
+
+\paragraph*{Lanes}
+
+Das Fastfile definiert vier Haupt-Lanes:
+
+\textbf{build\_debug}: Erstellt einen Debug-Build ohne Signierung:
+
+\begin{verbatim}
+lane :build_debug do |options|
+  mod = ENV["ANDROID_MODULE"]
+  gradle(
+    project_dir: SOURCE_PROJECT_DIR,
+    task: ":#{mod}:clean :#{mod}:assemble",
+    build_type: "debug"
+  )
+  copy_artifacts(
+    artifacts: SOURCE_PROJECT_DIR + "#{mod}/build/outputs/bundle/debug/*.*",
+    target_path: SOURCE_PROJECT_DIR + "output/"
+  )
+end
+\end{verbatim}
+
+\textbf{build\_release}: Erstellt einen signierten Release-Build. Dazu wird zuerst der verschlüsselte Keystore aus dem Zertifikats-Repository geladen und entschlüsselt:
+
+\begin{verbatim}
+lane :build_release do |options|
+  # 1) Download and decrypt keystore from certs repo
+  download_from_certs_repo(
+    gitUrl: CERTS_GIT_URL,
+    gitBranch: CERTS_GIT_BRANCH,
+    file: ENV["STORE_KEY_JKS"],
+    outputFile: "#{TENANT}-android.keystore.jks",
+    matchPassword: CERTS_PASSWORD,
+    tempFolder: CERTS_GIT_CLONE_TMP_FOLDER
+  )
+  
+  # 2) Create keystore.properties for Gradle
+  create_keystore_properties(
+    filePath: ENV["ENV_PROPS_FILE_PATH"],
+    storePassword: ENV["STORE_PASSWORD"],
+    keyPassword: ENV["KEY_PASSWORD"],
+    keyAlias: ENV["KEY_ALIAS"],
+    storeFile: ENV["ENV_STORE_FILE_PATH"]
+  )
+  
+  # 3) Build signed release bundle
+  mod = ENV["ANDROID_MODULE"]
+  gradle(
+    project_dir: SOURCE_PROJECT_DIR,
+    task: ":#{mod}:clean :#{mod}:bundle",
+    build_type: "release"
+  )
+  
+  # 4) Copy artifacts to output folder
+  copy_artifacts(
+    artifacts: SOURCE_PROJECT_DIR + "#{mod}/build/outputs/bundle/release/*.*",
+    target_path: SOURCE_PROJECT_DIR + "output/"
+  )
+end
+\end{verbatim}
+
+\textbf{beta}: Baut ein signiertes Release-Bundle und lädt es in den Beta-Track (oder einen anderen Track via \texttt{track:}-Parameter) hoch:
+
+\begin{verbatim}
+lane :beta do |options|
+  # Download keystore + Google Play API key
+  download_from_certs_repo_full(
+    gitUrl: CERTS_GIT_URL,
+    gitBranch: CERTS_GIT_BRANCH,
+    file: ENV["STORE_KEY_JKS"],
+    outputFile: "#{TENANT}-android.keystore.jks",
+    matchPassword: CERTS_PASSWORD,
+    apiFile: ENV["PLAY_API_JSON"],
+    outputApiFile: "google_play_key.json",
+    matchApiPassword: CERTS_GOOGLE_API_PASSWORD,
+    tempFolder: CERTS_GIT_CLONE_TMP_FOLDER
+  )
+  
+  # Build signed release
+  invoke(:build_release, options: options)
+  
+  # Upload to Google Play (beta by default)
+  track = options[:track] || 'beta'
+  aab_name = "app_#{TENANT}-release.aab"
+  upload_to_play_store(
+    track: track,
+    aab: "#{ARTIFACT_PATH}#{aab_name}",
+    package_name: ENV["ANDROID_APPID"],
+    skip_upload_changelogs: true,
+    skip_upload_apk: true,
+    json_key: ENV["ENV_PLAY_JSON_PATH"]
+  )
+  
+  clean_directory(tempFolder: CERTS_GIT_CLONE_TMP_FOLDER)
+end
+\end{verbatim}
+
+\textbf{release}: Analog zu \texttt{beta}, lädt jedoch explizit in den Production-Track:
+
+\begin{verbatim}
+lane :release do |options|
+  download_from_certs_repo_full(...)
+  invoke(:build_release, options: options)
+  
+  upload_to_play_store(
+    track: 'production',
+    aab: "#{ARTIFACT_PATH}app_#{TENANT}-release.aab",
+    package_name: ENV["ANDROID_APPID"],
+    skip_upload_changelogs: true,
+    skip_upload_apk: true,
+    json_key: ENV["ENV_PLAY_JSON_PATH"]
+  )
+  
+  clean_directory(tempFolder: CERTS_GIT_CLONE_TMP_FOLDER)
+end
+\end{verbatim}
+
+\paragraph*{Hilfsfunktionen}
+
+\textbf{download\_from\_certs\_repo}: Klont das Zertifikats-Repository und entschlüsselt eine Datei (typischerweise den Keystore):
+
+\begin{verbatim}
+def download_from_certs_repo(gitUrl:, gitBranch:, file:, outputFile:, 
+                             matchPassword:, tempFolder:)
+  FileUtils.rm_rf(tempFolder)
+  Dir.chdir("..") do
+    sh("git clone --single-branch --branch #{gitBranch} #{gitUrl} #{tempFolder}")
+    sh("openssl enc -aes-256-cbc -d -in #{tempFolder}/#{file} " +
+       "-out #{tempFolder}/#{outputFile} -k #{matchPassword}")
+  end
+rescue => exception
+  UI.user_error!(exception)
+end
+\end{verbatim}
+
+\textbf{download\_from\_certs\_repo\_full}: Erweiterte Variante, die sowohl Keystore als auch Google Play API-Key entschlüsselt:
+
+\begin{verbatim}
+def download_from_certs_repo_full(gitUrl:, gitBranch:, file:, outputFile:, 
+                                   matchPassword:, apiFile:, outputApiFile:, 
+                                   matchApiPassword:, tempFolder:)
+  FileUtils.rm_rf(tempFolder)
+  Dir.chdir("..") do
+    sh("git clone --single-branch --branch #{gitBranch} #{gitUrl} #{tempFolder}")
+    sh("openssl enc -aes-256-cbc -d -in #{tempFolder}/#{file} " +
+       "-out #{tempFolder}/#{outputFile} -k #{matchPassword}")
+    sh("openssl enc -aes-256-cbc -d -in #{tempFolder}/#{apiFile} " +
+       "-out #{tempFolder}/#{outputApiFile} -k #{matchApiPassword}")
+  end
+rescue => exception
+  UI.user_error!(exception)
+end
+\end{verbatim}
+
+\textbf{create\_keystore\_properties}: Erstellt die \texttt{keystore.properties}-Datei, die von Gradle für die Signierung verwendet wird:
+
+\begin{verbatim}
+def create_keystore_properties(filePath:, storePassword:, keyPassword:, 
+                                keyAlias:, storeFile:)
+  out_file = File.new(filePath, "w")
+  out_file.puts("storePassword=#{storePassword}")
+  out_file.puts("keyPassword=#{keyPassword}")
+  out_file.puts("keyAlias=#{keyAlias}")
+  out_file.puts("storeFile=#{storeFile}")
+  out_file.close
+end
+\end{verbatim}
+
+\textbf{clean\_directory}: Entfernt rekursiv einen Ordner und wird verwendet, um temporäre Zertifikatsdateien zu löschen:
+
+\begin{verbatim}
+def clean_directory(tempFolder:)
+  FileUtils.rm_rf(tempFolder)
+end
+\end{verbatim}
+
+\subsubsection*{Spezifische Infos}
+
+Die Verwendung erfolgt durch Aufruf von Fastlane mit dem \texttt{tenant}-Parameter: \texttt{fastlane <lane> tenant:hslui} oder \texttt{fastlane <lane> tenant:hsluta}. 
+Ohne diesen Parameter bricht Fastlane mit einer Fehlermeldung ab.
+
+Alle sensiblen Daten werden in einem separaten Git-Repository gespeichert und mit OpenSSL verschlüsselt (AES-256-CBC). 
+Die Passwörter für die Entschlüsselung werden aus \texttt{.env.secret} geladen, das nicht im Repository gespeichert wird, 
+sondern von der CI/CD-Pipeline zur Laufzeit erstellt wird.
+
+Die Keystore-Properties-Datei wird dynamisch erstellt und in einem temporären Verzeichnis gespeichert.
+ Gradle liest diese Datei zur Build-Zeit ein, um die Signierung durchzuführen. Nach dem Build werden alle temporären Dateien gelöscht, 
+ um Sicherheitsrisiken zu minimieren.
+
+Die Upload-Funktionalität unterstützt verschiedene Tracks im Google Play Store. Der Standard-Track für \texttt{beta} ist "beta", 
+kann aber über den \texttt{track:}-Parameter überschrieben werden (z.B. \texttt{track:internal}). Changelogs werden bewusst übersprungen, 
+da diese manuell im Google Play Console verwaltet werden.
+
+Das Fastfile ist erweiterbar für weitere Tenants, indem einfach ein neuer \texttt{when}-Fall im 
+\texttt{before\_all}-Block hinzugefügt wird und die entsprechenden Umgebungsvariablen in \texttt{.env.secret} definiert werden.

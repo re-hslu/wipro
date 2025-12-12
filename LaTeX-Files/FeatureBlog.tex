@@ -1,3 +1,43 @@
 \subsection{Blog}
 
-Todo Raphi
+Das Feature \textit{FeatureBlog} baut konzeptionell auf derselben Architektur wie das zuvor 
+beschriebene \textit{FeatureNews} auf, verfolgt jedoch einen leicht anderen Zweck: 
+Es stellt die Blog-Beiträge der HSLU aus der WordPress-Installation \url{https://hub.hslu.ch/informatik/} dar. 
+Der grundlegende technische Aufbau mit \texttt{ModuleLoader}, \texttt{DataLoader}, 
+JSON-Synchronisation sowie HTML-Parsing ist identisch zum News-Feature, 
+wodurch sich viele Komponenten wiederverwenden liessen. Auch hier ist ein Umschalten zwischen WebView- 
+und JSON-View im Backend möglich, sodass bei Bedarf  zwischen beiden Darstellungsvarianten gewechselt werden kann.
+
+
+Die Umsetzung der UI folgt dabei denselben Prinzipien wie bei den News: Karten-basierte Übersicht, Detailansicht 
+als Overlay/Dialog und Rendering des Inhalts über den bestehenden Parser und den \texttt{BlogContentRenderer}.
+
+\vspace{0.5cm}
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.23\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Fotos/feature-screenshots/blog_json.png}
+        \caption{Übersicht}
+        \label{fig:blog_json}
+    \end{subfigure}
+    \hspace{0.3cm}
+    \begin{subfigure}[b]{0.23\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Fotos/feature-screenshots/blog_json_detail.png}
+        \caption{Detailansicht}
+        \label{fig:blog_json_detail}
+    \end{subfigure}
+    \caption{Screenshots des Blog-Features}
+    \label{fig:blog_json_feature}
+\end{figure}
+
+\vspace{1.5cm}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.65\textwidth]{Fotos/feature-screenshots/backend-json-web.png}
+    \caption{Screenshot aus dem Backend: Umschalten der Views (Blog \& News)}
+    \label{fig:backend-json-web}
+\end{figure}
