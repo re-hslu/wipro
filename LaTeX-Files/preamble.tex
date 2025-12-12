@@ -40,6 +40,7 @@
 \usepackage{booktabs}
 \usepackage{array}
 \usepackage{caption}
+\usepackage{pgffor}
 
 \usetikzlibrary{trees, mindmap}                     % TikZ-Erweiterungen
 \graphicspath{{Fotos/}}                             % Standardpfad für Bilder
@@ -48,6 +49,24 @@
 % Abbildungsnummerierung global fortlaufend
 \usepackage{chngcntr}
 \counterwithout{figure}{chapter}
+
+% Querformat: Kopf-/Fusszeile korrekt drehen
+\usepackage{scrlayer-scrpage}
+
+\newpairofpagestyles{landscapescrheadings}{scrheadings}{%
+  \lehead{\rotatebox{-90}{\headmark}}%
+  \cehead{}%
+  \rehead{\rotatebox{-90}{\pagemark}}%
+  \lohead{\rotatebox{-90}{HSLU Mobile Apps - Android Jetpack Compose - AI First}}%
+  \cohead{}%
+  \rohead{\rotatebox{-90}{WIPRO HS25}}%
+  \lefoot{}%
+  \cefoot{}%
+  \refoot{}%
+  \lofoot{}%
+  \cofoot{}%
+  \rofoot{}%
+}
 
 % ------------------------------------------------------------------------------
 % Schriftart (Calibri)

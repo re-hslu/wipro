@@ -181,6 +181,31 @@ Welche zukünftigen Arbeiten, Verbesserungen oder Erweiterungen sind denkbar?
 \includepdf[pages=1,pagecommand=\subsection{Status-Report (11.12.2025)}]{Anhaenge/Status-Report/Status-Report 11.12.2025.pdf}
 \includepdf[pages=2-,pagecommand={}]{Anhaenge/Status-Report/Status-Report 11.12.2025.pdf}
 
+% Sprint-Boards (A4 Querformat, Header/Footer + Seitenzahl wie normal)
+\clearpage
+\foreach \i in {1,...,7} {%
+  \begin{landscape}
+  \thispagestyle{empty} % Header/Fußzeile unterdrücken, da Querformat sonst seitlich landet
+  \noindent\rule{\linewidth}{0.4pt}
+  \subsection{Sprintboard – Sprint \i}
+
+  \vspace{0.5em}
+  \begin{center}
+    \includegraphics[
+      width=0.99\linewidth,
+      height=0.80\textheight,
+      keepaspectratio
+    ]{Fotos/Screenshots/sprints/\i.png}
+  \end{center}
+  \vfill
+  \noindent\rule{\linewidth}{0.4pt}
+  \vspace{0.3em}
+  \noindent\hfill\thepage
+  \end{landscape}
+}
+\clearpage
+
+
 \label{aufgabenstellung-ai-tools}
 \includepdf[pages=1,pagecommand=\subsection{Aufgabenstellung für AI Tools}]{Anhaenge/Aufgabenstellung_fuerAIs.pdf}
 \includepdf[pages=2-,pagecommand={}]{Anhaenge/Aufgabenstellung_fuerAIs.pdf}
