@@ -1,0 +1,117 @@
+\section{Validierung}
+
+\subsection{Technische Validierung}
+
+\subsubsection{Bisherige Testabdeckung}
+Die bisherigen App-Projekte der Hochschule
+(\textit{android-xml-multitenant} und \textit{ios-swiftui-multitenant})
+verfügten bislang über kaum automatisierte Testabdeckung.
+Da wir diesen Aspekt jedoch als wichtig erachten, haben wir uns zum Ziel
+gesetzt, zentrale Funktionen mit ausführbaren Tests abzusichern,
+um die Funktionalität und Stabilität der App besser gewährleisten zu können.
+
+\subsubsection{Technische Validierung der Android-Applikation}
+Die technische Validierung der Android-Applikation erfolgte sowohl über
+automatisierte Tests als auch durch kontinuierliches manuelles Testen
+während der Entwicklung. Ziel war es, Funktionalitäten schrittweise
+abzusichern und Fehler möglichst frühzeitig zu erkennen.
+
+Unit Tests wurden im gesamten Projekt eingesetzt Dabei handelte es sich meist um kleine,
+schnell ausführbare Tests, die während der Entwicklung laufend genutzt
+wurden. Gerade nach Änderungen am Code waren diese Tests hilfreich, da sie rasch
+aufzeigen konnten, ob bestehende Funktionalitäten weiterhin korrekt
+arbeiteten. So konnten Fehler früh erkannt werden, ohne die App jedes Mal
+manuell testen zu müssen.  
+
+Eine vollständige Testabdeckung aller Module und Features konnte im
+gegebenen Projektrahmen nicht umgesetzt werden, da die verfügbare
+Projektzeit begrenzt war und ein grosser Teil der Aufwände in die
+Entwicklung der Applikation investiert wurde (siehe Anhang~\ref{anhang:zeit}). 
+Die vorhandenen Tests wurden jeweils parallel zur Feature-Entwicklung
+erstellt. Das Ergänzen weiterer Tests ist problemlos möglich, da die
+bestehende Teststruktur modular aufgebaut ist und einfache Erweiterungen
+zulässt.
+
+Nach der Abgabe der Dokumentation wird bis zur Abschlusspräsentation
+weiter am Projekt gearbeitet, mit einem stärkeren Fokus auf das Testing.
+Mit dieser zusätzlichen Zeit wird angestrebt, die Testabdeckung auf
+rund 80\,\% zu erhöhen.
+
+\vspace{0.5em}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\textwidth]{Fotos/testfolders.png}
+    \caption{Teststruktur im Android Studio}
+    \label{fig:teststruktur}
+\end{figure}
+
+\newpage
+
+\subsubsection{Manuelles Testen}
+
+Neben den automatisierten Tests wurde die Applikation während der Entwicklung
+regelmässig manuell getestet. Der Grossteil dieser Tests erfolgte mit dem
+Android-Emulator, da sich damit unterschiedliche Android-Versionen,
+Displaygrössen und Konfigurationen effizient abdecken lassen.
+
+Zusätzlich wurde die App auf ausgewählten physischen Geräten getestet,
+konkret auf einem \textit{Google Pixel} sowie einem \textit{Samsung Galaxy S22}.
+Da Android jedoch auf einer sehr grossen Vielfalt an Geräten und
+Herstellerkonfigurationen läuft und nur eine begrenzte Anzahl an
+Testgeräten zur Verfügung stand, konnte keine breite Abdeckung aller
+Geräteklassen erreicht werden.
+
+Dieses Vorgehen und die daraus resultierende Einschränkung bei den Tests auf
+realen Geräten wurden im Projektverlauf mit dem Auftraggeber besprochen und
+als ausreichend für den gegebenen Projektrahmen beurteilt.
+(siehe Anhang~\ref{anhang:report30102025}).
+
+\subsubsection{Eingesetzte Testframeworks}
+
+Im Projekt kamen folgende Testframeworks zum Einsatz:
+
+\begin{itemize}
+    \item \textbf{JUnit 5}:  
+    Basis-Framework für Unit- und einfache Integrationstests. Es wird im gesamten
+    Projekt eingesetzt, um einzelne Funktionen, Klassen und ViewModels 
+    zu validieren und deren Logik zu überprüfen.
+
+    \item \textbf{MockK}:  
+    Mocking-Framework für Kotlin. Es wird verwendet, um Abhängigkeiten wie
+    Services oder Repositories zu mocken, beispielsweise beim Testen von
+    Netzwerkzugriffen oder Datenlade-Logik ohne echte API-Aufrufe.
+
+    \item \textbf{Espresso}:  
+    Framework für UI- und Integrationstests im Android-Kontext. Es kommt bei
+    einfachen Benutzerinteraktionen, Navigationsflüssen und grundlegenden
+    UI-Validierungen zum Einsatz.
+\end{itemize}
+
+
+\subsection{Validierung der Anforderungen und Projektziele}
+
+Die Validierung der fachlichen Anforderungen und Projektziele erfolgte iterativ
+über den gesamten Projektverlauf hinweg. Die Entwicklung wurde sprint-basiert
+organisiert, wobei alle Aufgaben und Features als Issues in GitLab erfasst und
+verwaltet wurden.
+
+Alle zwei Wochen fanden Meetings mit dem Auftraggeber statt, in denen der aktuelle
+Projektstand vorgestellt, schriftlich dokumentiert und gemeinsam besprochen wurde.
+(siehe Anhang~\ref{sec:protokolle-statusberichte}).
+Dabei wurden umgesetzte Features überprüft, offene Punkte geklärt und die
+Prioritäten für den nächsten Sprint festgelegt. Auf diese Weise konnte laufend
+validiert werden, ob das Projekt in die gewünschte Richtung entwickelt wird.
+
+Durch das Issue-Tracking in GitLab war jederzeit ersichtlich, welche Aufgaben
+bereits abgeschlossen waren und welche noch offen standen. Am Ende des Projekts
+sind alle geplanten Issues geschlossen, was bedeutet, dass die vereinbarten
+Features umgesetzt wurden.
+
+\subsection{Validierung des Nutzens}
+
+Im Rahmen dieses Projekts wurde keine Validierung mit Studierenden durchgeführt, 
+um zu überprüfen, ob die App im Alltag tatsächlich als nützlich wahrgenommen 
+wird oder einen konkreten Mehrwert bietet. Eine solche Nutzerstudie hätte den 
+inhaltlichen Rahmen des Projekts deutlich überschritten und war daher
+nicht Bestandteil des Auftrags.
