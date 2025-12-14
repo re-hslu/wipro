@@ -78,31 +78,41 @@ Da wir von Cursor sehr begeistert sind, da es eine Applikation mit eigenem Front
 Dadurch ist es einfacher an bessere Informationen zu gelangen, da der Kontext einzelner Codestellen für die KI immer klar ist, nicht wie bei herkömmlichen Online-Tools wo nur der wirklich hochgeladene Code vorhanden ist und da teilweise aber auch nicht korrekte Interpretationen gemacht werden.
 
 Nachfolgend einige Screenshots welche an einem Beispiel zeigen wie gut eine Datei analysiert wird, da der Kontext vorhanden ist. 
-Es wurde gefragt, was die Datei "CommonApplicationBaseModuleLoader.swift" macht und wie der Zusammenhang zum Rest de Projektes ist.
+Es wurde gefragt, was die Datei "CommonApplicationBaseModuleLoader.swift" macht und wie der Zusammenhang zum Rest des Projektes ist.
 Hier sieht man sehr gut den Vorteil, da direkt die ganze Projektstruktur analysiert werden kann und so auch die Zusammenhänge besser klar sind für die KI. Zusätzlich werden auch relevante Codestellen hervorgehoben.
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=\textwidth]{Fotos/Cursor_1.png}
-  \caption{Analysebeispiel in Cursor}
-\end{figure}
-
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=\textwidth]{Fotos/Cursor_2.png}
-  \caption{Analysebeispiel in Cursor}
-\end{figure}
-
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=\textwidth]{Fotos/Cursor_3.png}
-  \caption{Analysebeispiel in Cursor}
-\end{figure}
-
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=\textwidth]{Fotos/Cursor_4.png}
-  \caption{Analysebeispiel in Cursor}
+  \begin{subfigure}[b]{0.48\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{Fotos/Cursor_1.png}
+    \caption{Analysebeispiel 1}
+    \label{fig:cursor1}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.48\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{Fotos/Cursor_2.png}
+    \caption{Analysebeispiel 2}
+    \label{fig:cursor2}
+  \end{subfigure}
+  \vspace{0.3em}
+  \begin{subfigure}[b]{0.48\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{Fotos/Cursor_3.png}
+    \caption{Analysebeispiel 3}
+    \label{fig:cursor3}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.48\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{Fotos/Cursor_4.png}
+    \caption{Analysebeispiel 4}
+    \label{fig:cursor4}
+  \end{subfigure}
+  \caption{Analysebeispiele in Cursor}
+  \label{fig:cursor-examples}
+  \vspace{-0.5em}
 \end{figure}
 
 \subsection{Fazit}
@@ -117,3 +127,50 @@ Daraus wurde dann klar, dass die HSLU sich für ChatGPT entschieden hat und uns 
 Da wir aber trotzdem so gut Erfahrungen mit Cursor gemacht haben, wollten wir darauf nicht verzichten. Cursor kann so konfiguriert werden, 
 dass es im Hintergrund eine API eines LLM verwendet, womit wir die Vorgabe ChatGPT einhalten konnten, in dem wir Cursor so konfiguriert haben, 
 dass es nur mit der ChatGPT API kommuniziert. Somit konnten wir einen guten Kompromiss eingehen und hatten ein Tool womit ein ganzes Projekt (fast) im Kontext der Anfrage verfügbar ist.
+
+\subsection{Erfahrungen mit AI-First Ansatz}
+
+Während der gesamten Projektlaufzeit haben wir Cursor aktiv im Entwicklungsprozess eingesetzt und dabei sowohl positive als auch negative Erfahrungen gesammelt. 
+Diese Erkenntnisse sind wertvoll für die zukünftige Nutzung von KI-Tools in Softwareentwicklungsprojekten.
+
+\subsubsection*{Stärken von Cursor}
+
+Einer der grössten Vorteile von Cursor war die Fehlersuche und Debugging-Unterstützung. 
+Durch den vollständigen Projektkontext konnte Cursor Fehlerquellen schnell identifizieren und konkrete Lösungsvorschläge liefern. 
+Besonders hilfreich war die Fähigkeit, Zusammenhänge zwischen verschiedenen Dateien und Modulen zu erkennen, 
+was bei komplexen Architekturen wie unserer Multi-Feature- und Multi-Tenant-Struktur von grossem Wert war.
+
+Ein weiteres herausragendes Anwendungsgebiet war das Portieren von iOS-Code nach Android. 
+Da Cursor Zugriff auf beide Codebasen hatte, konnte es Swift-Code analysieren und entsprechende Kotlin-Äquivalente vorschlagen. 
+Dies beschleunigte die Migration erheblich, insbesondere bei der Umsetzung der Common-Module, 
+die eine 1:1-Übersetzung der iOS-Architektur erforderten. Cursor konnte dabei nicht nur syntaktische Unterschiede berücksichtigen, 
+sondern auch plattformspezifische Besonderheiten wie die unterschiedliche Behandlung von Coroutines versus async/await in Swift erkennen.
+
+Auch bei der Code-Analyse und Dokumentation war Cursor sehr nützlich. 
+Komplexe Code-Stellen konnten schnell erklärt werden, und die Generierung von Kommentaren oder Dokumentation 
+basierend auf dem vorhandenen Code funktionierte zuverlässig.
+
+\subsubsection*{Grenzen und Herausforderungen}
+
+Trotz der vielen Vorteile stiessen wir auch auf Bereiche, in denen Cursor weniger effektiv war. 
+Besonders auffällig war dies bei UI-bezogenen Aufgaben. Die Generierung von Jetpack Compose UI-Komponenten war oft unzureichend, 
+da die KI Schwierigkeiten hatte, das visuelle Design und die gewünschte Benutzererfahrung korrekt zu interpretieren. 
+Die generierten UI-Komponenten entsprachen häufig nicht den Design-Anforderungen und mussten manuell überarbeitet werden, 
+was den Zeitvorteil zunichtemachte.
+
+Ähnliche Herausforderungen traten bei der Generierung kompletter Code-Strukturen auf. 
+Während Cursor bei der Implementierung einzelner Funktionen oder Methoden sehr hilfreich war, 
+scheiterte es oft bei der Erstellung grösserer Architektur-Komponenten. 
+Die generierten Strukturen entsprachen nicht immer den etablierten Patterns und Konventionen unseres Projekts, 
+und die notwendigen Anpassungen waren teilweise zeitaufwändiger als eine manuelle Implementierung.
+
+Ein weiterer limitierender Faktor war die Abhängigkeit von der Qualität der Prompts. 
+Um gute Ergebnisse zu erzielen, mussten sehr detaillierte und spezifische Anfragen formuliert werden, 
+was teilweise mehr Zeit in Anspruch nahm als die direkte Code-Implementierung.
+
+\subsubsection*{Fazit der praktischen Anwendung}
+
+Insgesamt war Cursor ein wertvolles Werkzeug im Entwicklungsprozess, besonders für repetitive Aufgaben, 
+Fehlersuche und Code-Migration. Für UI-Entwicklung und die Generierung komplexer Architekturen 
+war der manuelle Ansatz jedoch oft effizienter. Der AI-First Ansatz hat sich somit als ergänzende, 
+aber nicht ersetzende Methode erwiesen, die am besten in Kombination mit traditionellen Entwicklungsmethoden eingesetzt wird.
