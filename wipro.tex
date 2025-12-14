@@ -11,10 +11,11 @@
 % ================== Inhalt =====================================================
 
 \pagenumbering{roman}
+\renewcommand{\thechapter}{\Roman{chapter}}
+\setcounter{chapter}{0}
 
-\chapter*{Abstract / Zusammenfassung oder Management Summary}
-\addcontentsline{toc}{chapter}{Abstract}
-\input{LaTeX-Files/Abstract.tex} \newpage
+\chapter{Abstract}
+\input{LaTeX-Files/Abstract.tex}
 
 \newpage
 \tableofcontents
@@ -22,6 +23,9 @@
 
 % ================== Hauptteil ==================================================
 
+\cleardoublepage
+\renewcommand{\thechapter}{\arabic{chapter}}
+\setcounter{chapter}{0}
 \pagenumbering{arabic}
 
 \chapter{Problem, Fragestellung, Vision}\input{LaTeX-Files/Problem-Fragestellung-Vision.tex}
