@@ -74,7 +74,7 @@
 
 % ================== Anhänge ====================================================
 
-\appendix
+%\appendix
 \chapter{Anhänge}
 
 \newpage\label{sec:aufgabenstellung}
@@ -122,7 +122,7 @@
   \begin{landscape}
   \thispagestyle{empty} % Header/Fußzeile unterdrücken, da Querformat sonst seitlich landet
   \noindent\rule{\linewidth}{0.4pt}
-  \subsection{Sprintboard – Sprint \i} 
+  \subsection{Sprintboard – Sprint \i}\label{anhang:sprintboard-\i}  
   \vspace{0.5em}
   \begin{center}
     \includegraphics[
@@ -212,16 +212,14 @@
 \includepdf[pages=1, scale=0.8, pagecommand=\subsection{Antwort von Cursor}]{Anhaenge/cursor_antwort.pdf}
  
 \subsection{Zeiterfassung} \label{anhang:zeit}
-\input{LaTeX-Files/zeit.tex} \newpage
+\input{LaTeX-Files/zeit.tex} \newpage 
 
 % ================== Verzeichnisse =============================================
 
-\chapter*{Abkürzungs-, Abbildungs-, Tabellen-, KI-, Formelverzeichnis}
-\addcontentsline{toc}{chapter}{Abkürzungs-, Abbildungs-, Tabellen-, KI-, Formelverzeichnis}
+\chapter{Abkürzungs-, Abbildungs-, Tabellen-, KI-, Formelverzeichnis}
+\section{Abkürzungsverzeichnis}
 
-\section*{Abkürzungsverzeichnis}
-
-\section*{Abbildungsverzeichnis}
+\section{Abbildungsverzeichnis}
 \vspace{-4.5em}
 \begingroup
 \renewcommand{\listfigurename}{}
@@ -230,12 +228,12 @@
 \listoffigures
 \endgroup
 
-\section*{Tabellenverzeichnis}
-\section*{KI-Verzeichnis}
-\section*{Formelverzeichnis}
+\section{Tabellenverzeichnis}
+\section{KI-Verzeichnis}
+\section{Formelverzeichnis}
 
-\chapter*{Literaturverzeichnis}
-\printbibliography
+\chapter{Literaturverzeichnis}
+\printbibliography[heading=none]
 
 % ================== Ende =======================================================
 
