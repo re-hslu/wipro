@@ -1,0 +1,59 @@
+\subsection{Info-, Einstellungen- und WebLinks-Features}
+
+Die Features \textit{Info}, \textit{Einstellungen} und \textit{WebLinks} übernehmen in der App kleinere Funktionen. 
+Da sich diese Features in Aufbau und Darstellung stark ähneln, wurde ein grosser Teil des Layouts 
+zentral im \texttt{common}-Modul umgesetzt und wiederverwendet,
+um Code-Duplikationen zu vermeiden und eine einheitliche Darstellung sicherzustellen.
+
+\subsubsection*{WebLinks}
+Das Feature \textit{WebLinks} stellt eine Liste von weiterführenden Links zur Verfügung, die auf externe Seiten
+der HSLU verweisen. Inhalte, die nicht direkt in der App umgesetzt sind, können so trotzdem einfach erreicht
+werden. Die Liste der Links wird über die Backend-API geladen, lokal zwischengespeichert und in einer
+Liste dargestellt.  
+Beim Antippen eines Eintrags wird der jeweilige Link im externen Standard-Browser des Geräts geöffnet.
+Das Feature unterstützt Deutsch und Englisch, wobei die Sprache automatisch anhand der Geräteeinstellung
+gewählt wird. Falls eine Übersetzung nicht verfügbar ist, wird jeweils auf die andere Sprache zurückgegriffen
+(siehe~\ref{sec:localisation}).
+
+\subsubsection*{Info}
+Das Feature \textit{Info} (bzw. \textit{About}) zeigt allgemeine Informationen zur App an. Dazu gehören unter anderem
+der Name des Tenants, die aktuell installierte App-Version, Kontaktinformationen, ein Blog-Link sowie eine Liste
+der bisherigen Mitwirkenden. Zusätzlich werden rechtliche Hinweise wie Disclaimer oder Copyright angezeigt.
+Diese Informationen werden ebenfalls über die Backend-API geladen. Inhalte werden nur angezeigt, wenn sie
+tatsächlich vorhanden sind, leere Felder bleiben ausgeblendet.
+
+\subsubsection*{Einstellungen}
+Das Feature \textit{Einstellungen} dient der technischen Verwaltung der App-Daten. Hier können gecachte
+Inhalte einzelner Module (z.\,B. News, Blog, Mensa oder WebLinks) manuell neu geladen oder zurückgesetzt werden.
+Dies ist bei Problemen mit veralteten Daten hilfreich.  
+Zusätzlich enthält das Settings-Feature die Konfiguration für den Stundenplan, bei der der verwendete
+Kalender ausgewählt werden kann.
+
+\vspace{0.5cm}
+
+\begin{figure}[H]
+    \centering
+
+    \begin{subfigure}[b]{0.23\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Fotos/feature-screenshots/links.png}
+        \caption{Links}
+        \label{fig:links}
+    \end{subfigure}
+    \hspace{0.3cm}
+    \begin{subfigure}[b]{0.23\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Fotos/feature-screenshots/about.png}
+        \caption{Info/About}
+        \label{fig:about}
+    \end{subfigure}
+    \hspace{0.3cm}
+    \begin{subfigure}[b]{0.23\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Fotos/feature-screenshots/settings.png}
+        \caption{Einstellungen}
+        \label{fig:settings}
+    \end{subfigure}
+    \caption{Screenshots der Features}
+    \label{fig:3_features}
+\end{figure}
