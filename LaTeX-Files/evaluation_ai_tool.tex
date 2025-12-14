@@ -39,15 +39,18 @@ Die vollständige Antwort von Cursor ist im Anhang dokumentiert (siehe Anhang~\r
 
 \begin{table}[H]
   \centering
-  \small % etwas kleinere Schrift für mehr Inhalt pro Zeile
-  \setlength{\tabcolsep}{6pt} % Zellinnenabstand etwas kleiner
-  \renewcommand{\arraystretch}{1.2} % Zeilenabstand angenehmer
-  \begin{tabularx}{\textwidth}{lXXX}
+  \small
+  \setlength{\tabcolsep}{6pt}
+  \renewcommand{\arraystretch}{1.2}
+  \begin{tabularx}{\textwidth}{l>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}
     \toprule
-    \textbf{KI} & \textbf{Stärken / beobachtete Fähigkeiten} & \textbf{Schwächen / Unsicherheiten} & \textbf{Eignung} \\
+    \textbf{KI} &
+    \textbf{Stärken / beobachtete Fähigkeiten} &
+    \textbf{Schwächen / Unsicherheiten} &
+    \textbf{Eignung} \\
     \midrule
     Grok (xAI) &
-    xAI hat mit „grok-code-fast-1" ein Modell für Entwickler-Aufgaben (Agentic Coding) vorgestellt; Effizienz/Qualität im Fokus; funktioniert auch als Backend in Tools wie Cursor. &
+    xAI hat mit „grok-code-fast-1“ ein Modell für Entwickler-Aufgaben (Agentic Coding) vorgestellt; Effizienz/Qualität im Fokus; funktioniert auch als Backend in Tools wie Cursor. &
     Relativ jung; unklare Reife/Plattformtiefe; unklar, wie gut Apple/Android-SDKs abgedeckt sind. &
     Spannend mit aktueller Grok-Version; mit guter Prompt-Strategie evtl. starker Konkurrent zu Claude. \\
     \addlinespace
@@ -58,7 +61,7 @@ Die vollständige Antwort von Cursor ist im Anhang dokumentiert (siehe Anhang~\r
     \addlinespace
     ChatGPT &
     Sehr stark bei Cross-Plattform-Wissen (iOS/Android, SwiftUI/Compose, Flutter, RN); bewährt; gute Architektur- und Testing-Hinweise. &
-    Token-Limits bei sehr grossen Codebasen (auer Enterprise/Pro); potenzielle Halluzinationen → Review nötig. &
+    Token-Limits bei sehr grossen Codebasen (außer Enterprise/Pro); potenzielle Halluzinationen → Review nötig. &
     Top-Option neben Claude; stark für Architektur/Best Practices. \\
     \addlinespace
     Cursor &
@@ -70,7 +73,6 @@ Die vollständige Antwort von Cursor ist im Anhang dokumentiert (siehe Anhang~\r
   \caption{Auswertung der KI in Tabellenform}
 \end{table}
 
-\newpage
 \subsection{Detaillierter Fragen zu Cursor}
 Da wir von Cursor sehr begeistert sind, da es eine Applikation mit eigenem Frontend ist und wir ganze Ordnerstrukturen öffnen können (wie bei Visual Studio Code zum Beispiel), hat die KI direkt einen gesamten Überblick über die Codebasis.
 Dadurch ist es einfacher an bessere Informationen zu gelangen, da der Kontext einzelner Codestellen für die KI immer klar ist, nicht wie bei herkömmlichen Online-Tools wo nur der wirklich hochgeladene Code vorhanden ist und da teilweise aber auch nicht korrekte Interpretationen gemacht werden.
@@ -103,7 +105,6 @@ Hier sieht man sehr gut den Vorteil, da direkt die ganze Projektstruktur analysi
   \caption{Analysebeispiel in Cursor}
 \end{figure}
 
-\newpage
 \subsection{Fazit}
 Nach all den Informationen welche wir gesammelt haben sind wir zum Schluss gekommen, dass wir mit Cursor und einer der oben aufgeführten KIs verwenden wollen.
 Schlussendlich ist das wichtigste, dass die KI den Kontext des gesamten Projekts hat um möglichst sinnvollen Code zu erstellen und da hat Cursor klar den Vorteil.
