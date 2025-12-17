@@ -1,34 +1,64 @@
-% ================== Kapitel: Problem, Fragestellung, Vision ==================
+\section{Ausgangslage und Problemstellung}\vspace{-1.5em}
 
-\section{Ausgangslage und Problemstellung}
-Die HSLU-Informatik betreibt eigene Mobile-Apps für die Departemente
-Informatik sowie Technik \& Architektur auf den Plattformen \textit{iOS} und \textit{Android}.
-Im Rahmen einer Forschungsarbeit wurde die Codebasis für iOS stark erweitert; 
-diese Änderungen müssen nun in die Android-Codebasis auf Basis von Jetpack Compose übernommen werden.
+Die Hochschule Luzern betreibt für die Departemente Informatik sowie Technik \& Architektur eigene mobile
+Applikationen auf den Plattformen iOS und Android. Während die iOS-Applikation in den vergangenen
+Semestern weiterentwickelt wurde,
+befindet sich die Android-Version aktuell in einem teilweise veralteten Zustand.
 
-Das bestehende Android-Projekt basiert noch auf XML-Layouts und ist nicht
-an das aktuelle Backend-API angebunden.
-Dies soll im Rahmen von AI-First-Techniken erfolgen.
-In diesem Zusammenhang sollen verschiedene Möglichkeiten, Ansätze und Tools evaluiert werden.
-Die passendste Technologie wird daraufhin für die konkrete Umsetzung verwendet.
+Auf Android existiert einerseits eine veröffentlichte Applikation auf Basis klassischer XML-Layouts, welche
+weder an das aktuelle Backend-API angebunden ist noch alle Features der iOS-Version enthält. 
+Andererseits liegt eine nicht veröffentlichte Jetpack-Compose-Applikation vor, die zwar
+bereits auf einem deklarativen UI-Ansatz basiert, jedoch ebenfalls nicht mehr dem aktuellen Stand der
+Technik entspricht und funktional hinter der iOS-Version zurückbleibt.
 
-\section{Ziel der Arbeit und erwartete Resultate}
-Ziel:  
-Eine vollständig funktionsfähige Jetpack-Compose-App soll im Google Play Store veröffentlicht werden.  
-Die Umsetzung erfolgt als Single Codebase mit Multi-Feature- und Multi-Tenant-Unterstützung unter Anwendung von Domain-Driven Design (DDD).
+Diese Situation führt dazu, dass der Entwicklungsstand der Android-Applikationen weit hinter der iOS-Applikationen zurückliegt. 
+Eine konsistente App-Landschaft über beide Plattformen hinweg ist nicht gegeben. Gleichzeitig besteht der
+Anspruch, neue Features, die auf iOS bereits umgesetzt wurden, auch auf Android bereitzustellen.
+Vor diesem Hintergrund ergibt sich das Bedürfnis, die bestehende Android-Jetpack-Compose-
+Applikation grundlegend zu modernisieren und funktional an die iOS-Applikationen anzugleichen. 
 
-\vspace{0.3cm}
-\noindent
-Erwartete Resultate:
+\section{Ziel der Arbeit und erwartete Resultate}\vspace{-1.5em}
+
+Ziel dieses Projekts ist die Umsetzung einer modernen
+Android-Applikation auf Basis von Jetpack Compose, welche an die bestehende
+iOS-App der Hochschule Luzern angeglichen ist. Die Applikation soll aber auch Android-
+Technologien und Architekturkonzepte nutzen, wartbar und erweiterbar aufgebaut sein,
+um dann produktiv über den Google Play Store veröffentlicht werden zu können.
+
+Die Umsetzung soll als modulare Single-Codebase mit Unterstützung für mehrere
+Features und Mandanten (Multi-Tenant) erfolgen. Die Architektur soll sich
+an der bestehenden iOS-Applikation orientieren, um eine möglichst einheitliche
+Plattformstruktur zu erreichen, damit künftige Arbeiten auf beiden Plattformen einfacher zu erledigen sind.
+
+Ein weiterer zentraler Aspekt der Arbeit soll der Einsatz eines AI-First-Ansatzes sein. Ziel ist es,
+verschiedene KI-gestützte Entwicklungswerkzeuge im Kontext der mobilen
+App-Entwicklung zu evaluieren und deren Einsatzmöglichkeiten, Grenzen und Mehrwerte
+praktisch zu untersuchen. Die gewonnenen Erkenntnisse sollen dokumentiert und
+reflektiert werden. (Die vollständige Aufgabenstellung ist zu finden im Anhang: ~\ref{sec:aufgabenstellung}).
+
+Die erwarteten Resultate lassen sich wie folgt zusammenfassen:
+
 \begin{itemize}
-    \item Projektmanagement-Artefakte:  
-    Statusberichte, Projektplan inklusive fortlaufender Risikoanalyse, Issues/Epics und Stakeholderübersicht.
-    \item App-Artefakte:
+    \item \textbf{App-Artefakte:}
     \begin{itemize}
-        \item Evaluation und Auswahl geeigneter AI-Ansätze und Tools für Mobile Engineering.
-        \item Implementierung der fehlenden Features (bzw. Neuaufbau) in Jetpack Compose mit Tests und Dokumentation für aktuelle targetSDKs.
-        \item Release des neuesten Entwicklungsstands via GitLab CI/CD und Fastlane in den Google Play Store.
+        \item Eine produktiv einsetzbare Android-Applikation auf Basis von Jetpack Compose
+        \item Umsetzung und Integration der fehlenden bzw. neu aufgebauten Features
+        \item Anbindung an das aktuelle Backend-API
+        \item Unterstützung aktueller Android-SDKs und Geräte
+        \item Automatisierter Build- und Release-Prozess mittels GitLab CI/CD und Fastlane
     \end{itemize}
-    \item HSLU-Artefakte:  
-    Projektdokumentation gemäss HSLU-Standards sowie Zwischen- und Schlusspräsentation.
+
+    \item \textbf{Projektmanagement-Artefakte:}
+    \begin{itemize}
+        \item Sprint-basierte Planung und Umsetzung mit dokumentierten Issues und Epics
+        \item Regelmässige Statusberichte und Sitzungsprotokolle
+        \item Fortlaufende Risikoanalyse und Meilensteinübersicht
+    \end{itemize}
+
+    \item \textbf{Dokumentation und Evaluation:}
+    \begin{itemize}
+        \item Projektdokumentation gemäss HSLU-Standards
+        \item Evaluation und Reflexion des AI-First-Ansatzes im Entwicklungsprozess
+        \item Zwischen- und Schlusspräsentation der Projektergebnisse
+    \end{itemize}
 \end{itemize}
