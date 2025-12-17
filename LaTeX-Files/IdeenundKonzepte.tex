@@ -1,174 +1,155 @@
-Dieses Kapitel beschreibt die modernen Konzepte, Architektur-Patterns und Best Practices, die im Projekt implementiert wurden. 
-Das Projekt folgt den aktuellen Android-Entwicklungsrichtlinien und Best Practices von Google und der Kotlin-Community.
+\section{Konzept zur Übernahme der iOS-Applikation auf Android}
 
-\section*{Architektur-Patterns}
+Die Android-Applikation soll auf Basis von Jetpack Compose funktional auf
+denselben Stand gebracht werden wie die aktuelle Dev-Version der
+iOS-Applikation. Die iOS-App dient dabei aus unserer Sicht als vollständige
+Referenz, sowohl in Bezug auf den Funktionsumfang als auch auf den
+grundsätzlichen Aufbau der Applikation. Ziel ist es, dass beide Plattformen
+möglichst ähnlich strukturiert sind, um zukünftige Arbeiten zu vereinfachen
+und den Einstieg für neue Entwicklerinnen und Entwickler zu erleichtern.
 
-\begin{table}[H]
-\centering
-\begin{tabularx}{\textwidth}{|l|X|}
-\hline
-\textbf{Pattern} & \textbf{Implementierung} \\
-\hline
-\textbf{Clean Architecture} & 
-Modulare Trennung in Domain, Application, Infrastructure, Presentation und Util Module. 
-Domain-Modul ohne Abhängigkeiten zu anderen Schichten. Klare Separation of Concerns. \\
-\hline
-\textbf{Feature-Module} & 
-Jedes Feature ist ein eigenes Modul (FeatureNews, FeatureBlog, FeatureMensa, etc.). 
-Wiederverwendbare Common-Module für gemeinsame Funktionalität. Lose Kopplung zwischen Features. \\
-\hline
-\textbf{Template Method} & 
-\texttt{CommonApplicationBaseModuleLoader} als abstrakte Basisklasse mit generischen Typparametern. 
-Hook-Methoden für Feature-spezifische Logik. \\
-\hline
-\textbf{Repository Pattern} & 
-\texttt{CommonStorageService} und \texttt{CommonNetworkService} abstrahieren Datenzugriffe. 
-Einheitliche Schnittstellen für alle Features. \\
-\hline
-\textbf{Strategy Pattern} & 
-ModuleLoaderType (Hybrid, Local, Remote) für flexible Datenlade-Strategien. 
-Wechsel zwischen Datenquellen zur Laufzeit. \\
-\hline
-\end{tabularx}
-\caption{Architektur-Patterns im Projekt}
-\label{tab:architecture-patterns}
-\end{table}
+Eine vollständige 1:1-Übernahme ist dabei nicht in allen Bereichen möglich,
+da sich iOS und Android sowie die Programmiersprachen Swift und Kotlin in
+einigen Aspekten unterscheiden. Dennoch sollen das grundlegende Vorgehen,
+die Projektstruktur sowie die Benennung von Modulen und Komponenten so weit
+wie möglich angeglichen werden. Wie bereits bei der iOS-Applikation soll
+auch die Android-App klar in \texttt{Common}-Komponenten und einzelne
+\texttt{Feature}-Module unterteilt werden, damit fachlich unabhängige Logik
+zentral wiederverwendet werden kann.
 
-\section*{Moderne Android-Technologien}
+\vspace{0.5em}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.43\textwidth]{Fotos/ios-projektstruktur.png}
+    \caption{iOS-Projektstruktur in XCode}
+    \label{fig:iosprojektstrukur}
+\end{figure}
 
-\begin{table}[H]
-\centering
-\begin{tabularx}{\textwidth}{|l|X|}
-\hline
-\textbf{Technologie} & \textbf{Verwendung} \\
-\hline
-\textbf{Jetpack Compose} & 
-Vollständige Migration zu deklarativer UI. StateFlow + \texttt{collectAsState()} für reaktive UI-Updates. 
-Wiederverwendbare Composable Functions im Common/Presentation Modul. Material Design 3 Komponenten. \\
-\hline
-\textbf{Kotlin Coroutines \& Flow} & 
-Vollständige Nutzung für asynchrone Operationen. StateFlow/MutableStateFlow für reaktives State-Management. 
-\texttt{Dispatchers.IO} für nicht-blockierende I/O-Operationen. \texttt{viewModelScope} für Lifecycle-Management. \\
-\hline
-\textbf{Room Persistence} & 
-Type-safe Database Access mit Kotlin Extensions (room-ktx). DAO-Pattern für strukturierte Zugriffe. 
-Suspend-Funktionen für asynchrone Operationen. Migration Support vorbereitet. \\
-\hline
-\textbf{Hilt DI} & 
-Moderne Dependency Injection mit vereinfachter Konfiguration. \texttt{@HiltViewModel} für automatische ViewModel-Injection. 
-KSP statt KAPT für bessere Performance. Tenant-spezifische Hilt-Module für Multi-Tenant. \\
-\hline
-\end{tabularx}
-\caption{Moderne Android-Technologien im Projekt}
-\label{tab:android-technologies}
-\end{table}
+\section{Technologien und Architekturkonzept}
+
+Ein weiteres Ziel ist es, moderne Android-Technologien einzusetzen und
+veraltete Komponenten zu ersetzen. Dabei soll aber  nicht alles Bestehende pauschal ersetzt werden. 
+Android-Frameworks und Komponenten, die in früheren Hochschul-Apps bereits eingesetzt 
+wurden und weiterhin aktuell sowie empfohlen sind, sollen nach Möglichkeit 
+weiterverwendet werden. Wo sinnvoll, werden diese Komponenten auf den neuesten 
+Stand gebracht und aktualisiert, anstatt sie komplett neu zu implementieren.
+
+Im Rahmen des Projekts kommen deshalb unter anderem folgende
+Android-Technologien zum Einsatz:
+\begin{itemize}
+    \item \textbf{Jetpack Compose}: Deklaratives UI-Framework für moderne Benutzeroberflächen.
+    \item \textbf{Kotlin Coroutines \& Flow}: Vereinfachte asynchrone
+    Verarbeitung und reaktiver Umgang mit Datenströmen.
+    \item \textbf{Room Persistence}: Strukturierte und typsichere lokale
+    Datenhaltung.
+    \item \textbf{Hilt (Dependency Injection)}: Klare Verwaltung von
+    Abhängigkeiten und bessere Testbarkeit.
+\end{itemize}\newpage
+
+Auch auf Architekturebene soll ein sauberer Aufbau verfolgt
+werden, der sich auch teilweise an der bestehenden iOS-Lösung orientiert. Dazu
+werden bekannte Architektur- und Design-Patterns eingesetzt, um die App
+übersichtlich und erweiterbar zu halten. Dazu zählen unter anderem:
+\begin{itemize}
+    \item \textbf{Clean Architecture}: Klare Trennung von fachlicher Logik,
+    Infrastruktur und Darstellung.
+    \item \textbf{Repository Pattern}: Einheitlicher Zugriff auf Netzwerk-
+    und lokale Datenquellen.
+    \item \textbf{Feature-basierte Modulstruktur}: Jedes Feature ist als
+    eigenes Modul umgesetzt, gemeinsame Logik liegt in zentralen
+    Common-Modulen.
+    \item \textbf{Template- und Strategy-Pattern}: Flexible und
+    wiederverwendbare Module-Loader für unterschiedliche
+    Datenlade-Strategien.
+\end{itemize}
+
+Zusätzlich wird bei der Umsetzung der Benutzeroberfläche auf moderne
+UI-Patterns gesetzt, die gut mit Jetpack Compose zusammenspielen. Ziel ist eine reaktive,
+wiederverwendbare und gut wartbare UI, die sich flexibel an unterschiedliche
+Features anpassen lässt.
+
+Konkret kommen dabei unter anderem folgende UI-Konzepte zum Einsatz:
+\begin{itemize}
+    \item \textbf{Material Design 3}: Verwendung moderner Material-Komponenten
+    mit einheitlichem Theming über die gesamte App.
+    \item \textbf{Reaktives UI-Management}: Einsatz von \texttt{StateFlow} in
+    Kombination mit \texttt{collectAsState()}, um UI-Zustände reaktiv und
+    nachvollziehbar abzubilden. \texttt{LaunchedEffect} wird für Side-Effects
+    in Compose verwendet.
+    \item \textbf{Component-Based UI}: Wiederverwendbare Composables werden im
+    \texttt{Common/Presentation}-Modul abgelegt. Styling erfolgt über das
+    Modifier-Pattern, Interaktionen über Lambda-Callbacks, um eine flexible
+    Nutzung in verschiedenen Features zu ermöglichen.
+\end{itemize}
 
 
-\section*{Best Practices}
+Abschliessend soll die Android-Applikation über einen automatisierten
+Build- und Release-Prozess produktiv im Google Play Store veröffentlicht
+werden. Dafür wird Fastlane eingesetzt, um Releases reproduzierbar und
+zuverlässig auszuliefern.
 
-\begin{table}[H]
-\centering
-\begin{tabularx}{\textwidth}{|l|X|}
-\hline
-\textbf{Practice} & \textbf{Implementierung} \\
-\hline
-\textbf{Offline-First} & 
-Timestamp-basierte Updates nur bei geänderten Daten. Room als Single Source of Truth. 
-Automatischer Fallback auf lokale Daten bei Netzwerkausfall. Inkrementelle Updates sparen Bandbreite. \\
-\hline
-\textbf{Multi-Tenant} & 
-Product Flavors für verschiedene Tenants (hslui, hsluta). Separate Application-Klassen pro Tenant. 
-Hilt-Module pro Build-Variant. BuildConfig Fields für tenant-spezifische Konfiguration. \\
-\hline
-\textbf{Type Safety} & 
-Umfassende Nutzung von Generics. Gson TypeToken für Generik-Auflösung zur Laufzeit. 
-Sealed Classes für State-Management mit exhaustive when-Ausdrücken. \\
-\hline
-\textbf{Error Handling} & 
-Mehrschichtige Fehlerbehandlung (Netzwerk, Parse, Speicher). Graceful Degradation ohne App-Absturz. 
-Try-Catch mit Logging für Fehlerbehandlung. \\
-\hline
-\textbf{Performance} & 
-Lazy Loading von Daten. Room-Datenbank als Cache-Layer. \texttt{Dispatchers.IO} für I/O-Operationen. 
-Inkrementelle Updates durch Timestamp-Vergleiche. \\
-\hline
-\end{tabularx}
-\caption{State-of-the-Art Best Practices}
-\label{tab:best-practices}
-\end{table}
+\section{Multi-Tenant- und Backend-Konzept}
 
-\section*{Moderne Build-Tools \& Konfiguration}
+Die bestehende App-Landschaft der Hochschule Luzern basiert bereits auf einem
+Multi-Tenant-Ansatz, welcher im Rahmen dieses Projekts weiterverfolgt wird.
+Ziel ist es, mit einer gemeinsamen Codebasis mehrere Applikationen für
+unterschiedliche Departemente zu betreiben. Aktuell betrifft dies die
+Departemente Informatik (I) sowie Technik \& Architektur (TA). Aus derselben
+Codebasis können dadurch mehrere App-Varianten erzeugt werden, die sich
+in deren Inhalten unterscheiden.
 
-\begin{table}[H]
-\centering
-\begin{tabularx}{\textwidth}{|l|X|}
-\hline
-\textbf{Tool/Konzept} & \textbf{Verwendung} \\
-\hline
-\textbf{KSP} & 
-Kotlin Symbol Processing statt KAPT für schnellere Annotation-Processing. 
-Verwendung für Room und Hilt Code-Generierung mit besserer Performance. \\
-\hline
-\textbf{Gradle} & 
-Version Catalog für zentrale Dependency-Verwaltung. Build Variants für Multi-Tenant. 
-JUnit 5 Integration. Kotlin Compiler Extensions für Compose. \\
-\hline
-\textbf{CI/CD} & 
-Fastlane für automatisierte Build- und Deployment-Pipeline. Multi-Tenant Builds. 
-Dotenv für sicheres Secret-Management. \\
-\hline
-\end{tabularx}
-\caption{Moderne Build-Tools und Konfiguration}
-\label{tab:build-tools}
-\end{table}
+Die Inhalte der Applikation werden nicht fest in der App hinterlegt, sondern
+zur Laufzeit aus einem zentralen Backend geladen. Dazu gehören unter anderem
+Menüstruktur, Inhalte oder Texte. Dieser Ansatz ermöglicht es,
+Inhalte anzupassen oder zu erweitern, ohne dass dafür ein neues App-Update im
+App Store oder Play Store veröffentlicht werden muss.
 
-\section*{Code-Qualität \& Wartbarkeit}
+\section{Konzept für Testing und Qualität}
 
-\begin{table}[H]
-\centering
-\begin{tabularx}{\textwidth}{|l|X|}
-\hline
-\textbf{Aspekt} & \textbf{Implementierung} \\
-\hline
-\textbf{Modularität} & 
-Feature-Module mit klaren Abhängigkeiten. Wiederverwendbare Common-Module. 
-Explizite Module-Abhängigkeiten ohne zirkuläre Referenzen. \\
-\hline
-\textbf{Wiederverwendbarkeit} & 
-\texttt{CommonApplicationBaseModuleLoader} als Basisklasse für alle Feature-Loader. 
-\texttt{CommonBootstrappingProgressView} als generische UI-Komponente. 
-Zentralisierte Utilities in Common/Util. \\
-\hline
-\textbf{Testbarkeit} & 
-JUnit 5 für moderne Tests. MockK für Kotlin-native Mocking. 
-\texttt{kotlinx-coroutines-test} für asynchrone Tests. Robolectric für Android-Komponenten. \\
-\hline
-\end{tabularx}
-\caption{Code-Qualität und Wartbarkeit}
-\label{tab:code-quality}
-\end{table}
+Die Qualität der Applikation soll  durch den Einsatz von automatisierten
+Tests sichergestellt werden. In den bisherigen iOS- und Android-Projekten wurde
+das Thema Testing etwas vernachlässigt, was im Rahmen dieses Projekts
+verbessert werden soll.
 
-\section*{Moderne UI-Patterns}
+Geplant ist der Einsatz von Unit- sowie einfachen Integrations- und UI-Tests,
+um zentrale Funktionen der App abzusichern. Dafür werden unter anderem
+Frameworks wie JUnit und Espresso eingesetzt. Die konkrete Umsetzung und
+Erfahrungen damit werden im Kapitel zur technischen Validierung beschrieben
+(siehe Abschnitt~\ref{sec:validieung}).
 
-\begin{table}[H]
-\centering
-\begin{tabularx}{\textwidth}{|l|X|}
-\hline
-\textbf{Pattern} & \textbf{Implementierung} \\
-\hline
-\textbf{Material Design 3} & 
-Moderne Material Design Komponenten. Konsistentes Theming über die gesamte Anwendung. 
-Dark Mode Support vorbereitet. \\
-\hline
-\textbf{Reaktive UI} & 
-StateFlow für reaktives State-Management. \texttt{collectAsState()} für Compose-Integration. 
-\texttt{LaunchedEffect} für Side-Effects in Compose. \\
-\hline
-\textbf{Component-Based} & 
-Wiederverwendbare Composables im Common/Presentation Modul. 
-Modifier-Pattern für flexibles Styling. Lambda-Callbacks für flexible Interaktion. \\
-\hline
-\end{tabularx}
-\caption{Moderne UI-Patterns}
-\label{tab:ui-patterns}
-\end{table}
+\section{Geplantes Vorgehen zum AI-First-Ansatz}
+
+Für den geplanten AI-First-Ansatz soll künstliche Intelligenz bewusst und aktiv in den
+Entwicklungsprozess eingebunden werden. Ziel ist es nicht, die Entwicklung
+vollständig zu automatisieren, sondern AI als unterstützendes Werkzeug im
+Arbeitsalltag der Entwickler zu nutzen.
+
+AI soll insbesondere dort eingesetzt werden, wo sie einen praktischen
+Mehrwert bietet. Dazu wird zu Beginn des Projekts eine erste
+Evaluationsphase durchgeführt (siehe Abschnitt~\ref{sec:ai-eval}). In dieser
+Phase wird geprüft, welche AI-Tools sich sinnvoll in den
+Entwicklungsprozess integrieren lassen und welche davon tatsächlich eine
+Unterstützung im Alltag bieten.
+
+AI-Tools, die sich in dieser Evaluationsphase als hilfreich erweisen,
+werden während der weiteren Entwicklung aktiv eingesetzt. Sie sollen den
+Entwicklungsprozess begleiten, etwa beim Verständnis von bestehendem Code,
+bei der Umsetzung einzelner Features oder bei wiederkehrenden Aufgaben.
+
+Zum Abschluss des Projekts wird ein Fazit zum AI-First-Ansatz gezogen. Dabei
+wird festgehalten, welche Tools sich gut bewährt haben, wo deren Stärken und
+Grenzen liegen und in welchen Situationen ihr Einsatz sinnvoll ist. Ziel
+ist es, diese Erkenntnisse weiterzugeben und anderen Entwicklerinnen und
+Entwicklern aufzuzeigen, wo sich der Einsatz von AI im aktuellen Stand der
+Technik lohnt.
+
+\section{Abgrenzung und bewusste Entscheidungen}
+
+Dieses Projekt fokussiert sich ausschliesslich auf die technische Umsetzung
+der Android-Applikation auf Basis der bestehenden iOS-App. Die iOS-Version
+dient dabei als funktionale Referenz und wird mit Jetpack Compose auf Android
+nachgebaut und modernisiert.
+
+Es wurden keine Nutzungstests oder Befragungen mit Studierenden
+durchgeführt. Ebenso war eine Anpassung des bestehenden
+Backends nicht Teil des Projekts.
