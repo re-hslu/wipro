@@ -1,23 +1,90 @@
-In der aktuellen Ausgangslage existieren drei unterschiedliche mobile Applikationen, die sich sowohl hinsichtlich ihres technologischen Stands als auch ihres Funktionsumfangs 
-deutlich voneinander unterscheiden. Diese Situation erfordert eine klare Einordnung der bestehenden Lösungen sowie eine strategische Ausrichtung für die Weiterentwicklung der 
-Android-Plattform.
+\section{Apps}\vspace{-0.25em}
+Die Hochschule Luzern betreibt für die Departemente Informatik sowie Technik \& Architektur
+eigene mobile Applikationen auf den Plattformen iOS und Android. In den vergangenen
+Wirtschaftsprojekten und Forschungsarbeiten wurden diese Apps laufend weiterentwickelt.
+Dabei arbeiteten jeweils unterschiedliche Studierende an den Projekten, jedoch nicht immer
+parallel auf beiden Plattformen. Aus diesem Vorgehen sind mehrere Projekte entstanden, die sich heute in unterschiedlichen
+Entwicklungsständen befinden. Alle Projekte werden zentral auf GitLab verwaltet und
+versioniert.
 
-Zum einen gibt es eine veröffentlichte Android-Applikation, die auf klassischen XML-Layouts basiert. Diese Anwendung ist bereits seit längerer Zeit im Einsatz, nutzt jedoch weder 
-alle verfügbaren Funktionen noch moderne Android-Entwicklungskonzepte. Wichtige aktuelle Technologien und Best Practices, wie sie heute im Android-Ökosystem etabliert sind, wurden 
-in dieser App nicht oder nur unzureichend berücksichtigt. Dadurch entspricht sie nicht mehr dem aktuellen Stand der Technik und weist sowohl in Bezug auf 
-Wartbarkeit als auch auf Benutzererlebnis klare Defizite auf. Erweiterungen oder Anpassungen sind dadurch aufwendiger und weniger nachhaltig umsetzbar.
+Aktuell existieren drei unterschiedliche Versionen der Applikation:
+\begin{itemize}
+    \item \texttt{ios-swiftui-multitenant}
+    \item \texttt{android-xml-multitenant}
+    \item \texttt{android-jetpackcompose-multitenant}
+\end{itemize}
 
-Parallel dazu existiert eine iOS-Applikation, die sich auf einem aktuellen technischen Stand befindet und ebenfalls bereits veröffentlicht ist. Diese App nutzt moderne 
-Entwicklungsansätze und implementiert die gewünschten Funktionen vollständig und zeitgemäss. Sie stellt damit eine stabile, ausgereifte und zukunftsfähige Lösung dar. 
-Aufgrund ihres aktuellen Zustands und der vollständigen Feature-Abdeckung dient diese iOS-Applikation als fachliche und funktionale Referenz. An ihr kann und soll sich 
-die Weiterentwicklung der Android-Anwendungen orientieren, insbesondere im Hinblick auf Funktionsumfang, Benutzerführung und technisches Design.
+\vspace{0.3em}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.55\textwidth]{Fotos/projekte-gitlab.png}
+    \caption{Projekte in GitLab}
+    \label{fig:projekte-gitlab}
+\end{figure}
 
-Als dritte Variante liegt zudem eine Android-Applikation auf Basis von Jetpack Compose vor. Diese App ist aktuell nicht veröffentlicht und ebenfalls veraltet. 
-Obwohl Jetpack Compose grundsätzlich ein modernes UI-Framework darstellt, wurde die Anwendung seit längerer Zeit nicht mehr aktualisiert und nutzt weder die aktuellen 
-Möglichkeiten von Compose noch moderne Architektur- und State-Management-Konzepte. Funktional und technisch kann sie daher nicht als zeitgemäss betrachtet werden. 
-Gleichzeitig bietet sie jedoch eine gute Grundlage für eine moderne Android-Neuentwicklung, da sie bereits auf einem deklarativen UI-Ansatz basiert.
+Die Projekte \texttt{ios-swiftui-multitenant} sowie \texttt{android-xml-multitenant} verfügen
+jeweils über eine produktive Version der Applikation, welche im Apple App Store respektive
+im Google Play Store veröffentlicht ist. (Diese produktiven Stände sind in der Abbildung 2
+grün markiert.)
 
-Ziel ist es nun, diese Android-Jetpack-Compose-Applikation gezielt zu modernisieren und weiterzuentwickeln. Dabei soll sie technologisch auf den neuesten Stand 
-gebracht und funktional an die bestehende iOS-Applikation angeglichen werden. Die iOS-App dient hierbei als Referenz für Features, Benutzererlebnis und funktionale Vollständigkeit. 
-Durch diese Ausrichtung kann sichergestellt werden, dass künftig eine konsistente und moderne App-Landschaft auf beiden Plattformen existiert, die sowohl den aktuellen technischen 
-Standards entspricht als auch eine einheitliche Nutzererfahrung bietet.
+Zusätzlich existiert im Projekt \texttt{ios-swiftui-multitenant} ein Entwicklungsstand
+(\textit{Dev-Branch}), der bereits weitere Features enthält, jedoch noch nicht veröffentlicht
+wurde. Dieser Entwicklungsstand stellt aktuell den funktional vollständigsten und
+modernsten Stand der Applikation dar. (Er ist in der Abbildung 2 blau dargestellt und dient
+als Referenz für die Android-Neuentwicklung.)
+
+Das Projekt \texttt{android-jetpackcompose-multitenant} ist aktuell nicht produktiv.
+An diesem Projekt wurde seit längerer Zeit nicht mehr aktiv gearbeitet, weshalb es
+technisch als veraltet betrachtet werden muss. Ziel des Projekts ist es, den aktuellen Entwicklungsstand aus dem
+\texttt{ios-swiftui-multitenant}-Dev-Branch funktional auf Android mit
+Jetpack Compose nachzubauen und weiterzuentwickeln.
+
+\vspace{0.3em}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.55\textwidth]{Fotos/projekte.png}
+    \caption{Projekte mit (relevanten) Branches}
+    \label{fig:branches}
+\end{figure}
+
+\vspace{0.5cm}
+
+Die folgenden Abbildungen zeigen den Stand der bestehenden mobilen Applikationen
+im September 2025, also zum Zeitpunkt vor Projektbeginn.
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.23\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Fotos/android-xml-multitenant.png}
+        \caption{android-xml-multitenant (main)}
+        \label{fig:android-xml-multitenant}
+    \end{subfigure}
+    \hspace{0.3cm}
+    \begin{subfigure}[b]{0.23\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Fotos/ios-swiftui-prod.png}
+        \caption{ios-swiftui-multitenant (main)}
+        \label{fig:ios-swiftui-prod.png}
+    \end{subfigure}
+    \hspace{0.3cm}
+    \begin{subfigure}[b]{0.23\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Fotos/ios-swiftui-dev.png}
+        \caption{ios-swiftui-multitenant (dev)}
+        \label{fig:ios-swiftui-dev.png}
+    \end{subfigure}
+    \caption{Screenshots der bestehenden Apps}
+    \label{fig:bestehendeappsstand}
+\end{figure}
+
+\section{Backend}
+
+Für alle Applikationen existiert ein gemeinsames Backend, auf das sowohl die iOS- als auch
+die Android-Apps zugreifen. Über dieses Backend werden unter anderem Informationen zu den
+einzelnen Modulen geladen. 
+
+Dieses Konzept ermöglicht eine Entkopplung zwischen App und Inhalt. Änderungen an
+Daten oder Modulinhalten können zentral im Backend vorgenommen werden, ohne dass die
+Applikationen neu veröffentlicht werden müssen. Dadurch wird die Wartbarkeit verbessert
+und neue Inhalte können schneller und flexibler bereitgestellt werden (siehe ~\ref{anhang:backend}).
