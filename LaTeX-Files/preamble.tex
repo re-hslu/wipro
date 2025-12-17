@@ -53,6 +53,7 @@
 \usepackage{pgffor}
 \usepackage{longtable}
 
+
 \usetikzlibrary{trees, mindmap}                     % TikZ-Erweiterungen
 \graphicspath{{Fotos/}}                             % Standardpfad für Bilder
 \pgfplotsset{compat=1.18}
@@ -63,6 +64,14 @@
 
 % Querformat: Kopf-/Fusszeile korrekt drehen
 \usepackage{scrlayer-scrpage}
+\newpairofpagestyles{landscapeNumber}{scrheadings}{%
+  \ihead{}
+  \chead{}
+  \ohead{}
+  \ifoot{}
+  \cfoot{\pagemark}
+  \ofoot{}
+}
 
 \newpairofpagestyles{landscapescrheadings}{scrheadings}{%
   \lehead{\rotatebox{-90}{\headmark}}%

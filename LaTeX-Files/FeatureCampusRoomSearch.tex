@@ -3,7 +3,6 @@
 Das CampusRoomSearch Feature ermöglicht es Benutzern, Räume auf dem Campus zu suchen und zu finden. 
 Es stellt interaktive PDF-Karten bereit, die Campus-Übersichten und Gebäudepläne enthalten, und ermöglicht es Benutzern, 
 durch Klicken auf annotierte Bereiche in den PDFs zu navigieren und detaillierte Informationen zu Räumen, Gebäuden und Etagen abzurufen. 
-Das Feature unterstützt sowohl deutsche als auch englische Sprachversionen und speichert PDF-Dateien lokal für Offline-Zugriff.
 
 \vspace{0.5cm}
 
@@ -37,7 +36,7 @@ Die \texttt{loadRemoteDetailedData()}-Methode lädt die detaillierten Campus-Dat
 
 Die \texttt{PDFRoomSearchView} Komponente rendert PDF-Dateien mit Android's \texttt{PdfRenderer} und unterstützt interaktive Annotationen. Die Komponente lädt PDFs aus der Room-Datenbank und ermöglicht Zoom- und Pan-Gesten:
 
-\begin{lstlisting}[language=Java]
+\begin{lstlisting}[language=Kotlin, caption={Beispiel PDFRoomSearchView}]
 @Composable
 fun PDFRoomSearchView(
     pdfData: ByteArray,
@@ -51,7 +50,7 @@ fun PDFRoomSearchView(
 Die Annotation-Erkennung funktioniert durch Koordinaten-Transformation. Wenn ein Benutzer auf das PDF klickt, 
 werden die Tap-Koordinaten basierend auf dem aktuellen Zoom- und Pan-Zustand transformiert, um die entsprechende Annotation zu finden:
 
-\begin{lstlisting}[language=Java]
+\begin{lstlisting}[language=Kotlin, caption={Beispiel transformTapCoordinates}]
 fun transformTapCoordinates(
     tapX: Float, tapY: Float,
     zoom: Float, panX: Float, panY: Float
@@ -63,7 +62,7 @@ fun transformTapCoordinates(
 Der \texttt{RoomsearchViewModel} verwaltet die Suche nach Räumen und die Interaktion mit den SVG-Karten. 
 Er verwendet JavaScript-Interfaces, um Kommunikation zwischen WebView und Android-Code zu ermöglichen:
 
-\begin{lstlisting}[language=Java]
+\begin{lstlisting}[language=Kotlin, caption={Beispiel IJavascriptHandler}]
 interface IJavascriptHandler {
     @JavascriptInterface
     fun onBuildingClick(buildingId: String)
@@ -78,21 +77,9 @@ interface IJavascriptHandler {
 \hline
 \textbf{Funktionalität} & \textbf{Beschreibung} \\
 \hline
-\textbf{Hybride Speicherstrategie} & 
-Das Feature verwendet eine hybride Speicherstrategie: JSON-Daten werden in der Room-Datenbank gespeichert, während PDF-Dateien als \texttt{ByteArray} in der \texttt{FileEntity} Tabelle gespeichert werden. 
-Dies ermöglicht eine effiziente Speicherung und schnellen Zugriff auf die Dateien, ohne dass externe Dateisystem-Zugriffe erforderlich sind. \\
-\hline
 \textbf{PDF-Annotationen} & 
 Die PDF-Annotationen werden aus den PDF-Metadaten extrahiert und als unsichtbare, aber klickbare Bereiche über dem PDF gerendert. 
 Dies ermöglicht eine präzise Interaktion, während das ursprüngliche PDF-Layout erhalten bleibt. Die Koordinaten-Transformation berücksichtigt Zoom- und Pan-Zustände für eine genaue Erkennung. \\
-\hline
-\textbf{Sprachauswahl} & 
-Die Sprachauswahl erfolgt automatisch basierend auf der System-Locale. Falls die bevorzugte Sprache nicht verfügbar ist, wird automatisch auf die alternative Sprache zurückgegriffen. 
-Dies gewährleistet, dass das Feature immer funktionsfähig ist, unabhängig von der verfügbaren Sprachversion. \\
-\hline
-\textbf{Intelligente Synchronisation} & 
-Die Synchronisation verwendet Timestamp-Vergleiche, ähnlich wie andere Module. Der \texttt{CampusRoomSearchDataLoader} prüft zuerst, ob lokale Daten vorhanden sind, und lädt nur dann Remote-Daten, wenn eine Aktualisierung notwendig ist oder keine lokalen Daten vorhanden sind. 
-Dies reduziert unnötige Downloads und spart Bandbreite. \\
 \hline
 \textbf{Hierarchische Navigation} & 
 Das Feature unterstützt mehrere Campus-Standorte, wobei jeder Standort seine eigenen Gebäude, Etagen und Räume hat. 
@@ -101,10 +88,6 @@ Die Navigation erfolgt hierarchisch: Campus → Gebäude → Etage → Raum, wob
 \textbf{WebView-Integration} & 
 Die WebView-Integration für SVG-Karten ermöglicht interaktive Gebäudekarten, bei denen Benutzer auf Gebäude klicken können, um direkt zu den entsprechenden Etagenplänen zu navigieren. 
 Die JavaScript-Interface-Implementierung ermöglicht eine bidirektionale Kommunikation zwischen der WebView und dem Android-Code. \\
-\hline
-\textbf{Offline-Funktionalität} & 
-Alle PDF-Dateien werden lokal gespeichert, sodass das Feature auch ohne aktive Netzwerkverbindung vollständig funktionsfähig ist. 
-Die Synchronisation erfolgt intelligent basierend auf Timestamp-Vergleichen, um unnötige Downloads zu vermeiden. \\
 \hline
 \textbf{PDF-Rendering} & 
 Die PDF-Dateien werden mit Android's \texttt{PdfRenderer} gerendert und unterstützen Zoom- und Pan-Gesten. 
