@@ -1,6 +1,6 @@
-\subsubsection{CommonStorage}  \label{sec:commonstorage}
+\subsubsection{Storage}  \label{sec:commonstorage}
 
-Das Common Storage Modul stellt die zentrale Speicherschicht der Anwendung dar und bietet eine einheitliche Schnittstelle für persistente Datenspeicherung. 
+Die Klasse \texttt{CommonStorageService} stellt die zentrale Speicherschicht der Anwendung dar und bietet eine einheitliche Schnittstelle für persistente Datenspeicherung. 
 Es verwendet Android's Room-Datenbank als Backend und abstrahiert alle Datenbankoperationen hinter einem einfachen Service-Interface. 
 Der \texttt{CommonStorageService} ermöglicht es, verschiedene Arten von Daten zu speichern: AppInitModule-Konfigurationen, Modul-JSON-Daten,  
 Synchronisations-Timestamps und Dateien.
@@ -18,12 +18,14 @@ Dies ermöglicht es, die Datenbank-Implementierung zu ändern, ohne dass die Anw
 Die Verwendung von Kotlin Coroutines für alle Datenbankoperationen stellt sicher, dass Blockierungen des Main-Threads vermieden werden und die Anwendung reaktionsfähig bleibt. 
 Alle Operationen werden automatisch auf \texttt{Dispatchers.IO} ausgeführt, was eine optimale Performance gewährleistet.
 
+\newpage
 \subsubsection*{Umsetzung / Funktionsweise}
 
 Die Implementierung basiert auf Android's Room-Persistenzbibliothek. Die \texttt{AppDatabase} ist die zentrale Datenbankklasse, 
 die alle Entities und DAOs verwaltet:
 
-\begin{lstlisting}[language=Java]
+\hspace{0.05cm}
+\begin{lstlisting}[language=Kotlin, caption={AppDatabase}]
 @Database(
     entities = [ModuleDataEntity::class, FileEntity::class, ...],
     version = 1
@@ -35,10 +37,10 @@ abstract class AppDatabase : RoomDatabase() {
 \end{lstlisting}
 
 Der \texttt{CommonStorageService} verwendet das Singleton-Pattern für die Datenbankinstanz und bietet eine Factory-Methode zur Erstellung.
-
 Für die Speicherung von Modul-Daten wird die \texttt{ModuleDataEntity} verwendet, die JSON-Daten als String speichert:
 
-\begin{lstlisting}[language=Java]
+\hspace{0.05cm}
+\begin{lstlisting}[language=Kotlin, caption={Beispiel JSON-Speicher}]
 @Entity(tableName = "module_data")
 data class ModuleDataEntity(
     @PrimaryKey val moduleId: String,
@@ -48,17 +50,14 @@ data class ModuleDataEntity(
 \end{lstlisting}
 
 Die \texttt{storeModuleData()}-Methode konvertiert DTOs in Entities und speichert sie in der Datenbank.
-
-Die \texttt{getModuleData()}-Methode lädt Daten aus der Datenbank und gibt sie als JSON-String zurück.
-
+Die \newline \texttt{getModuleData()}-Methode lädt Daten aus der Datenbank und gibt sie als JSON-String zurück.
 Für AppInitModule-Daten werden DTOs in Entities konvertiert. Die \texttt{storeAppInitModules()}-Methode mappt eine Liste von DTOs zu Entities.
-
 Die \texttt{getAppInitModuleOrder()}-Methode demonstriert eine komplexere Abfrage, 
 die Daten aus mehreren Tabellen kombiniert.
-
 Für Dateispeicherung wird die \texttt{FileEntity} verwendet, die Dateien als \texttt{ByteArray} speichert:
 
-\begin{lstlisting}[language=Java]
+\hspace{0.05cm}
+\begin{lstlisting}[language=Kotlin, caption={Beispiel File-Speicher}]
 @Entity(tableName = "files")
 data class FileEntity(
     @PrimaryKey val fileId: String,
@@ -67,6 +66,7 @@ data class FileEntity(
 )
 \end{lstlisting}
 
+\newpage
 \subsubsection*{Weitere Informationen}
 
 \begin{table}[h]

@@ -37,7 +37,6 @@
 % Erläutere die Umsetzung, Architektur, Implementierungsdetails usw.
 
 % Grundeinstellung App
-
 \input{LaTeX-Files/Applikationsarchitektur-Konfiguration.tex}
 \input{LaTeX-Files/Localisation.tex} \newpage
 \input{LaTeX-Files/fastlane.tex} \newpage
@@ -48,7 +47,8 @@
 \input{LaTeX-Files/CommonDomain.tex} \newpage
 
 \subsection{CommonInfrastructure}
-\input{LaTeX-Files/CommonNetwork.tex} \newpage
+\input{LaTeX-Files/CommonInfrastructure.tex}
+\input{LaTeX-Files/CommonNetwork.tex}
 \input{LaTeX-Files/CommonStorage.tex} \newpage
 
 \input{LaTeX-Files/CommonPresentation.tex} \newpage
@@ -88,11 +88,15 @@
 \subsection{AI-First: Weitere Inhalte}\label{anhang:ai-first-elements}
 In diesem Beispiel hat die AI die Clean-Code-Prinzipien nicht sauber
 eingehalten und teilweise mehrere Klassen in derselben Datei zusammengefasst.
-\begin{figure}[H]\centering\includegraphics[width=0.9\textwidth]{Fotos/ai-first-1.png}\end{figure}
+\begin{figure}[H]\centering\includegraphics[width=0.85\textwidth]{Fotos/ai-first-1.png}\caption{Von AI generierter Code mit Schwächen}\end{figure}
 Hier hat die AI ein Layout erstellt. Wie zu sehen ist, sind zwar alle Elemente
 vorhanden, das Ergebnis wirkt jedoch optisch nicht gelungen.
-\begin{figure}[H]\centering\includegraphics[width=0.2\textwidth]{Fotos/ai-first-2.png}\end{figure}
-% Screenshots, Diagramme, Code-Ausschnitte etc.
+\begin{figure}[H]\centering\includegraphics[width=0.18\textwidth]{Fotos/ai-first-2.png}\caption{Von AI generiertes Layout}\end{figure}
+
+\subsection{AppBootstrappingViewModel}\label{anhang:AppBootstrappingViewModel}
+\begin{figure}[H]\centering\includegraphics[width=0.99\textwidth]{Fotos/AppBootstrappingViewModel.png}\caption{Sequenzdiagramm der Klasse AppBootstrappingViewModel}\end{figure}\newpage
+\subsection{CommonApplicationBaseModuleLoader}\label{anhang:CommonApplicationBaseModuleLoader}
+\begin{figure}[H]\centering\includegraphics[width=0.99\textwidth]{Fotos/CommonApplicationBaseModuleLoader.png}\caption{Sequenzdiagramm der Klasse CommonApplicationBaseModuleLoader}\end{figure}
 
 % Sprint-Boards (A4 Querformat, Header/Footer + Seitenzahl wie normal)
 \clearpage

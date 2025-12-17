@@ -1,6 +1,6 @@
 \subsection{CommonPresentation}
 
-Das Common Presentation Module stellt eine Sammlung wiederverwendbarer UI-Komponenten für Jetpack Compose bereit, 
+Das Modul CommonPresentation stellt eine Sammlung wiederverwendbarer UI-Komponenten für Jetpack Compose bereit, 
 die von allen Feature-Modulen verwendet werden können. Es bietet standardisierte Komponenten für Buttons, Textfelder, 
 Progress-Indikatoren, Dialoge, Fehleranzeigen und weitere UI-Elemente, die eine konsistente Benutzeroberfläche über die gesamte Anwendung hinweg gewährleisten.
 
@@ -10,16 +10,44 @@ Das Hauptziel besteht darin, Code-Duplikation zu vermeiden und eine konsistente 
 indem gemeinsame UI-Komponenten zentralisiert werden. Durch die Verwendung von wiederverwendbaren Komponenten wird sichergestellt, 
 dass alle Feature-Module das gleiche Design-System verwenden und Änderungen am Design zentral vorgenommen werden können.
 
-Ein weiteres wichtiges Ziel ist die Bereitstellung einer generischen Bootstrapping-Progress-View, die mit jedem Modul-Loader verwendet werden kann, 
-der das \texttt{ModuleLoaderContract} Interface implementiert. Dies ermöglicht es, den gesamten Datenlade- und Synchronisationsprozess mit einer einheitlichen UI zu visualisieren, 
-ohne dass jedes Feature-Modul seine eigene Implementierung erstellen muss.
-
 \subsubsection*{Umsetzung / Funktionsweise}
 
 Die Komponenten sind als Composable-Funktionen implementiert und folgen den Jetpack Compose Best Practices. 
-Die wichtigste Komponente ist \texttt{CommonBootstrappingProgressView}, die eine generische Implementierung für das Anzeigen von Lade- und Synchronisationsstatus bietet:
 
-\begin{lstlisting}[language=Java]
+Die wichtigsten Elemente aus dem \texttt{CommonPresentation}-Modul sind:
+
+\begin{itemize}
+    \item \textbf{GenericErrorView}:  
+    Eine einfache und zentrale Fehleranzeige, die eine Fehlermeldung
+    übersichtlich darstellt. Optional kann ein \glqq Retry\grqq{}-Button
+    angezeigt werden, mit dem der fehlgeschlagene Vorgang erneut ausgelöst
+    werden kann. Diese Komponente wird in mehreren Features verwendet, um
+    Fehler einheitlich darzustellen.
+    \hspace{0.15cm}
+    \item \textbf{WebViewScreen}:  
+    Eine Composable-Komponente zur Anzeige externer Inhalte innerhalb der App.
+    Sie stellt eine Android WebView bereit und unterstützt unter anderem
+    JavaScript, Cookies und DOM Storage. Je nach Konfiguration können Inhalte
+    entweder direkt in der App oder extern im Systembrowser geöffnet werden.
+    \hspace{0.15cm}
+    \item \textbf{LogoSplashView}:  
+    Eine animierte Splash-Screen-Komponente, die beim Start der App ein Logo
+    sowie einen Untertitel anzeigt. Nach Abschluss der Animation kann ein
+    Callback ausgelöst werden, um automatisch zur nächsten Ansicht zu
+    wechseln. Die Komponente wird während des App-Bootstrappings für den
+    initialen Startbildschirm verwendet.
+    \hspace{0.15cm}
+    \item \textbf{CommonBootstrappingProgressView}:  
+    Eine wiederverwendbare Composable-Komponente, die den \newline Initialisierungs-
+    und Ladeprozess von Modulen kapselt. Sie übernimmt automatisch die
+    Ausführung von \newline \texttt{setup()} und \texttt{process()} und stellt je nach
+    Status eine Ladeansicht, eine Erfolgsansicht oder eine Fehleransicht dar.
+    Dadurch kann der Bootstrapping-Prozess in allen Features einheitlich und
+    ohne doppelten Code umgesetzt werden.
+\end{itemize}
+
+\hspace{0.05cm}
+\begin{lstlisting}[language=Kotlin, caption={Klasse CommonBootstrappingProgressView}]
 @Composable
 fun CommonBootstrappingProgressView(
     loader: ModuleLoaderContract<*>,
@@ -29,60 +57,3 @@ fun CommonBootstrappingProgressView(
     // ...
 }
 \end{lstlisting}
-
-Die Komponente reagiert auf Statusänderungen des Modul-Loaders und zeigt entsprechend den aktuellen Zustand an. 
-Bei \texttt{Not\_Initialized} wird die \texttt{setup()}-Funktion aufgerufen, bei \texttt{Initialized} wird automatisch \texttt{process()} aufgerufen, 
-und bei \texttt{Success} wird die übergebene \texttt{successView} angezeigt.
-
-Für Buttons werden standardisierte Komponenten bereitgestellt. \texttt{PrimaryButton} ist eine wiederverwendbare Button-Komponente mit konsistentem Styling:
-
-\begin{lstlisting}[language=Java]
-@Composable
-fun PrimaryButton(
-    text: String,
-    onClick: () -> Unit,
-    modifier: Modifier = Modifier
-) {
-    Button(onClick = onClick, modifier = modifier) {
-        Text(text)
-    }
-}
-\end{lstlisting}
-
-Die \texttt{AutoCompleteTextField} Komponente bietet eine Suchfunktion mit automatischer Vervollständigung.
-
-Die \texttt{LogoSplashView} Komponente zeigt einen animierten Splash-Screen mit Logo und Untertitel.
-
-Die \texttt{WebViewScreen} Komponente bietet eine integrierte WebView-Implementierung mit Unterstützung für interne und externe Browser.
-
-\subsubsection*{Weitere Informationen}
-
-\begin{table}[h]
-\centering
-\begin{tabularx}{\textwidth}{|l|X|}
-\hline
-\textbf{Aspekt} & \textbf{Beschreibung} \\
-\hline
-\textbf{Material Design 3} & 
-Alle Komponenten verwenden Material Design 3 und folgen den Jetpack Compose Best Practices. 
-Die Komponenten sind vollständig reaktiv und reagieren auf State-Änderungen durch StateFlow oder andere State-Management-Mechanismen. \\
-\hline
-\textbf{GenericErrorView} & 
-Die \texttt{GenericErrorView} Komponente bietet eine standardisierte Fehleranzeige mit optionaler Retry-Funktionalität. \\
-\hline
-\textbf{Dependency Injection} & 
-Das Modul verwendet Hilt für Dependency Injection, insbesondere für ViewModels wie \texttt{WebViewViewModel}. 
-Die WebView-Implementierung unterstützt JavaScript, Zoom-Kontrollen und verschiedene Cache-Modi basierend auf der Netzwerkverfügbarkeit. \\
-\hline
-\textbf{Flexibilität} & 
-Die Komponenten sind so designed, dass sie flexibel anpassbar sind durch Modifier-Parameter und Lambda-Funktionen für Callbacks. 
-Dies ermöglicht es, die Komponenten in verschiedenen Kontexten zu verwenden, während das grundlegende Design und Verhalten konsistent bleibt. \\
-\hline
-\textbf{Integration mit Common Domain} & 
-Das Modul integriert sich nahtlos mit dem Common Domain Modul, indem es die \texttt{ModuleLoaderContract} Interface und \texttt{CommonModuleLoaderStatus} Enum verwendet, 
-was eine lose Kopplung zwischen Presentation- und Application-Schicht gewährleistet. \\
-\hline
-\end{tabularx}
-\caption{Technische Aspekte des \texttt{CommonPresentation} Moduls}
-\label{tab:commonpresentation-specs}
-\end{table}

@@ -145,7 +145,7 @@ Nach dem Laden der App wird mit dem Bootstrapping (Laden der Features)
 
 Im Beispiel des News-Feature (Abschnitt~\ref{sec:featurenews}) funktioniert die Dependency Injection so:
 
-\begin{lstlisting}[language=Java, caption={Provider-Methode}]
+\begin{lstlisting}[language=Kotlin, caption={Provider-Methode}]
 @Provides
 fun provideFeatureNewsModuleLoaderConfig( provider: TenantUrlProvider): FeatureNewsModuleLoaderConfig {
     return FeatureNewsModuleLoaderConfig(
@@ -156,7 +156,7 @@ fun provideFeatureNewsModuleLoaderConfig( provider: TenantUrlProvider): FeatureN
 }
 \end{lstlisting}
 
-\begin{lstlisting}[language=Java, caption={Injection im NewsDataLoader}]
+\begin{lstlisting}[language=Kotlin, caption={Injection im NewsDataLoader}]
 @HiltViewModel
 class NewsDataLoader @Inject constructor(
     val tenantConfig: AppTenantConfig, val featureConfig: FeatureNewsConfig,

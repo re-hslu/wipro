@@ -46,7 +46,7 @@ anhand der aktuellen Systemsprache bestimmt. Die Auswahl erfolgt über \newline
 
 \hspace{0.3cm}
 
-\begin{lstlisting}[language=Java, caption={Auswahl der passenden Sprachvariante}]
+\begin{lstlisting}[language=Kotlin, caption={Auswahl der passenden Sprachvariante}]
 val label: String
     get() = when (Locale.getDefault().language.lowercase(Locale.getDefault())) {
         "de" -> LabelDE ?: LabelEN ?: "Unbenannt"

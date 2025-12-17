@@ -1,6 +1,6 @@
 \subsection{CommonDomain}
 
-Das Common Domain Module stellt die Domänenschicht der Anwendung dar und enthält alle zentralen Geschäftsobjekte, 
+Das Modul CommonDomain stellt die Domänenschicht der Anwendung dar und enthält alle zentralen Geschäftsobjekte, 
 Data Transfer Objects (DTOs), Enums und Konfigurationsklassen, die die Kernentitäten der Anwendung repräsentieren. 
 Es handelt sich um ein reines Domänenmodul ohne Abhängigkeiten zu Android-Frameworks, 
 das den Prinzipien der Clean Architecture folgt und eine klare Trennung zwischen Domänenlogik und Infrastruktur ermöglicht.
@@ -24,7 +24,8 @@ Die Struktur des Moduls basiert auf einer klaren Trennung in verschiedene Pakete
 
 Die Basis-DTOs definieren die gemeinsame Struktur für alle Modul-DTOs. \texttt{CommonAppBaseModuleItemAPIDTO} stellt die Basis für einzelne Modul-Items dar:
 
-\begin{lstlisting}[language=Java]
+\hspace{0.05cm}
+\begin{lstlisting}[language=Kotlin, caption={Klasse CommonAppBaseModuleItemAPIDTO}]
 abstract class CommonAppBaseModuleItemAPIDTO {
     abstract val id: String
     abstract val title: String
@@ -33,7 +34,8 @@ abstract class CommonAppBaseModuleItemAPIDTO {
 
 \texttt{CommonAppBaseModuleAPIDTO} ist ein generischer Container für Modul-Daten, der sowohl einzelne Items als auch Listen unterstützt:
 
-\begin{lstlisting}[language=Java]
+\hspace{0.05cm}
+\begin{lstlisting}[language=Kotlin, caption={Klasse CommonAppBaseModuleAPIDTO}]
 data class CommonAppBaseModuleAPIDTO<I>(
     val items: List<I>? = null,
     val item: I? = null,
@@ -43,12 +45,14 @@ data class CommonAppBaseModuleAPIDTO<I>(
 
 Feature-spezifische DTOs erben von diesen Basisklassen. Beispielsweise erbt \texttt{AppMensaModuleItemAPIDTO} von 
 \texttt{CommonAppBaseModuleItemAPIDTO} und fügt mensa-spezifische Felder hinzu. 
-Die Verwendung von Gson-Annotationen wie \texttt{@SerializedName} ermöglicht die korrekte Deserialisierung von JSON-Daten aus der API.
+Die Verwendung von \newline Gson-Annotationen wie \texttt{@SerializedName} ermöglicht die korrekte Deserialisierung von JSON-Daten aus der API.
 
+\newpage
 Die Enum-Klassen definieren verschiedene Zustände und Typen der Anwendung. \texttt{CommonModuleLoaderStatus} ist eine sealed class, 
 die alle möglichen Zustände eines Modul-Loaders repräsentiert:
 
-\begin{lstlisting}[language=Java]
+\hspace{0.05cm}
+\begin{lstlisting}[language=Kotlin, caption={Klasse CommonModuleLoaderStatus}]
 sealed class CommonModuleLoaderStatus<I> {
     object Not_Initialized : CommonModuleLoaderStatus<Nothing>()
     data class Success<I>(val data: I) : CommonModuleLoaderStatus<I>()
@@ -59,7 +63,7 @@ sealed class CommonModuleLoaderStatus<I> {
 \texttt{CommonAppModuleType} definiert alle verfügbaren Modultypen der Anwendung und bietet eine \texttt{parse()}-Methode zur Konvertierung von Strings.
 
 Die Konfigurationsklassen definieren die Einstellungen für verschiedene Module. 
-\texttt{CommonModuleBaseLoaderConfig} stellt die Basis-Konfiguration für Modul-Loader bereit.
+\newline \texttt{CommonModuleBaseLoaderConfig} stellt die Basis-Konfiguration für Modul-Loader bereit.
 
 Das \texttt{ModuleLoaderContract} Interface definiert den Vertrag für alle Modul-Loader und stellt die grundlegenden Methoden wie \texttt{setup()} und \texttt{process()} bereit.
 

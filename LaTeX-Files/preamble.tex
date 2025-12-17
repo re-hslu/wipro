@@ -20,6 +20,16 @@
 \usepackage{pgfplots}                               % Diagramme
 \usepackage{listings}                               % Quellcode
 \usepackage{xcolor}                                 % Farben
+\lstdefinelanguage{Kotlin}{
+  keywords={abstract, class, object, interface, fun, val, var,
+    if, else, when, for, while, return, is, in, as, this, super},
+  keywordstyle=\color{blue},
+  comment=[l]{//},
+  commentstyle=\color{gray},
+  stringstyle=\color{red},
+  morestring=[b]",
+  sensitive=true
+}
 \usepackage{soul}                                   % Textmarkierung
 \usepackage[backend=biber,style=apa]{biblatex}      % Literaturverzeichnis
 \addbibresource{literatur.bib}                      % Literaturverzeichnis
