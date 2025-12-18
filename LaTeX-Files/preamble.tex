@@ -31,9 +31,15 @@
   sensitive=true
 }
 \usepackage{soul}                                   % Textmarkierung
-\usepackage[backend=biber,style=apa]{biblatex}      % Literaturverzeichnis
+\usepackage[
+  backend=biber,
+  style=authoryear,
+  citestyle=authoryear
+]{biblatex}
 \addbibresource{literatur.bib}                      % Literaturverzeichnis
-\DeclareLanguageMapping{ngerman}{ngerman-apa}       % für deutsche APA-Formatierung
+\DefineBibliographyStrings{german}{
+  and = {und}
+}
 \usepackage{csquotes}                               % Korrekte Zitate
 \usepackage{acronym}                                % Abkürzungsverzeichnis
 \usepackage{array}                                  % Erweiterte Tabellen

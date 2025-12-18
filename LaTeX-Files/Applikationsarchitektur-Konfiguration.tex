@@ -43,14 +43,14 @@ nahezu alle eingesetzten Bibliotheken und Konfigurationen veraltet. Entsprechend
 wurde zu Projektbeginn gezielt Zeit investiert, um den gesamten Build-Prozess und
 die Projektkonfiguration zu modernisieren. Dies umfasste die Aktualisierung auf
 Java~21, die Migration auf Kotlin~2.1.21 sowie das Upgrade auf das aktuelle
-Android-SDK-Level~36.
+Android-SDK-Level~36 \parencite{google_android-releases_nodate}.
 
 
 \subsection{SDK-Konfiguration}
 Da das Projekt im Rahmen der Neuumsetzung vollständig geändert wurde, bot sich
 der passende Zeitpunkt, um auf die aktuelle Android-SDK-Version~36 zu wechseln.
 Diese ist seit der Veröffentlichung von \textbf{Android~16 (Juni~2025)} der
-empfohlene Standard \parencite{noauthor_sdk_nodate}. Ziel war es, wieder auf dem
+empfohlene Standard \parencite{google_sdk_nodate}. Ziel war es, wieder auf dem
 aktuellen Stand der Android-Entwicklung zu sein, moderne APIs zu nutzen und eine
 möglichst langfristige Kompatibilität mit neuen Geräten sicherzustellen.
 
@@ -84,7 +84,7 @@ befinden und diese dadurch möglichst generisch und wiederverwendbar bleiben.
 \subsubsection{Multi-Tenant}
 
 Die Multi-Tenant-Fähigkeit der App wird über sogenannte \textit{Product Flavors}
-(\texttt{hslui} und \texttt{hsluta}) realisiert. Tenant-spezifische Konfigurationen
+(\texttt{hslui} und \texttt{hsluta}) realisiert \parencite{google_build-varianten_nodate}. Tenant-spezifische Konfigurationen
 wie Tenant-ID, Name oder API-Tokens werden dabei direkt im
 \texttt{build.gradle} pro Flavor definiert. Zusätzlich existiert für jeden
 Flavor ein eigenes \texttt{AndroidManifest.xml}, in dem tenant-spezifische
@@ -110,9 +110,9 @@ productFlavors {
 \subsubsection*{Build}
 Zur Build-Zeit kann beispielsweise in Android Studio ausgewählt werden, welche
 Variante der App gebaut werden soll. Während des Build-Prozesses werden das
-Hauptmanifest und das jeweilige Flavor-Manifest zusammengeführt. Dabei wird der
+Hauptmanifest und das jeweilige Flavor-Manifest zusammengeführt \parencite{google_manage_nodate}. Dabei wird der
 Einstiegspunkt der App tenant-spezifisch gesetzt: Für \texttt{hslui} wird die
-\texttt{HsluIApplication} instanziiert, für \texttt{hsluta} entsprechend die
+\newline \texttt{HsluIApplication} instanziiert, für \texttt{hsluta} entsprechend die
 \texttt{HsluTAApplication}.
 
 \begin{figure}[H]
@@ -131,10 +131,9 @@ Mithilfe von Dependency Injection (in diesem Projekt umgesetzt mit
 \textit{Dagger Hilt}) werden diese Konfigurationen instanziiert und der
 Applikation zur Verfügung gestellt, sodass sie innerhalb der App genutzt
 werden können. In diesem Schritt werden auch gemeinsam genutzte Services wie
-\texttt{CommonNetworkService} (Abschnitt~\ref{sec:commonnetwork}) und 
+\newline \texttt{CommonNetworkService} (Abschnitt~\ref{sec:commonnetwork}) und 
 \texttt{CommonStorageService} (Abschnitt~\ref{sec:commonstorage}) erzeugt.
-Diese werden als Singletons bereitgestellt, da sie zentral benötigt werden
-und während der gesamten Laufzeit der App nur einmal existieren sollen.
+Diese werden als Singletons bereitgestellt, da sie während der gesamten Laufzeit der App nur einmal existieren sollen.
 
 Zur Laufzeit verwendet die Anwendung dadurch automatisch die zum gewählten
 Tenant gehörenden URLs, Tokens und weiteren Konfigurationen. Auf diese Weise

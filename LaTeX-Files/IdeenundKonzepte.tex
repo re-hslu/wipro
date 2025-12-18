@@ -37,13 +37,13 @@ Stand gebracht und aktualisiert, anstatt sie komplett neu zu implementieren.
 Im Rahmen des Projekts kommen deshalb unter anderem folgende
 Android-Technologien zum Einsatz:
 \begin{itemize}
-    \item \textbf{Jetpack Compose}: Deklaratives UI-Framework für moderne Benutzeroberflächen.
+    \item \textbf{Jetpack Compose}: Deklaratives UI-Framework für moderne Benutzeroberflächen \parencite{google_jetpack_nodate}.
     \item \textbf{Kotlin Coroutines \& Flow}: Vereinfachte asynchrone
-    Verarbeitung und reaktiver Umgang mit Datenströmen.
+    Verarbeitung und reaktiver Umgang mit Datenströmen \parencite{google_kotlin-ablaufe_nodate}.
     \item \textbf{Room Persistence}: Strukturierte und typsichere lokale
-    Datenhaltung.
+    Datenhaltung \parencite{google_persist_nodate}.
     \item \textbf{Hilt (Dependency Injection)}: Klare Verwaltung von
-    Abhängigkeiten und bessere Testbarkeit.
+    Abhängigkeiten und bessere Testbarkeit \parencite{google_dependency_nodate}.
 \end{itemize}\newpage
 
 Auch auf Architekturebene soll ein sauberer Aufbau verfolgt
@@ -52,15 +52,15 @@ werden bekannte Architektur- und Design-Patterns eingesetzt, um die App
 übersichtlich und erweiterbar zu halten. Dazu zählen unter anderem:
 \begin{itemize}
     \item \textbf{Clean Architecture}: Klare Trennung von fachlicher Logik,
-    Infrastruktur und Darstellung.
+    Infrastruktur und Darstellung \parencite{martin_clean_2018}.
     \item \textbf{Repository Pattern}: Einheitlicher Zugriff auf Netzwerk-
-    und lokale Datenquellen.
+    und lokale Datenquellen \parencite{evans_domain-driven_2003}.
     \item \textbf{Feature-basierte Modulstruktur}: Jedes Feature ist als
     eigenes Modul umgesetzt, gemeinsame Logik liegt in zentralen
     Common-Modulen.
     \item \textbf{Template- und Strategy-Pattern}: Flexible und
     wiederverwendbare Module-Loader für unterschiedliche
-    Datenlade-Strategien.
+    Datenlade-Strategien \parencite{gamma_design_1995}.
 \end{itemize}
 
 Zusätzlich wird bei der Umsetzung der Benutzeroberfläche auf moderne
@@ -71,7 +71,7 @@ Features anpassen lässt.
 Konkret kommen dabei unter anderem folgende UI-Konzepte zum Einsatz:
 \begin{itemize}
     \item \textbf{Material Design 3}: Verwendung moderner Material-Komponenten
-    mit einheitlichem Theming über die gesamte App.
+    mit einheitlichem Theming über die gesamte App \parencite{google_material_nodate}.
     \item \textbf{Reaktives UI-Management}: Einsatz von \texttt{StateFlow} in
     Kombination mit \texttt{collectAsState()}, um UI-Zustände reaktiv und
     nachvollziehbar abzubilden. \texttt{LaunchedEffect} wird für Side-Effects
@@ -86,10 +86,10 @@ Konkret kommen dabei unter anderem folgende UI-Konzepte zum Einsatz:
 Abschliessend soll die Android-Applikation über einen automatisierten
 Build- und Release-Prozess produktiv im Google Play Store veröffentlicht
 werden. Dafür wird Fastlane eingesetzt, um Releases reproduzierbar und
-zuverlässig auszuliefern.
-
+zuverlässig auszuliefern \parencite{fastlane_fastlane_nodate}.
+\vspace{-0.2em}
 \section{Multi-Tenant- und Backend-Konzept}
-
+\vspace{-0.6em}
 Die bestehende App-Landschaft der Hochschule Luzern basiert bereits auf einem
 Multi-Tenant-Ansatz, welcher im Rahmen dieses Projekts weiterverfolgt wird.
 Ziel ist es, mit einer gemeinsamen Codebasis mehrere Applikationen für
@@ -103,9 +103,9 @@ zur Laufzeit aus einem zentralen Backend geladen. Dazu gehören unter anderem
 Menüstruktur, Inhalte oder Texte. Dieser Ansatz ermöglicht es,
 Inhalte anzupassen oder zu erweitern, ohne dass dafür ein neues App-Update im
 App Store oder Play Store veröffentlicht werden muss.
-
+\vspace{-0.2em}
 \section{Konzept für Testing und Qualität}
-
+\vspace{-0.6em}
 Die Qualität der Applikation soll  durch den Einsatz von automatisierten
 Tests sichergestellt werden. In den bisherigen iOS- und Android-Projekten wurde
 das Thema Testing etwas vernachlässigt, was im Rahmen dieses Projekts
@@ -113,7 +113,7 @@ verbessert werden soll.
 
 Geplant ist der Einsatz von Unit- sowie einfachen Integrations- und UI-Tests,
 um zentrale Funktionen der App abzusichern. Dafür werden unter anderem
-Frameworks wie JUnit und Espresso eingesetzt. Die konkrete Umsetzung und
+Frameworks wie JUnit und Espresso eingesetzt \parencite{google_test_nodate}. Die konkrete Umsetzung und
 Erfahrungen damit werden im Kapitel zur technischen Validierung beschrieben
 (siehe Abschnitt~\ref{sec:validieung}).
 
