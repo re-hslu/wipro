@@ -79,5 +79,6 @@ Das Fastfile ist erweiterbar für weitere Tenants, indem einfach ein neuer \text
 \texttt{before\_all}-Block hinzugefügt wird und die entsprechenden Umgebungsvariablen in \texttt{.env.secret} definiert werden.
 
 \subsubsection*{Ausblick}
-Das Fastfile wurde noch nicht auf der Gitlab Umgebung getestet, es wurde mit dem Dozenten bzw. Auftraggeber vereinbart, dass dies noch nach der Abgabe der Dokumentation erfolgen kann.
-Es muss geprüft werden, ob das Fastfile alle Lanes richtig ausführt und mit den vorhandenen Secrets dann auch die App richtig signiert und in die Google Play Console lädt.
+Das Fastfile wurde bislang noch nicht in der GitLab-Umgebung getestet. Mit dem Dozenten bzw.\ Auftraggeber wurde vereinbart, dass dieser Test nach der Abgabe der Dokumentation erfolgen kann. Dabei ist zu überprüfen, ob das Fastfile alle Lanes korrekt ausführt und ob die App mit den vorhandenen Secrets ordnungsgemäss signiert sowie in die Google Play Console hochgeladen wird.
+
+Zusätzlich wurde festgestellt, dass im Android-XML-Projekt in der Datei \texttt{gitlab-ci.yml} die Pipelines auf bestimmte Branches beschränkt sind. Diese Einschränkung wurde entsprechend umgesetzt, weshalb ein Test auf dem WIPRO-Branch aktuell nicht möglich ist. Dieses Thema wird bis zur Schlusspräsentation noch mit dem Dozenten besprochen.

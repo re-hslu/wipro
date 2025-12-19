@@ -1,39 +1,109 @@
-Im Projektauftrag unserer WIPRO wird definiert, dass wir mit dem «AI-First» Ansatz die Android APP angehen sollen. 
-Damit wir das sinnvoll machen können und nicht für jede erdenkliche KI ein Abo abschliessen müssen, möchten wir die geeignetste KI evaluieren.
-Wir haben uns dazu entschlossen die Evaluation zum einen aus wissenschaftlichen Daten aufzubauen und zum anderen das Selbstexperiment mit den Gratisversionen der einzelnen KI's zu machen.
-Nachdem wir die einzelnen Tools evaluiert haben, werden wir uns für eines entscheiden und da dann auch die kostenpflichtige Version verwenden, 
-um alle Features brauchen zu können und diesen «AI-First» Ansatz auch korrekt umsetzen zu können.
+Im Projektauftrag der WIPRO ist festgelegt, dass die Android-Applikation nach
+einem \emph{AI-First}-Ansatz entwickelt werden soll. Ziel ist es dabei, künstliche
+Intelligenz bewusst und aktiv in den Entwicklungsprozess einzubinden und deren
+Nutzen im realen Projektalltag zu prüfen.
+
+Damit dieser Ansatz sinnvoll umgesetzt werden kann, ist eine Auswahl
+geeigneter AI-Tools notwendig. Da eine Vielzahl unterschiedlicher KI-Lösungen
+existiert und nicht für jedes Tool ein kostenpflichtiges Abonnement abgeschlossen
+werden kann, wurde zu Beginn eine kleine Evaluation durchgeführt. Ziel dieser
+Evaluation ist es, jene Tools zu identifizieren, die im Kontext der Android-
+Entwicklung den grössten praktischen Mehrwert bieten.
+
+Die Evaluation basiert auf einer Kombination aus vorhandenen
+Erkenntnissen sowie praktischen Erfahrungen aus Selbstexperimenten mit den
+kostenlosen Versionen der jeweiligen Tools. Nach Abschluss dieser Analyse wurde
+eine fundierte Entscheidung für ein primäres Tool getroffen, welches im weiteren
+Projektverlauf auch in der kostenpflichtigen Version eingesetzt wird, um den
+AI-First-Ansatz konsequent und effektiv umzusetzen.
+
+\subsection{Vorarbeiten}
+
+Im Vorfeld dieses Wirtschaftsprojekts wurde im Rahmen des Moduls
+\emph{Wissenschaftliches Schreiben \& Forschungsmethodik (WSFM)} im
+September 2025 bereits untersucht, wie der Einsatz von AI-Tools im
+Kontext der Softwareentwicklung sinnvoll und methodisch korrekt
+evaluiert werden kann. Ziel dieser Vorarbeit war es, zu klären, mit
+welchen Ansätzen sich der Nutzen von AI-Tools messen lässt und wie eine
+mögliche Zeitersparnis wissenschaftlich belegt werden könnte
+(siehe Anhang~\ref{anhang:wsfm}).
+
+Das Ergebnis dieser Vorarbeit war die Erkenntnis, dass ein
+streng wissenschaftlicher Ansatz mit Umfragen, kontrollierten
+Experimenten, Tests mit erfahrenen Entwicklerinnen sowie Interviews
+einen sehr hohen organisatorischen und zeitlichen Aufwand erfordern
+würde. Für den Rahmen dieses Wirtschaftsprojekts hätte ein solches
+Vorgehen den Umfang deutlich überschritten und wäre nicht realistisch
+umsetzbar gewesen.
+
+Diese Einschätzung wurde auch im Austausch mit dem Auftraggeber
+diskutiert und gemeinsam im Projektstatus-Meeting vom 25.09.2025
+bestätigt (siehe Anhang~\ref{anhang:meeting25092025}). Aus diesem Grund
+wurde bewusst auf eine vollständig wissenschaftliche Evaluation
+verzichtet.
+
+Stattdessen wurde ein pragmatischer, praxisnaher Ansatz gewählt. Die
+Evaluation der AI-Tools erfolgte direkt anhand des konkreten
+Projektkontexts, insbesondere durch die Übertragung grösserer
+Codebestandteile von Swift nach Kotlin. Dieselben Aufgabenstellungen
+wurden mehreren AI-Tools vorgelegt und die Resultate schrittweise
+beurteilt. Dabei standen für uns Kriterien wie Verständlichkeit,
+Korrektheit, Anpassungsaufwand und tatsächlicher Nutzen im
+Projektalltag im Vordergrund. Auf dieser Basis konnte ein fundiertes
+Fazit gezogen werden, welche Tools sich für unseren Anwendungsfall am
+besten eignen (vgl. ebenfalls Anhang~\ref{anhang:meeting25092025}).
 
 \subsection{Aufgabenstellung für die AI Tools}
-Wir haben diversen KI Tools welche wir als gut empfinden, da wir sie bereits verwenden oder viel gutes gehört haben oder aufgrund der wissenschaftlichen Daten, 
-die gleiche Aufgabe gestellt. Ziel war es dann, die erhaltenen Antworten zu prüfen und miteinander zu vergleichen um zumindest einen Anhaltspunkt zu erhalten, 
-welches Tools die detaillierteste, aber auch für uns beste Analyse liefert.
-Die vollständige Aufgabenstellung ist im Anhang dokumentiert (siehe Anhang~\ref{aufgabenstellung-ai-tools}).
+Wir haben mehreren AI-Tools, die wir entweder bereits selbst genutzt haben,
+von denen wir viel Positives gehört haben oder die in wissenschaftlichen
+Untersuchungen häufig genannt werden, dieselbe Aufgabenstellung vorgelegt.
+Ziel war es, die jeweiligen Antworten zu analysieren und miteinander zu
+vergleichen, um einen ersten Eindruck zu erhalten, welches Tool die
+umfangreichste und für unseren Anwendungsfall sinnvollste Analyse liefert.
 
-\subsection{Auswertung}
-Wir haben die folgenden KI-Tools evaluiert: ChatGPT, Grok (xAI), DeepSeek und Cursor. 
-Jedes Tool hat die gleiche Aufgabenstellung erhalten und wurde auf seine Fähigkeiten zur Analyse und Unterstützung bei der Android-App-Entwicklung geprüft.
+Die vollständige und detaillierte Aufgabenstellung ist im Anhang dokumentiert
+(siehe Anhang~\ref{aufgabenstellung-ai-tools}).
 
-ChatGPT lieferte eine sehr gute Antwort mit vernünftiger Tiefe für eine erste Analyse. 
-Die KI ist sehr stark bei Cross-Plattform-Wissen (iOS/Android, SwiftUI/Compose, Flutter, React Native) und bietet bewährte Architektur- und Testing-Hinweise. 
-Die Pro-Version kostet 23 Euro pro Monat. Die vollständige Antwort von ChatGPT ist im Anhang dokumentiert (siehe Anhang~\ref{antwort-chatgpt}).
+\subsection{Analyse der evaluierten AI-Tools}
+Im Rahmen der Evaluation wurden die AI-Tools ChatGPT, Grok (xAI), DeepSeek und
+Cursor betrachtet. Allen Tools wurde dieselbe Aufgabenstellung vorgegeben, um
+ihre Fähigkeiten zur Analyse sowie zur Unterstützung bei der
+Android-App-Entwicklung vergleichbar beurteilen zu können.
 
-Grok von X hat ebenfalls eine gute Antwort gegeben, womit diverse gute Ansätze beschrieben sind und man eine gute Übersicht erhält, 
-was gemacht werden muss und wie dies möglich sein kann. xAI hat mit „grok-code-fast-1" ein Modell für Entwickler-Aufgaben (Agentic Coding) vorgestellt, 
-das Effizienz und Qualität in den Fokus stellt. Die SuperGrok-Version kostet 30 Euro pro Monat. Die vollständige Antwort von Grok ist im Anhang dokumentiert (siehe Anhang~\ref{antwort-grok}).
+ChatGPT lieferte eine fundierte Antwort mit ausreichender Tiefe für eine erste
+technische Einschätzung. Besonders hilfreich war das breite
+Cross-Plattform-Wissen in den Bereichen iOS und Android sowie der Vergleich
+zwischen SwiftUI und Jetpack Compose. Zudem wurden sinnvolle Hinweise zu
+Architektur und Testing gegeben. Die Pro-Version von ChatGPT kostet 23 Euro pro
+Monat. Die vollständige Antwort ist im Anhang dokumentiert
+(siehe Anhang~\ref{antwort-chatgpt}).
 
-DeepSeek hat aus unserer Sicht sehr detailliert die Informationen aus der Aufgabenstellung und vor allem den Screenshots und dem Code gezogen. 
-Dementsprechend wurden auch direkt Entwürfe für die Android App generiert und Strategien aufgezeigt. Nebst einer detaillierten Checkliste, 
-was alles erledigt werden muss, gab es auch bereits einige Codebeispiele als Antwort. DeepSeek ist eine kostengünstige, 
-vergleichbare Alternative mit der Möglichkeit zur Integration in IDE-Umgebungen. Die Nutzung ist kostenlos, es gibt keine Möglichkeit ein Abo abzuschliessen. 
-Die vollständige Antwort von DeepSeek ist im Anhang dokumentiert (siehe Anhang~\ref{antwort-deepseek}).
+Auch Grok von xAI erzeugte eine strukturierte und nachvollziehbare Antwort, die
+einen guten Überblick über mögliche Lösungsansätze bietet. Dabei wurden
+verschiedene technische Optionen aufgezeigt und priorisiert. Mit dem Modell
+„grok-code-fast-1“ richtet sich Grok gezielt an Entwickleraufgaben mit Fokus auf
+Effizienz und Code-Qualität. Die SuperGrok-Version kostet 30 Euro pro Monat. Die
+vollständige Antwort ist im Anhang zu finden
+(siehe Anhang~\ref{antwort-grok}).
 
-Cursor ist nicht die gewöhnliche Web KI, sondern kann als Programm heruntergeladen werden und verwendet werden. 
-Dabei kann ein gesamtes Projekt geöffnet werden und man kann da direkt zu einzelnen Dateien eine Frage stellen. 
-Es gibt auch zum Beispiel ein Add On zu VS-Code. Für Android Studio gibt es ebenfalls Plugins. Cursor ist aber an sich keine KI sondern ein verbessertes Frontend, 
-womit diverse Models geladen werden können. Durch das Frontend bietet es aber einem grossen Vorteil zu den direkten Models, 
-da die KI den Kontext des gesamten Projekts hat um möglichst sinnvollen Code zu erstellen. Die Pro-Version kostet 20 Euro pro Monat. 
-Die vollständige Antwort von Cursor ist im Anhang dokumentiert (siehe Anhang~\ref{antwort-cursor}).
+DeepSeek überzeugte insbesondere durch die detaillierte Auswertung der
+Aufgabenstellung sowie der bereitgestellten Screenshots und Codeausschnitte.
+Die Antworten enthielten konkrete Entwürfe für die Android-App, ergänzende
+Strategien sowie erste Codebeispiele. Zusätzlich wurde eine strukturierte
+Checkliste der notwendigen Umsetzungsschritte bereitgestellt. DeepSeek ist
+kostenlos nutzbar und bietet keine kostenpflichtigen Abonnements an. Die
+vollständige Antwort ist im Anhang dokumentiert
+(siehe Anhang~\ref{antwort-deepseek}).
+
+Cursor unterscheidet sich von den anderen Tools dadurch, dass es sich nicht um
+eine reine Web-KI handelt, sondern um eine eigenständige Anwendung mit IDE-nahem
+Frontend. Ganze Projektstrukturen können geöffnet und analysiert werden, wodurch
+der KI jederzeit der vollständige Projektkontext zur Verfügung steht. Cursor
+selbst ist kein eigenes Sprachmodell, sondern dient als Oberfläche zur Nutzung
+verschiedener LLMs. Dieser Ansatz bietet einen klaren Vorteil gegenüber
+klassischen Web-Tools, da Zusammenhänge im Projekt besser erkannt werden können.
+Die Pro-Version von Cursor kostet 20 Euro pro Monat. Die vollständige Antwort ist
+im Anhang dokumentiert (siehe Anhang~\ref{antwort-cursor}).
 
 \subsection{Vergleich}
 
@@ -61,7 +131,7 @@ Die vollständige Antwort von Cursor ist im Anhang dokumentiert (siehe Anhang~\r
     \addlinespace
     ChatGPT &
     Sehr stark bei Cross-Plattform-Wissen (iOS/Android, SwiftUI/Compose, Flutter, RN); bewährt; gute Architektur- und Testing-Hinweise. &
-    Token-Limits bei sehr grossen Codebasen (außer Enterprise/Pro); potenzielle Halluzinationen → Review nötig. &
+    Token-Limits bei sehr grossen Codebasen (ausser Enterprise/Pro); potenzielle Halluzinationen → Review nötig. &
     Top-Option neben Claude; stark für Architektur/Best Practices. \\
     \addlinespace
     Cursor &
@@ -73,104 +143,133 @@ Die vollständige Antwort von Cursor ist im Anhang dokumentiert (siehe Anhang~\r
   \caption{Auswertung der KI in Tabellenform}
 \end{table}
 
-\subsection{Detaillierter Fragen zu Cursor}
-Da wir von Cursor sehr begeistert sind, da es eine Applikation mit eigenem Frontend ist und wir ganze Ordnerstrukturen öffnen können (wie bei Visual Studio Code zum Beispiel), hat die KI direkt einen gesamten Überblick über die Codebasis.
-Dadurch ist es einfacher an bessere Informationen zu gelangen, da der Kontext einzelner Codestellen für die KI immer klar ist, nicht wie bei herkömmlichen Online-Tools wo nur der wirklich hochgeladene Code vorhanden ist und da teilweise aber auch nicht korrekte Interpretationen gemacht werden.
+\subsection{Auswertung anhand von Bewertungskriterien}
 
-Nachfolgend einige Screenshots welche an einem Beispiel zeigen wie gut eine Datei analysiert wird, da der Kontext vorhanden ist. 
-Es wurde gefragt, was die Datei "CommonApplicationBaseModuleLoader.swift" macht und wie der Zusammenhang zum Rest des Projektes ist.
-Hier sieht man sehr gut den Vorteil, da direkt die ganze Projektstruktur analysiert werden kann und so auch die Zusammenhänge besser klar sind für die KI. Zusätzlich werden auch relevante Codestellen hervorgehoben.
+Um die evaluierten AI-Tools nicht nur qualitativ zu vergleichen, sondern auch
+eine nachvollziehbare Entscheidungsgrundlage zu schaffen, wurden klare
+Bewertungskriterien definiert. Diese Kriterien orientieren sich direkt am
+Projektalltag und daran, welchen tatsächlichen Mehrwert ein Tool während der
+Entwicklung bietet.
+
+Die Bewertung erfolgte subjektiv auf Basis unserer praktischen Erfahrungen im
+Projekt. Jedes Kriterium wurde auf einer Skala von 1 (sehr schlecht) bis 5
+(sehr gut) beurteilt.
+
+Die folgenden Kriterien wurden für die Auswertung herangezogen:
+\begin{itemize}
+    \item \textbf{Code-Qualität}: Struktur, Lesbarkeit und Nähe zu Clean-Code-Prinzipien
+    \item \textbf{Korrektheit und Funktionsfähigkeit}: fachlich korrekte und lauffähige Resultate
+    \item \textbf{Anpassungsaufwand}: benötigte Nacharbeit bis zur produktiven Nutzung
+    \item \textbf{Verständnis des Kontexts}: Fähigkeit, Projektstruktur und Zusammenhänge zu erfassen
+    \item \textbf{Zeitersparnis im Projektalltag}: tatsächlicher Effizienzgewinn gegenüber manueller Umsetzung
+\end{itemize}
+
+\begin{table}[H]
+    \centering
+    \small
+    \setlength{\tabcolsep}{6pt}
+    \renewcommand{\arraystretch}{1.2}
+    \begin{tabularx}{\textwidth}{lccccc}
+        \toprule
+        \textbf{KI-Tool} &
+        \textbf{Code-Qualität} &
+        \textbf{Korrektheit} &
+        \textbf{Anpassungs\-aufwand} &
+        \textbf{Kontext\-verständnis} &
+        \textbf{Zeitersparnis} \\
+        \midrule
+        ChatGPT & 4 & 4 & 3 & 3 & 4 \\
+        Grok (xAI) & 4 & 3 & 3 & 3 & 3 \\
+        DeepSeek & 3 & 3 & 2 & 2 & 3 \\
+        Cursor & \textbf{5} & \textbf{5} & \textbf{4} & \textbf{5} & \textbf{5} \\
+        \bottomrule
+    \end{tabularx}
+    \caption{Bewertung der AI-Tools anhand definierter Kriterien (1 = schlecht, 5 = sehr gut)}
+    \label{tab:ai-bewertung}
+\end{table}
+
+\subsubsection*{Fazit der Auswertung}
+
+Auf Basis der definierten Kriterien und der praktischen Nutzung im Projekt
+konnte Cursor als klarer Gewinner identifiziert werden. Ausschlaggebend war
+insbesondere das sehr gute Kontextverständnis durch den Zugriff auf die gesamte
+Projektstruktur sowie der daraus resultierende deutliche Zeitgewinn im
+Projektalltag.
+
+Während sich die zugrunde liegenden Sprachmodelle in ihrer grundsätzlichen
+Qualität nur begrenzt unterscheiden, bietet Cursor durch sein IDE-nahes
+Frontend einen entscheidenden Mehrwert. Für unser Projekt erwies sich diese
+Kombination aus starkem Modell und vollständigem Projektkontext als die
+effektivste Lösung für einen konsequenten AI-First-Ansatz.
+
+\subsection{Detaillierter Fragen zu Cursor}
+Da wir von Cursor sehr überzeugt sind, insbesondere weil es sich um eine
+Applikation mit eigenem Frontend handelt, können ganze Ordnerstrukturen
+geöffnet und analysiert werden, ähnlich wie in Visual Studio Code. Dadurch
+erhält die KI einen direkten Überblick über die gesamte Codebasis. Dies
+erleichtert es deutlich, präzisere und sinnvollere Antworten zu erhalten, da
+der Kontext einzelner Codestellen für die KI jederzeit klar ist. Im Gegensatz
+zu klassischen webbasierten Tools, bei denen nur selektiv hochgeladener Code
+betrachtet wird, entstehen so weniger Fehlinterpretationen.
+
+Nachfolgend ist ein Screenshot dargestellt, der exemplarisch zeigt, wie gut
+eine einzelne Datei analysiert werden kann, wenn der vollständige
+Projektkontext vorhanden ist. In diesem Beispiel wurde die KI gefragt, welche
+Aufgabe die Datei \texttt{CommonApplicationBaseModuleLoader.swift} übernimmt
+und wie sie im Zusammenhang mit dem restlichen Projekt steht. Dabei wird
+deutlich, dass Cursor die Projektstruktur ganzheitlich analysiert und
+relevante Codestellen gezielt hervorhebt, was das Verständnis komplexer
+Zusammenhänge erheblich erleichtert.
 
 \begin{figure}[H]
   \centering
-  \begin{subfigure}[b]{0.48\textwidth}
-    \centering
-    \includegraphics[width=\textwidth]{Fotos/Cursor_1.png}
-    \caption{Analysebeispiel 1}
-    \label{fig:cursor1}
-  \end{subfigure}
-  \hfill
-  \begin{subfigure}[b]{0.48\textwidth}
-    \centering
-    \includegraphics[width=\textwidth]{Fotos/Cursor_2.png}
-    \caption{Analysebeispiel 2}
-    \label{fig:cursor2}
-  \end{subfigure}
-  \vspace{0.3em}
-  \begin{subfigure}[b]{0.48\textwidth}
-    \centering
-    \includegraphics[width=\textwidth]{Fotos/Cursor_3.png}
-    \caption{Analysebeispiel 3}
-    \label{fig:cursor3}
-  \end{subfigure}
-  \hfill
-  \begin{subfigure}[b]{0.48\textwidth}
-    \centering
-    \includegraphics[width=\textwidth]{Fotos/Cursor_4.png}
-    \caption{Analysebeispiel 4}
-    \label{fig:cursor4}
-  \end{subfigure}
-  \caption{Analysebeispiele in Cursor}
-  \label{fig:cursor-examples}
-  \vspace{-0.5em}
+  \includegraphics[width=0.6\textwidth]{Fotos/Cursor_1.png}
+  \caption{Analysebeispiel in Cursor}
+  \label{fig:cursor-example}
 \end{figure}
 
+
 \subsection{Fazit}
-Nach all den Informationen welche wir gesammelt haben sind wir zum Schluss gekommen, dass wir mit Cursor und einer der oben aufgeführten KIs verwenden wollen.
-Schlussendlich ist das wichtigste, dass die KI den Kontext des gesamten Projekts hat um möglichst sinnvollen Code zu erstellen und da hat Cursor klar den Vorteil.
-Die eigentlichen LLMs sind im Grundsatz nicht gross anders. Wir haben beide ein ChatGPT Pro Abo, welches aber für Cursor nicht gilt, da über die OpenAPI die Calls gemacht werden und da nicht dieses Abo zählt.
-Mit dem Cursor Pro Plan sollte man aber sehr gut fahren, vorallem wenn man den Auto-Modus eingeschaltet hat, da dann für kleinere Abfragen kostengünstige/kostenfreie APIs verwendet werden und nur für
-grosse Abfragen werden kostenpflichtige APIs aufgerufen, womit der Pro Plan eigentlich gut reichen sollte. Trotzdem kann es sein, gerade wenn mehrere Personen daran arbeiten, dass dieser Plan nicht reicht und man am Ende mehr zahlen muss.
 
-Nachdem wir die Analyse machten haben wir uns mit dem Dozenten kurz geschlossen und er hat sich bei der HSLU informiert, welche AI Tools sie begünstigen.
-Daraus wurde dann klar, dass die HSLU sich für ChatGPT entschieden hat und uns somit die Entscheidung zum Teil abgenommen wurde.
-Da wir aber trotzdem so gut Erfahrungen mit Cursor gemacht haben, wollten wir darauf nicht verzichten. Cursor kann so konfiguriert werden, 
-dass es im Hintergrund eine API eines LLM verwendet, womit wir die Vorgabe ChatGPT einhalten konnten, in dem wir Cursor so konfiguriert haben, 
-dass es nur mit der ChatGPT API kommuniziert. Somit konnten wir einen guten Kompromiss eingehen und hatten ein Tool womit ein ganzes Projekt (fast) im Kontext der Anfrage verfügbar ist.
+Auf Basis der durchgeführten Evaluation und der praktischen Erfahrungen im
+Projekt sind wir zum Schluss gekommen, dass Cursor in Kombination mit einem
+der evaluierten Sprachmodelle für unseren Anwendungsfall die beste Lösung
+darstellt. Ausschlaggebend war insbesondere der Zugriff auf den vollständigen
+Projektkontext, der es der KI ermöglicht, deutlich sinnvolleren und besser
+integrierten Code zu erzeugen als klassische webbasierten Tools.
 
-\subsection{Erfahrungen mit AI-First Ansatz}
+Die zugrunde liegenden Large Language Models unterscheiden sich aus unserer
+Sicht im Kern weniger stark voneinander, als es auf den ersten Blick scheint.
+Der entscheidende Mehrwert entsteht vielmehr durch das Umfeld, in dem das
+Modell eingesetzt wird. Hier bietet Cursor durch sein IDE-nahes Frontend klare
+Vorteile im Projektalltag.
 
-Während der gesamten Projektlaufzeit haben wir Cursor aktiv im Entwicklungsprozess eingesetzt und dabei sowohl positive als auch negative Erfahrungen gesammelt. 
-Diese Erkenntnisse sind wertvoll für die zukünftige Nutzung von KI-Tools in Softwareentwicklungsprojekten.
+Der Cursor Pro Plan erweist sich dabei grundsätzlich als ausreichend, da im
+Auto-Modus für kleinere Anfragen kostengünstige oder kostenfreie APIs genutzt
+werden und kostenpflichtige Modelle nur bei umfangreicheren Abfragen zum
+Einsatz kommen. Dennoch ist zu beachten, dass bei intensiver Nutzung oder bei
+mehreren gleichzeitig arbeitenden Personen zusätzliche Kosten entstehen
+können.
 
-\subsubsection*{Stärken von Cursor}
+Im weiteren Projektverlauf wurde zudem Rücksprache mit dem Dozenten gehalten,
+welche AI-Tools seitens der Hochschule Luzern bevorzugt werden. Dabei zeigte
+sich, dass ChatGPT offiziell unterstützt wird. Um diese Vorgabe einzuhalten
+und gleichzeitig nicht auf die Vorteile von Cursor verzichten zu müssen,
+wurde Cursor so konfiguriert, dass ausschliesslich die ChatGPT-API verwendet
+wird. Dadurch konnte ein sinnvoller Kompromiss gefunden werden, der sowohl
+den institutionellen Rahmenbedingungen als auch den praktischen Anforderungen
+des Projekts gerecht wird.
 
-Einer der grössten Vorteile von Cursor war die Fehlersuche und Debugging-Unterstützung. 
-Durch den vollständigen Projektkontext konnte Cursor Fehlerquellen schnell identifizieren und konkrete Lösungsvorschläge liefern. 
-Besonders hilfreich war die Fähigkeit, Zusammenhänge zwischen verschiedenen Dateien und Modulen zu erkennen, 
-was bei komplexen Architekturen wie unserer Multi-Feature- und Multi-Tenant-Struktur von grossem Wert war.
+\subsection{Erfahrungen mit dem AI-First-Ansatz}
 
-Ein weiteres herausragendes Anwendungsgebiet war das Portieren von iOS-Code nach Android. 
-Da Cursor Zugriff auf beide Codebasen hatte, konnte es Swift-Code analysieren und entsprechende Kotlin-Äquivalente vorschlagen. 
-Dies beschleunigte die Migration erheblich, insbesondere bei der Umsetzung der Common-Module, 
-die eine 1:1-Übersetzung der iOS-Architektur erforderten. Cursor konnte dabei nicht nur syntaktische Unterschiede berücksichtigen, 
-sondern auch plattformspezifische Besonderheiten wie die unterschiedliche Behandlung von Coroutines versus async/await in Swift erkennen.
+Während der gesamten Projektlaufzeit wurde der \emph{AI-First}-Ansatz
+konsequent verfolgt und Cursor aktiv in den Entwicklungsprozess integriert.
+Dabei konnten sowohl positive Effekte als auch klare Grenzen des Einsatzes
+von KI beobachtet werden. Insgesamt hat sich gezeigt, dass AI den
+Entwicklungsprozess deutlich unterstützen und beschleunigen kann, jedoch
+weiterhin eine kritische Bewertung und fachliche Kontrolle durch die
+Entwickler notwendig bleibt.
 
-Auch bei der Code-Analyse und Dokumentation war Cursor sehr nützlich. 
-Komplexe Code-Stellen konnten schnell erklärt werden, und die Generierung von Kommentaren oder Dokumentation 
-basierend auf dem vorhandenen Code funktionierte zuverlässig.
-
-\subsubsection*{Grenzen und Herausforderungen}
-
-Trotz der vielen Vorteile stiessen wir auch auf Bereiche, in denen Cursor weniger effektiv war. 
-Besonders auffällig war dies bei UI-bezogenen Aufgaben. Die Generierung von Jetpack Compose UI-Komponenten war oft unzureichend, 
-da die KI Schwierigkeiten hatte, das visuelle Design und die gewünschte Benutzererfahrung korrekt zu interpretieren. 
-Die generierten UI-Komponenten entsprachen häufig nicht den Design-Anforderungen und mussten manuell überarbeitet werden, 
-was den Zeitvorteil zunichtemachte.
-
-Ähnliche Herausforderungen traten bei der Generierung kompletter Code-Strukturen auf. 
-Während Cursor bei der Implementierung einzelner Funktionen oder Methoden sehr hilfreich war, 
-scheiterte es oft bei der Erstellung grösserer Architektur-Komponenten. 
-Die generierten Strukturen entsprachen nicht immer den etablierten Patterns und Konventionen unseres Projekts, 
-und die notwendigen Anpassungen waren teilweise zeitaufwändiger als eine manuelle Implementierung.
-
-Ein weiterer limitierender Faktor war die Abhängigkeit von der Qualität der Prompts. 
-Um gute Ergebnisse zu erzielen, mussten sehr detaillierte und spezifische Anfragen formuliert werden, 
-was teilweise mehr Zeit in Anspruch nahm als die direkte Code-Implementierung.
-
-\subsubsection*{Fazit der praktischen Anwendung}
-
-Insgesamt war Cursor ein wertvolles Werkzeug im Entwicklungsprozess, besonders für repetitive Aufgaben, 
-Fehlersuche und Code-Migration. Für UI-Entwicklung und die Generierung komplexer Architekturen 
-war der manuelle Ansatz jedoch oft effizienter. Der AI-First Ansatz hat sich somit als ergänzende, 
-aber nicht ersetzende Methode erwiesen, die am besten in Kombination mit traditionellen Entwicklungsmethoden eingesetzt wird.
+Eine detaillierte Reflexion der gemachten Erfahrungen, insbesondere zu
+Stärken, Schwächen und Grenzen von AI-gestützter Entwicklung, erfolgt im
+Kapitel zur Reflexion (siehe Abschnitt~\ref{sec:ai-reflexion}).
